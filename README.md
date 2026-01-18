@@ -1,9 +1,9 @@
 # TripWise
 Your next-gen tool for booking flights and traveling anywhere in the world.
-## ?? Project Overview
+## Project Overview
 TripWise is a modern travel management desktop application built with JavaFX. This repository serves as the base UI template for the team.
 ---
-## ??? Setup Instructions
+## Setup Instructions
 ### 1. Prerequisites
 - **Java JDK 17 or higher**
 - **Maven** (configured in your IDE)
@@ -21,7 +21,7 @@ TripWise is a modern travel management desktop application built with JavaFX. Th
    - Right-click and select **Run 'Main.main()'**.
    - Or run via terminal: `mvn clean javafx:run`
 ---
-## ?? Contribution Workflow
+## Contribution Workflow
 To keep the base code clean, please follow these steps for your specific modules (Flights, Hotels, Cars, etc.):
 ### 1. Pull the latest base code
 ```bash
@@ -42,7 +42,7 @@ git push origin feature/your-feature-name
 ### 4. Create a Pull Request (PR)
 Go to the GitHub repository and open a PR from your branch to `main`. **Do not merge directly into main** without a review.
 ---
-## ?? Project Structure
+## Project Structure
 - `src/main/java/ui/app`: Main entry point.
 - `src/main/java/ui/controllers`: Logic for each screen.
 - `src/main/java/ui/model`: Data models.
