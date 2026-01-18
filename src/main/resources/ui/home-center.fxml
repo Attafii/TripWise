@@ -1,0 +1,10 @@
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="18">
+    <children>
+        <Label text="Welcome to TripWise" styleClass="home-title" />
+        <Label text="Use the sidebar to begin booking travel for yourself or your team." />
+    </children>
+</VBox>

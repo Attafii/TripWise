@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.DashboardController" stylesheets="@style.css">
+    <left>
+        <VBox spacing="12" alignment="TOP_LEFT" styleClass="sidebar" prefWidth="220">
+            <children>
+                <Label text="TripWise" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 10;" />
+                <Button text="Home" onAction="#onHome" styleClass="sidebar-button" />
+                <Button text="Book Hotel" onAction="#onBookHotel" styleClass="sidebar-button" />
+                <Button text="Book Flight" onAction="#onBookFlight" styleClass="sidebar-button" />
+                <Button text="Rent Car" onAction="#onRentCar" styleClass="sidebar-button" />
+                <Button text="Profile" onAction="#onProfile" styleClass="sidebar-button" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button text="Logout" onAction="#onLogout" styleClass="logout-button" />
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <BorderPane fx:id="rootPane">
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="top-bar">
+                    <children>
+                        <Label fx:id="titleLabel" text="Home" styleClass="page-title" />
+                    </children>
+                </HBox>
+            </top>
+            <center>
+                <fx:include source="/ui/home-center.fxml" />
+            </center>
+        </BorderPane>
+    </center>
+</BorderPane>

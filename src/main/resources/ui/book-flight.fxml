@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.BookFlightController" stylesheets="@style.css">
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12" />
+            </padding>
+            <children>
+                <Label text="From:" />
+                <TextField fx:id="fromField" prefWidth="120" />
+                <Label text="To:" />
+                <TextField fx:id="toField" prefWidth="120" />
+                <Label text="Depart:" />
+                <DatePicker fx:id="departureDate" />
+                <Label text="Return:" />
+                <DatePicker fx:id="returnDate" />
+                <Label text="Passengers:" />
+                <Spinner fx:id="passengersSpinner" prefWidth="80" />
+                <Button text="Search Flights" onAction="#handleSearch" styleClass="primary-button" />
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="flightTable">
+            <columns>
+                <TableColumn fx:id="airlineColumn" text="Airline" prefWidth="180" />
+                <TableColumn fx:id="routeColumn" text="Route" prefWidth="200" />
+                <TableColumn fx:id="departureColumn" text="Depart" prefWidth="120" />
+                <TableColumn fx:id="priceColumn" text="Price" prefWidth="100" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
