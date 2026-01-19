@@ -31,7 +31,7 @@ public class DashboardController {
     @FXML
     private void onBookHotel() {
         titleLabel.setText("Book Hotel");
-        loadCenterView("/ui/book-hotel.fxml");
+        loadCenterView("/ui/hotel/hotel-search.fxml");
     }
 
     @FXML

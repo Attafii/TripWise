@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.HotelController" spacing="20" stylesheets="@../style.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <Button text="← Back to Search" onAction="#handleBackToSearch" />
+
+    <VBox spacing="5">
+        <Label fx:id="hotelNameLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+        <Label fx:id="hotelLocationLabel" style="-fx-font-size: 16px; -fx-text-fill: gray;" />
+        <Label fx:id="hotelRatingLabel" style="-fx-font-size: 14px;" />
+    </VBox>
+
+    <Label fx:id="hotelDescriptionLabel" wrapText="true" />
+
+    <Separator />
+
+    <Label text="Available Rooms" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+    <Label text="Double click a room to book" style="-fx-font-style: italic; -fx-text-fill: gray;" />
+
+    <ListView fx:id="roomListView" VBox.vgrow="ALWAYS" />
+
+</VBox>

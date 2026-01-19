@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.HotelController" stylesheets="@../style.css">
+    <top>
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12" />
+            </padding>
+            <children>
+                <Label text="Destination:" />
+                <TextField fx:id="destinationField" prefWidth="180" promptText="City or Hotel Name" />
+                <Label text="Check-in:" />
+                <DatePicker fx:id="checkInDate" />
+                <Label text="Check-out:" />
+                <DatePicker fx:id="checkOutDate" />
+                <Label text="Guests:" />
+                <Spinner fx:id="guestsSpinner" prefWidth="80" />
+                <Button fx:id="searchButton" text="Search Hotels" onAction="#handleSearch" styleClass="primary-button" />
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="12" bottom="12" left="12" />
+            </padding>
+            <Label text="Double click a hotel to view details" style="-fx-font-style: italic; -fx-text-fill: gray;" />
+            <TableView fx:id="hotelTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="nameColumn" text="Name" prefWidth="240" />
+                    <TableColumn fx:id="cityColumn" text="City" prefWidth="140" />
+                    <TableColumn fx:id="priceColumn" text="Price (from)" prefWidth="100" />
+                    <TableColumn fx:id="ratingColumn" text="Rating" prefWidth="100" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>
