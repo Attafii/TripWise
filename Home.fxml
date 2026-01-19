@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController">
+    <top>
+        <Label text="TripWise" style="-fx-font-size: 20px; -fx-padding: 10;" />
+    </top>
+    <center>
+        <VBox alignment="CENTER" spacing="16">
+            <Button text="Flights" onAction="#openFlights"/>
+            <Button text="Bookings" onAction="#openBookings"/>
+            <Button text="Luggage" onAction="#openLuggage"/>
+        </VBox>
+    </center>
+</BorderPane>

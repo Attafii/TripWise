@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FlightController">
+    <top>
+        <ToolBar>
+            <TextField fx:id="tfSearch" promptText="Search flights..." />
+            <TextField fx:id="tfNumber" promptText="Flight Number" />
+            <TextField fx:id="tfOrigin" promptText="Origin" />
+            <TextField fx:id="tfDestination" promptText="Destination" />
+            <Button fx:id="btnAdd" text="Add" onAction="#addFlight" />
+            <Button fx:id="btnDel" text="Delete" onAction="#deleteFlight" />
+            <Button fx:id="btnUpdate" text="Update" onAction="#updateFlight" />
+
+        </ToolBar>
+    </top>
+    <center>
+        <TableView fx:id="flightsTable">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60" />
+                <TableColumn fx:id="colNumber" text="Number" prefWidth="120" />
+                <TableColumn fx:id="colOrigin" text="Origin" prefWidth="150" />
+                <TableColumn fx:id="colDestination" text="Destination" prefWidth="150" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

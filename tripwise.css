@@ -1,0 +1,65 @@
+
+/* ------------------ COLORS ------------------ */
+:root {
+    -primary: #1E88E5;
+    -primary-dark: #0D47A1;
+    -light-bg: #F4F7FA;
+    -card-bg: #FFFFFF;
+    -text-dark: #0D1B2A;
+}
+
+/* ------------------ GLOBAL ------------------ */
+.root {
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+    -fx-background-color: -light-bg;
+}
+
+/* ------------------ HEADER ------------------ */
+.header {
+    -fx-background-color: -primary;
+    -fx-padding: 18;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);
+}
+
+.logo {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* ------------------ TITLES ------------------ */
+.title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -text-dark;
+}
+
+/* ------------------ CARDS ------------------ */
+.card {
+    -fx-background-color: -card-bg;
+    -fx-padding: 20;
+    -fx-alignment: center;
+    -fx-pref-width: 200;
+
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 12, 0, 0, 4);
+}
+
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -primary-dark;
+}
+
+/* ------------------ BUTTONS ------------------ */
+.primary-btn {
+    -fx-background-color: -primary;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+}
+
+.primary-btn:hover {
+    -fx-background-color: -primary-dark;
+}
