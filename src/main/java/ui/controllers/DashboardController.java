@@ -43,7 +43,7 @@ public class DashboardController {
     @FXML
     private void onRentCar() {
         titleLabel.setText("Rent Car");
-        loadCenterView("/ui/rent-car.fxml");
+        loadCenterView("/ui/car/car-search.fxml");
     }
 
     @FXML
