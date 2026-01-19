@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.CarRentalController" stylesheets="@../style.css">
+    <top>
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12" />
+            </padding>
+            <children>
+                <Label text="Location:" />
+                <ComboBox fx:id="locationCombo" prefWidth="180" />
+                <Label text="Pickup:" />
+                <DatePicker fx:id="pickupDate" />
+                <Label text="Return:" />
+                <DatePicker fx:id="returnDatePicker" />
+                <Label text="Type:" />
+                <ComboBox fx:id="typeCombo" prefWidth="120" />
+                <Button text="Search Cars" onAction="#handleSearch" styleClass="primary-button" />
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="12" bottom="12" left="12" />
+            </padding>
+            <Label text="Double click a car to view details" style="-fx-font-style: italic; -fx-text-fill: gray;" />
+            <TableView fx:id="carTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="brandColumn" text="Brand" prefWidth="120" />
+                    <TableColumn fx:id="modelColumn" text="Model" prefWidth="150" />
+                    <TableColumn fx:id="typeColumn" text="Type" prefWidth="100" />
+                    <TableColumn fx:id="transmissionColumn" text="Transmission" prefWidth="100" />
+                    <TableColumn fx:id="priceColumn" text="Price/Day" prefWidth="100" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>
