@@ -198,112 +198,104 @@
 /* Car cards */
 .car-card {
     -fx-background-color: white;
-    -fx-background-radius: 15;
-    -fx-padding: 20;
-    -fx-min-width: 200;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 4);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-background-radius: 10;
+    -fx-padding: 15;
 }
 
-.car-card:hover {
-    -fx-effect: dropshadow(gaussian, rgba(77,184,196,0.3), 15, 0, 0, 6);
-    -fx-scale-y: 1.03;
-    -fx-scale-x: 1.03;
-}
+/* --- NEW MODERN UI & SELECTION FIXES --- */
 
-.car-name {
-    -fx-text-fill: #1f2937;
-    -fx-font-weight: bold;
-    -fx-font-size: 18px;
-}
-
-.car-type {
-    -fx-text-fill: #6b7280;
-    -fx-font-size: 14px;
-}
-
-.car-price {
-    -fx-text-fill: #4db8c4;
-    -fx-font-weight: 700;
-    -fx-font-size: 20px;
-}
-
-/* Table */
-.table-view {
+/* TableView and ListView Modernization */
+.table-view, .list-view {
     -fx-background-color: white;
-    -fx-background-radius: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 1);
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+    -fx-padding: 5;
 }
 
-.table-view .column-header {
-    -fx-background-color: #f9fafb;
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #e5e7eb transparent;
+    -fx-border-width: 1;
+    -fx-padding: 10 5;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #6b7280;
     -fx-font-weight: 700;
-    -fx-text-fill: #374151;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
 }
 
 .table-row-cell {
     -fx-background-color: white;
+    -fx-border-color: transparent transparent #f3f4f6 transparent;
+    -fx-padding: 5 0;
 }
 
-.table-row-cell:hover {
+.table-row-cell:odd {
     -fx-background-color: #f9fafb;
 }
 
-/* Modern Theme Extensions */
-.login-root {
-    -fx-background-color: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
-}
-
-.login-card {
-    -fx-background-color: white;
-    -fx-background-radius: 20;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 30, 0, 0, 10);
-}
-
-.brand-logo {
-    -fx-font-size: 32px;
-    -fx-font-weight: 800;
-    -fx-text-fill: #0ea5e9; /* TripWise blue */
-    -fx-padding: 0 0 10 0;
-}
-
-.brand-subtitle {
+.table-cell {
+    -fx-text-fill: #374151;
     -fx-font-size: 14px;
-    -fx-text-fill: #64748b;
-    -fx-padding: 0 0 30 0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 5 10;
 }
 
-.input-label {
-    -fx-font-size: 13px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #1e293b;
+/* FIX: Selection Visibility */
+.table-row-cell:selected, .list-cell:selected {
+    -fx-background-color: #e0f2f1; /* Light teal background */
+    -fx-background-insets: 0;
+    -fx-background-radius: 4;
 }
 
-.modern-input {
-    -fx-background-color: #f1f5f9;
-    -fx-background-radius: 8;
-    -fx-border-color: #e2e8f0;
-    -fx-border-radius: 8;
-    -fx-padding: 10 12;
-    -fx-font-size: 14px;
-}
-
-.modern-input:focused {
-    -fx-border-color: #0ea5e9;
-    -fx-background-color: white;
-}
-
-.modern-link {
-    -fx-text-fill: #0ea5e9;
+.table-row-cell:selected .table-cell, .list-cell:selected {
+    -fx-text-fill: #00695c; /* Dark teal text for contrast */
     -fx-font-weight: bold;
-    -fx-underline: false;
 }
 
-.secondary-text {
-    -fx-text-fill: #64748b;
-    -fx-font-size: 13px;
+/* Also ensure text inside cells respects this */
+.table-row-cell:selected .text {
+    -fx-fill: #00695c;
 }
 
-.error-text {
-    -fx-text-fill: #ef4444;
-    -fx-font-size: 12px;
+/* Modern DatePicker & ComboBox */
+.date-picker .text-field, .combo-box .list-cell, .text-field, .spinner .text-field {
+    -fx-background-color: #f9fafb;
+    -fx-background-radius: 6;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 6;
+    -fx-padding: 8 12;
+    -fx-text-fill: #374151;
+}
+
+.date-picker:focused .text-field, .combo-box:focused, .text-field:focused {
+    -fx-border-color: #4db8c4;
+    -fx-background-color: white;
+}
+
+.combo-box-base {
+    -fx-background-color: transparent;
+}
+
+/* ScrollBar Styling */
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #d1d5db;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #9ca3af;
 }
