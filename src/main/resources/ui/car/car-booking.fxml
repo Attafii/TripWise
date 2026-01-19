@@ -2,8 +2,13 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.lang.String?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.CarRentalController" spacing="15" stylesheets="@../style.css" alignment="TOP_CENTER">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.CarRentalController" spacing="15" alignment="TOP_CENTER">
+    <stylesheets>
+        <String fx:value="@../style.css" />
+        <String fx:value="@../modern.css" />
+    </stylesheets>
     <padding>
         <Insets top="20" right="40" bottom="20" left="40" />
     </padding>
