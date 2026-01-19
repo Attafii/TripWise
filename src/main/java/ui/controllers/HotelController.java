@@ -57,6 +57,10 @@ public class HotelController {
     private static Room selectedRoom;
     private static HotelBooking currentBooking;
     
+    // Persist search dates across views
+    private static LocalDate lastCheckInDate;
+    private static LocalDate lastCheckOutDate;
+    
     // We need a way to replace the view. 
     // Since we are inside a BorderPane in Dashboard, we can try to find the root.
     // For simplicity, we will assume we can get the scene's root or pass a reference.
@@ -82,6 +86,12 @@ public class HotelController {
         if (bookingHotelLabel != null && currentBooking != null) {
             setupBookingView();
         }
+    }
+    
+    public static void resetState() {
+        selectedHotel = null;
+        selectedRoom = null;
+        currentBooking = null;
     }
 
     private void initializeSampleData() {
@@ -142,7 +152,7 @@ public class HotelController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getType() + " - $" + item.getPricePerNight() + "/night - Cap: " + item.getCapacity());
+                    setText(item.getName() + " - $" + item.getPricePerNight() + "/night - Cap: " + item.getCapacity());
                 }
             }
         });
@@ -155,7 +165,11 @@ public class HotelController {
                 LocalDate start = lastCheckInDate != null ? lastCheckInDate : LocalDate.now().plusDays(1);
                 LocalDate end = lastCheckOutDate != null ? lastCheckOutDate : LocalDate.now().plusDays(3);
                 
-                currentBooking = new HotelBooking(selectedHotel, selectedRoom, start, end);
+                long nights = java.time.temporal.ChronoUnit.DAYS.between(start, end);
+                if (nights < 1) nights = 1;
+                double total = selectedRoom.getPricePerNight() * nights;
+                
+                currentBooking = new HotelBooking(selectedHotel, selectedRoom, start, end, total);
                 navigateTo("/ui/hotel/hotel-booking.fxml");
             }
         });
@@ -163,8 +177,8 @@ public class HotelController {
 
     private void setupBookingView() {
         bookingHotelLabel.setText("Hotel: " + currentBooking.getHotel().getName());
-        bookingRoomLabel.setText("Room: " + currentBooking.getRoom().getType());
-        bookingDatesLabel.setText("Dates: " + currentBooking.getCheckInDate() + " to " + currentBooking.getCheckOutDate());
+        bookingRoomLabel.setText("Room: " + currentBooking.getRoom().getName());
+        bookingDatesLabel.setText("Dates: " + currentBooking.getCheckIn() + " to " + currentBooking.getCheckOut());
         bookingPriceLabel.setText("Total Price: $" + String.format("%.2f", currentBooking.getTotalPrice()));
         
         bookingStatusLabel.setText("Status: " + currentBooking.getStatus());
@@ -173,6 +187,11 @@ public class HotelController {
     @FXML
     private void handleSearch() {
         String dest = destinationField.getText();
+        
+        // Persist user-chosen dates
+        lastCheckInDate = checkInDate.getValue();
+        lastCheckOutDate = checkOutDate.getValue();
+        
         if (dest == null || dest.isEmpty()) {
             hotelTable.setItems(allHotels);
             return;
@@ -221,26 +240,30 @@ public class HotelController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
             
-            // We need to set this view into the center of the Dashboard
-            // We assume the current scene root is the BorderPane of the Dashboard, 
-            // OR we are inside it.
-            // If the root of the scene is the BorderPane (Dashboard), we can cast it.
-            // If not, we might be in trouble. But DashboardController sets rootPane as Center.
-            // Wait, DashboardController loads views into 'rootPane' (BorderPane).
-            
-            // We can try to get the scene's root.
             if (hotelTable != null && hotelTable.getScene() != null) {
-                 BorderPane dashboard = (BorderPane) hotelTable.getScene().getRoot();
-                 // This assumes dashboard.fxml root is BorderPane. Let's check dashboard.fxml if needed.
-                 // Actually dashboard.fxml controller has 'rootPane'.
-                 // But the root of the scene IS the dashboard BorderPane usually.
-                 dashboard.setCenter(view);
+                 BorderPane outer = (BorderPane) hotelTable.getScene().getRoot();
+                 var centerNode = outer.getCenter();
+                 if (centerNode instanceof BorderPane) {
+                     ((BorderPane) centerNode).setCenter(view);
+                 } else {
+                     outer.setCenter(view);
+                 }
             } else if (hotelNameLabel != null && hotelNameLabel.getScene() != null) {
-                BorderPane dashboard = (BorderPane) hotelNameLabel.getScene().getRoot();
-                dashboard.setCenter(view);
+                BorderPane outer = (BorderPane) hotelNameLabel.getScene().getRoot();
+                var centerNode = outer.getCenter();
+                if (centerNode instanceof BorderPane) {
+                    ((BorderPane) centerNode).setCenter(view);
+                } else {
+                    outer.setCenter(view);
+                }
             } else if (bookingHotelLabel != null && bookingHotelLabel.getScene() != null) {
-                 BorderPane dashboard = (BorderPane) bookingHotelLabel.getScene().getRoot();
-                 dashboard.setCenter(view);
+                 BorderPane outer = (BorderPane) bookingHotelLabel.getScene().getRoot();
+                 var centerNode = outer.getCenter();
+                 if (centerNode instanceof BorderPane) {
+                     ((BorderPane) centerNode).setCenter(view);
+                 } else {
+                     outer.setCenter(view);
+                 }
             }
 
         } catch (IOException e) {

@@ -2,6 +2,7 @@ package ui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -31,6 +32,7 @@ public class DashboardController {
     @FXML
     private void onBookHotel() {
         titleLabel.setText("Book Hotel");
+        try { HotelController.resetState(); } catch (Throwable ignored) {}
         loadCenterView("/ui/hotel/hotel-search.fxml");
     }
 
@@ -43,6 +45,7 @@ public class DashboardController {
     @FXML
     private void onRentCar() {
         titleLabel.setText("Rent Car");
+        try { CarRentalController.resetState(); } catch (Throwable ignored) {}
         loadCenterView("/ui/car/car-search.fxml");
     }
 
@@ -59,10 +62,23 @@ public class DashboardController {
 
     private void loadCenterView(String resource) {
         try {
-            Pane view = FXMLLoader.load(getClass().getResource(resource));
+            var url = getClass().getResource(resource);
+            if (url == null) {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setTitle("Navigation Error");
+                a.setHeaderText("View not found");
+                a.setContentText("Could not load: " + resource);
+                a.showAndWait();
+                return;
+            }
+            Pane view = FXMLLoader.load(url);
             rootPane.setCenter(view);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Navigation Error");
+            a.setHeaderText("Failed to load view");
+            a.setContentText("Error loading: " + resource + "\n" + e.getMessage());
+            a.showAndWait();
         }
     }
 }

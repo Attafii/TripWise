@@ -52,6 +52,11 @@ public class CarRentalController {
     private static ObservableList<Car> allCars;
     private static Car selectedCar;
     private static CarRental currentRental;
+    
+    // Persist search selections across views
+    private static String lastLocation;
+    private static LocalDate lastPickupDate;
+    private static LocalDate lastReturnDate;
 
     @FXML
     private void initialize() {
@@ -70,6 +75,11 @@ public class CarRentalController {
         if (rentalCarLabel != null && currentRental != null) {
             setupBookingView();
         }
+    }
+    
+    public static void resetState() {
+        selectedCar = null;
+        currentRental = null;
     }
 
     private void initializeSampleData() {
@@ -120,6 +130,11 @@ public class CarRentalController {
     @FXML
     private void handleSearch() {
         String type = typeCombo.getValue();
+        
+        // Persist criteria
+        lastLocation = locationCombo.getValue();
+        lastPickupDate = pickupDate.getValue();
+        lastReturnDate = returnDatePicker.getValue();
         
         List<Car> filtered = allCars.stream()
                 .filter(c -> type == null || type.equals("All") || c.getType().equalsIgnoreCase(type))
@@ -172,16 +187,39 @@ public class CarRentalController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent view = loader.load();
             
-            // Check possible scenes/parents to find where to navigate
             if (carTable != null && carTable.getScene() != null) {
                  Parent root = carTable.getScene().getRoot();
-                 if (root instanceof BorderPane) ((BorderPane) root).setCenter(view);
+                 if (root instanceof BorderPane) {
+                     BorderPane outer = (BorderPane) root;
+                     var centerNode = outer.getCenter();
+                     if (centerNode instanceof BorderPane) {
+                         ((BorderPane) centerNode).setCenter(view);
+                     } else {
+                         outer.setCenter(view);
+                     }
+                 }
             } else if (carNameLabel != null && carNameLabel.getScene() != null) {
                 Parent root = carNameLabel.getScene().getRoot();
-                if (root instanceof BorderPane) ((BorderPane) root).setCenter(view);
+                if (root instanceof BorderPane) {
+                    BorderPane outer = (BorderPane) root;
+                    var centerNode = outer.getCenter();
+                    if (centerNode instanceof BorderPane) {
+                        ((BorderPane) centerNode).setCenter(view);
+                    } else {
+                        outer.setCenter(view);
+                    }
+                }
             } else if (rentalCarLabel != null && rentalCarLabel.getScene() != null) {
                  Parent root = rentalCarLabel.getScene().getRoot();
-                 if (root instanceof BorderPane) ((BorderPane) root).setCenter(view);
+                 if (root instanceof BorderPane) {
+                     BorderPane outer = (BorderPane) root;
+                     var centerNode = outer.getCenter();
+                     if (centerNode instanceof BorderPane) {
+                         ((BorderPane) centerNode).setCenter(view);
+                     } else {
+                         outer.setCenter(view);
+                     }
+                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
