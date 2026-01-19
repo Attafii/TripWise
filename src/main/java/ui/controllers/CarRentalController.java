@@ -130,11 +130,9 @@ public class CarRentalController {
 
     @FXML
     private void handleRentNow() {
-        LocalDate start = LocalDate.now().plusDays(1);
-        LocalDate end = LocalDate.now().plusDays(3);
-        
-        // Use static state or simple default if not provided
-        String loc = "Default Location"; 
+        LocalDate start = lastPickupDate != null ? lastPickupDate : LocalDate.now().plusDays(1);
+        LocalDate end = lastReturnDate != null ? lastReturnDate : LocalDate.now().plusDays(3);
+        String loc = lastLocation != null ? lastLocation : "Default Location";
         
         currentRental = new CarRental(selectedCar, loc, start, end);
         navigateTo("/ui/car/car-booking.fxml");

@@ -150,9 +150,11 @@ public class HotelController {
         roomListView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && roomListView.getSelectionModel().getSelectedItem() != null) {
                 selectedRoom = roomListView.getSelectionModel().getSelectedItem();
-                // Default dates for now if not selected
-                LocalDate start = LocalDate.now().plusDays(1);
-                LocalDate end = LocalDate.now().plusDays(3);
+                
+                // Use persisted dates or default
+                LocalDate start = lastCheckInDate != null ? lastCheckInDate : LocalDate.now().plusDays(1);
+                LocalDate end = lastCheckOutDate != null ? lastCheckOutDate : LocalDate.now().plusDays(3);
+                
                 currentBooking = new HotelBooking(selectedHotel, selectedRoom, start, end);
                 navigateTo("/ui/hotel/hotel-booking.fxml");
             }
