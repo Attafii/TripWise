@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ui.model.Hotel;
+import ui.service.HotelService;
+
+import java.util.List;
 
 public class BookHotelController {
 
@@ -39,27 +42,77 @@ public class BookHotelController {
     @FXML
     private TableColumn<Hotel, Double> ratingColumn;
 
+    private HotelService hotelService;
+
     @FXML
     private void initialize() {
         guestsSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 2));
+
+        // Initialize hotel service
+        hotelService = new HotelService();
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("pricePerNight"));
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
+
+        // Format price column to show currency
+        priceColumn.setCellFactory(column -> new TableCell<Hotel, Double>() {
+            @Override
+            protected void updateItem(Double price, boolean empty) {
+                super.updateItem(price, empty);
+                if (empty || price == null) {
+                    setText(null);
+                } else {
+                    setText(String.format("$%.2f", price));
+                }
+            }
+        });
+
+        // Load all hotels on startup
+        loadAllHotels();
     }
 
     @FXML
     private void handleSearch() {
-        ObservableList<Hotel> hotels = FXCollections.observableArrayList(
-                new Hotel("Grand Plaza Hotel", "Paris", 199.99, 4.5),
-                new Hotel("Ocean View Resort", "Miami", 299.99, 4.8),
-                new Hotel("City Center Inn", "New York", 159.99, 4.2),
-                new Hotel("Mountain Lodge", "Denver", 179.99, 4.6),
-                new Hotel("Beach Paradise", "Bali", 249.99, 4.9)
-        );
+        String destination = destinationField.getText();
 
-        hotelTable.setItems(hotels);
+        List<Hotel> hotels;
+
+        // If search criteria provided, search, otherwise show all
+        if (destination != null && !destination.isBlank()) {
+            System.out.println("🔍 Searching hotels in: " + destination);
+            hotels = hotelService.searchByCity(destination);
+        } else {
+            System.out.println("📋 Loading all hotels with pricing");
+            hotels = hotelService.getHotelsWithPricing();
+        }
+
+        if (hotels.isEmpty()) {
+            showAlert("No Hotels Found", "No hotels match your search criteria. Try a different city.");
+        }
+
+        hotelTable.setItems(FXCollections.observableArrayList(hotels));
+    }
+
+    /**
+     * Load all hotels on initialization
+     */
+    private void loadAllHotels() {
+        System.out.println("📋 Loading all hotels...");
+        List<Hotel> hotels = hotelService.getHotelsWithPricing();
+        hotelTable.setItems(FXCollections.observableArrayList(hotels));
+    }
+
+    /**
+     * Show alert dialog
+     */
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
 

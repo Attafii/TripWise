@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.EmployeeBookingManagementController"
+      spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 30;">
+
+    <!-- Header -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Label text="Hotel Booking Management" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="employeeNameLabel" text="Employee Name" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
+    </HBox>
+
+    <!-- Filter Tabs -->
+    <HBox spacing="10">
+        <Button fx:id="allBtn" text="All Bookings" onAction="#filterAll"
+               style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+        <Button fx:id="pendingBtn" text="Pending (0)" onAction="#filterPending"
+               style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+        <Button fx:id="approvedBtn" text="Approved (0)" onAction="#filterApproved"
+               style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+        <Button fx:id="rejectedBtn" text="Rejected (0)" onAction="#filterRejected"
+               style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+        <Region HBox.hgrow="ALWAYS" />
+        <TextField fx:id="searchField" promptText="Search by customer name or booking ID..."
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 10 15; -fx-pref-width: 300;" />
+    </HBox>
+
+    <!-- Bookings Table -->
+    <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;" VBox.vgrow="ALWAYS">
+        <TableView fx:id="bookingsTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="bookingIdCol" text="Booking ID" prefWidth="100" />
+                <TableColumn fx:id="customerCol" text="Customer" prefWidth="150" />
+                <TableColumn fx:id="hotelCol" text="Hotel" prefWidth="180" />
+                <TableColumn fx:id="roomCol" text="Room Type" prefWidth="130" />
+                <TableColumn fx:id="checkinCol" text="Check-in" prefWidth="100" />
+                <TableColumn fx:id="checkoutCol" text="Check-out" prefWidth="100" />
+                <TableColumn fx:id="guestsCol" text="Guests" prefWidth="70" />
+                <TableColumn fx:id="priceCol" text="Total Price" prefWidth="100" />
+                <TableColumn fx:id="statusCol" text="Status" prefWidth="100" />
+                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="200" />
+            </columns>
+        </TableView>
+    </VBox>
+
+</VBox>

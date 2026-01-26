@@ -2,34 +2,114 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.DashboardController" stylesheets="@style.css">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.DashboardController"
+           stylesheets="@style.css" style="-fx-background-color: #f8f9fa;">
     <left>
-        <VBox spacing="12" alignment="TOP_LEFT" styleClass="sidebar" prefWidth="220">
-            <children>
-                <Label text="TripWise" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 10;" />
-                <Button text="Home" onAction="#onHome" styleClass="sidebar-button" />
-                <Button text="Book Hotel" onAction="#onBookHotel" styleClass="sidebar-button" />
-                <Button text="Book Flight" onAction="#onBookFlight" styleClass="sidebar-button" />
-                <Button text="Rent Car" onAction="#onRentCar" styleClass="sidebar-button" />
-                <Button text="Profile" onAction="#onProfile" styleClass="sidebar-button" />
-                <Region VBox.vgrow="ALWAYS" />
-                <Button text="Logout" onAction="#onLogout" styleClass="logout-button" />
-            </children>
+        <VBox spacing="5" alignment="TOP_LEFT" styleClass="sidebar" prefWidth="260"
+              style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 2, 0);">
+            <padding>
+                <Insets top="20" right="15" bottom="20" left="15" />
+            </padding>
+
+            <!-- Logo and Title -->
+            <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-padding: 10 5 25 5;">
+                <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Screenshot 2026-01-25 193604.png" />
+                    </image>
+                </ImageView>
+                <Label text="TripWise" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1e40af;" />
+                <Label text="v3.0" style="-fx-font-size: 11px; -fx-text-fill: #9ca3af; -fx-padding: 2 6; -fx-background-color: #eff6ff; -fx-background-radius: 10;" />
+            </HBox>
+
+            <!-- Menu Items -->
+            <VBox spacing="2">
+                <Button fx:id="dashboardBtn" text="📊 Dashboard" onAction="#onDashboard"
+                       styleClass="sidebar-menu-item"
+                       style="-fx-background-color: #eff6ff; -fx-text-fill: #1e40af; -fx-font-weight: 600;" />
+
+                <Button fx:id="bookingsBtn" text="📋 Bookings" onAction="#onBookings"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="scheduleBtn" text="📅 Schedule" onAction="#onSchedule"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="paymentsBtn" text="💳 Payments" onAction="#onPayments"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="messagesBtn" text="💬 Messages" onAction="#onMessages"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="flightTrackingBtn" text="✈️ Flight Tracking" onAction="#onFlightTracking"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="aiAgentBtn" text="🤖 AI Agent" onAction="#onAIAgent"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="dealsBtn" text="🎯 Deals" onAction="#onDeals"
+                       styleClass="sidebar-menu-item" />
+
+                <!-- Employee-Only Section -->
+                <Separator style="-fx-padding: 10 0;" fx:id="employeeSeparator" />
+                <Label text="EMPLOYEE TOOLS" fx:id="employeeLabel" style="-fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: #9ca3af; -fx-padding: 10 15 5 15;" />
+
+                <Button fx:id="employeeProfileBtn" text="👤 My Profile" onAction="#onEmployeeProfile"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="manageBookingsBtn" text="📝 Manage Bookings" onAction="#onManageBookings"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="viewCustomersBtn" text="👥 View Customers" onAction="#onViewCustomers"
+                       styleClass="sidebar-menu-item" />
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS" />
+
+            <!-- User Profile Section -->
+            <VBox spacing="10" style="-fx-padding: 15; -fx-background-color: #f8f9fa; -fx-background-radius: 12;">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="👤" style="-fx-font-size: 28px; -fx-background-color: #eff6ff; -fx-padding: 8; -fx-background-radius: 20;" />
+                    <VBox spacing="2">
+                        <Label fx:id="userNameLabel" text="Admin User" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #1f2937;" />
+                        <Label text="Administrator" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" />
+                    </VBox>
+                </HBox>
+                <Button text="🚪 Logout" onAction="#onLogout"
+                       style="-fx-background-color: transparent; -fx-text-fill: #dc2626; -fx-font-size: 12px; -fx-cursor: hand; -fx-alignment: center-left; -fx-padding: 5;" />
+            </VBox>
         </VBox>
     </left>
+
     <center>
-        <BorderPane fx:id="rootPane">
+        <BorderPane fx:id="rootPane" style="-fx-background-color: #f8f9fa;">
             <top>
-                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="top-bar">
-                    <children>
-                        <Label fx:id="titleLabel" text="Home" styleClass="page-title" />
-                    </children>
+                <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: white; -fx-padding: 15 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 5, 0, 0, 1);">
+                    <Label fx:id="titleLabel" text="Dashboard" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+
+                    <Region HBox.hgrow="ALWAYS" />
+
+                    <!-- Search Bar -->
+                    <HBox spacing="10" alignment="CENTER" style="-fx-background-color: #f8f9fa; -fx-background-radius: 20; -fx-padding: 8 15;" prefWidth="300">
+                        <Label text="🔍" style="-fx-font-size: 14px;" />
+                        <TextField promptText="Search reservations, bookings, invoices..."
+                                 style="-fx-background-color: transparent; -fx-border-color: transparent;"
+                                 HBox.hgrow="ALWAYS" />
+                    </HBox>
+
+                    <!-- User Options -->
+                    <Button text="🔔" style="-fx-background-color: #f8f9fa; -fx-background-radius: 20; -fx-font-size: 16px; -fx-padding: 8 12; -fx-cursor: hand;" />
+                    <Button text="⚙️" style="-fx-background-color: #f8f9fa; -fx-background-radius: 20; -fx-font-size: 16px; -fx-padding: 8 12; -fx-cursor: hand;" />
                 </HBox>
             </top>
+
             <center>
-                <fx:include source="/ui/home-center.fxml" />
+                <!-- Dynamic content area -->
+                <StackPane fx:id="contentArea" style="-fx-background-color: transparent;" />
             </center>
         </BorderPane>
     </center>
 </BorderPane>
+
+

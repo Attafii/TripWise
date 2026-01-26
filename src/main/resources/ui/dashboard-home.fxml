@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.DashboardHomeController"
+      spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 30;">
+
+    <!-- Stats Cards Row -->
+    <HBox spacing="20" alignment="CENTER">
+        <!-- Completed Trips Card -->
+        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);"
+              HBox.hgrow="ALWAYS" prefHeight="140">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Completed Trips" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="📊" style="-fx-background-color: #eff6ff; -fx-background-radius: 8; -fx-font-size: 14px; -fx-padding: 6 10; -fx-cursor: hand;" />
+            </HBox>
+            <Label fx:id="completedTripsLabel" text="225" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label text="▲ 8.5%" style="-fx-text-fill: #10b981; -fx-font-size: 12px; -fx-font-weight: 600;" />
+                <Label text="vs last week" style="-fx-text-fill: #9ca3af; -fx-font-size: 11px;" />
+            </HBox>
+        </VBox>
+
+        <!-- Active Trips Card -->
+        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);"
+              HBox.hgrow="ALWAYS" prefHeight="140">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Active Trips" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="📈" style="-fx-background-color: #dbeafe; -fx-background-radius: 8; -fx-font-size: 14px; -fx-padding: 6 10; -fx-cursor: hand;" />
+            </HBox>
+            <Label fx:id="activeTripsLabel" text="80" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label text="▲ 4.3%" style="-fx-text-fill: #10b981; -fx-font-size: 12px; -fx-font-weight: 600;" />
+                <Label text="vs last month" style="-fx-text-fill: #9ca3af; -fx-font-size: 11px;" />
+            </HBox>
+        </VBox>
+
+        <!-- Cancelled Trips Card -->
+        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);"
+              HBox.hgrow="ALWAYS" prefHeight="140">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Cancelled Trips" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="❌" style="-fx-background-color: #fef2f2; -fx-background-radius: 8; -fx-font-size: 14px; -fx-padding: 6 10; -fx-cursor: hand;" />
+            </HBox>
+            <Label fx:id="cancelledTripsLabel" text="25" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label text="▼ 1.8%" style="-fx-text-fill: #ef4444; -fx-font-size: 12px; -fx-font-weight: 600;" />
+                <Label text="vs last week" style="-fx-text-fill: #9ca3af; -fx-font-size: 11px;" />
+            </HBox>
+        </VBox>
+
+        <!-- Total Revenue Card -->
+        <VBox spacing="10" style="-fx-background-color: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.3), 15, 0, 0, 5);"
+              HBox.hgrow="ALWAYS" prefHeight="140">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Total Revenue" style="-fx-font-size: 13px; -fx-text-fill: rgba(255,255,255,0.9); -fx-font-weight: 500;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="$" style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 8; -fx-font-size: 14px; -fx-padding: 6 10; -fx-cursor: hand;" />
+            </HBox>
+            <Label fx:id="totalRevenueLabel" text="15,000" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white;" />
+            <HBox spacing="5" alignment="CENTER_LEFT">
+                <Label text="▲ 12.5%" style="-fx-text-fill: #d1fae5; -fx-font-size: 12px; -fx-font-weight: 600;" />
+                <Label text="vs last month" style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 11px;" />
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <!-- Charts Row -->
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <!-- Total Sales Chart -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);"
+              HBox.hgrow="ALWAYS">
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Total Sales" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <HBox spacing="8">
+                    <Button text="This Week" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 6 12; -fx-font-size: 11px; -fx-font-weight: 600; -fx-cursor: hand;" />
+                    <Button text="Last 30 Days" style="-fx-background-color: #f3f4f6; -fx-text-fill: #6b7280; -fx-background-radius: 6; -fx-padding: 6 12; -fx-font-size: 11px; -fx-cursor: hand;" />
+                    <Button text="Last 6 Months" style="-fx-background-color: #f3f4f6; -fx-text-fill: #6b7280; -fx-background-radius: 6; -fx-padding: 6 12; -fx-font-size: 11px; -fx-cursor: hand;" />
+                </HBox>
+            </HBox>
+
+            <Label text="$2,500" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+            <Label text="(sales from last)" style="-fx-font-size: 11px; -fx-text-fill: #9ca3af;" />
+
+            <BarChart fx:id="salesChart" legendVisible="false" VBox.vgrow="ALWAYS"
+                     style="-fx-background-color: transparent;">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" tickLabelFill="#9ca3af" tickLabelFontSize="11" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" tickLabelFill="#9ca3af" tickLabelFontSize="11" />
+                </yAxis>
+            </BarChart>
+        </VBox>
+
+        <!-- Flight Schedule Chart -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);"
+              prefWidth="400">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Flights Schedule" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="•••" style="-fx-background-color: transparent; -fx-text-fill: #9ca3af; -fx-font-size: 18px; -fx-cursor: hand;" />
+            </HBox>
+
+            <HBox spacing="15">
+                <Button text="Past Month" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 16; -fx-padding: 6 14; -fx-font-size: 11px; -fx-font-weight: 600; -fx-cursor: hand;" />
+                <Button text="Last 30 Days" style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-padding: 6 14; -fx-font-size: 11px; -fx-cursor: hand;" />
+            </HBox>
+
+            <LineChart fx:id="flightScheduleChart" legendVisible="true" VBox.vgrow="ALWAYS"
+                      style="-fx-background-color: transparent;">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" tickLabelFill="#9ca3af" tickLabelFontSize="10" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" tickLabelFill="#9ca3af" tickLabelFontSize="10" />
+                </yAxis>
+            </LineChart>
+        </VBox>
+    </HBox>
+
+    <!-- Bottom Row - Popular Destinations and Top Routes -->
+    <HBox spacing="20">
+        <!-- Popular Destinations Map -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);"
+              HBox.hgrow="ALWAYS" prefHeight="280">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Popular Destination" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="This Week" style="-fx-background-color: #eff6ff; -fx-text-fill: #3b82f6; -fx-background-radius: 16; -fx-padding: 6 12; -fx-font-size: 11px; -fx-font-weight: 600; -fx-cursor: hand;" />
+            </HBox>
+
+            <!-- Map Placeholder -->
+            <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: #f0f9ff; -fx-background-radius: 12;">
+                <Label text="🗺️ World Map\n(Popular routes visualization)" style="-fx-text-fill: #3b82f6; -fx-font-size: 14px; -fx-text-alignment: center;" />
+            </StackPane>
+
+            <HBox spacing="15">
+                <Label text="● North America: 43%" style="-fx-font-size: 11px; -fx-text-fill: #3b82f6; -fx-font-weight: 600;" />
+                <Label text="● Europe: 36%" style="-fx-font-size: 11px; -fx-text-fill: #8b5cf6; -fx-font-weight: 600;" />
+            </HBox>
+        </VBox>
+
+        <!-- Top Flight Routes -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 2);"
+              prefWidth="400">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Top Flight Routes" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="•••" style="-fx-background-color: transparent; -fx-text-fill: #9ca3af; -fx-font-size: 18px; -fx-cursor: hand;" />
+            </HBox>
+
+            <VBox spacing="12" VBox.vgrow="ALWAYS">
+                <!-- Route 1 -->
+                <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 12; -fx-background-color: #f8f9fa; -fx-background-radius: 10;">
+                    <Label text="1️⃣" style="-fx-font-size: 18px;" />
+                    <VBox spacing="3" HBox.hgrow="ALWAYS">
+                        <Label text="Paris (CDG) → New York (JFK)" style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #1f2937;" />
+                        <Label text="480 passengers • Economy" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" />
+                    </VBox>
+                    <Label text="$850" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                </HBox>
+
+                <!-- Route 2 -->
+                <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 12; -fx-background-color: #f8f9fa; -fx-background-radius: 10;">
+                    <Label text="2️⃣" style="-fx-font-size: 18px;" />
+                    <VBox spacing="3" HBox.hgrow="ALWAYS">
+                        <Label text="Hong Kong (HKG) → Los Angeles (LAX)" style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #1f2937;" />
+                        <Label text="350 passengers • Business" style="-fx-font-size: 11px; -fx-text-fill: #6b7280;" />
+                    </VBox>
+                    <Label text="$1,240" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                </HBox>
+            </VBox>
+
+            <Button text="See All" style="-fx-background-color: transparent; -fx-text-fill: #3b82f6; -fx-font-size: 12px; -fx-font-weight: 600; -fx-cursor: hand; -fx-underline: true;" />
+        </VBox>
+    </HBox>
+</VBox>

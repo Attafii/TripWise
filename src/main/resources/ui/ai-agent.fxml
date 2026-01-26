@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.AIAgentController" fitToWidth="true" style="-fx-background-color: #f8f9fa;">
+<VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-padding: 20;">
+
+    <!-- Header -->
+    <VBox spacing="10" alignment="CENTER">
+        <Label text="🤖" style="-fx-font-size: 60px;" />
+        <Label text="AI Travel Assistant" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+        <Label text="Advanced AI assistant with full database access - Manage users, bookings, flights, hotels, cars and more!" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;" />
+    </VBox>
+
+    <!-- AI Agent Capabilities -->
+    <HBox spacing="15">
+        <!-- Capability Card 1 -->
+        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+            <Label text="📋 Booking Management" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+            <Label text="Create, update, and cancel bookings automatically" wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+            <Button text="Manage Bookings" onAction="#handleManageBookings"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand; -fx-font-size: 12px;" />
+        </VBox>
+
+        <!-- Capability Card 2 -->
+        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+            <Label text="🔍 Smart Search" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+            <Label text="Find best deals and recommendations using AI" wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+            <Button text="Search Now" onAction="#handleSmartSearch"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand; -fx-font-size: 12px;" />
+        </VBox>
+
+        <!-- Capability Card 3 -->
+        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+            <Label text="📊 Analytics" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+            <Label text="Generate insights from booking data" wrapText="true" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+            <Button text="View Analytics" onAction="#handleAnalytics"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand; -fx-font-size: 12px;" />
+        </VBox>
+    </HBox>
+
+    <!-- AI Chat Interface -->
+    <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;" VBox.vgrow="ALWAYS" minHeight="500">
+        <Label text="💬 Chat with AI Agent" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+        <Label text="Ask the AI to perform actions on your behalf. Examples: 'Show me all users', 'View all flights', 'Create a booking for John Doe', 'Show hotel bookings', 'Search for cars in Paris'"
+               wrapText="true" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;" />
+
+        <!-- Chat Messages Area -->
+        <ScrollPane fitToWidth="true" prefHeight="400" VBox.vgrow="ALWAYS" style="-fx-background-color: #f8f9fa; -fx-border-color: #e5e7eb; -fx-border-width: 1; -fx-border-radius: 12;">
+            <VBox fx:id="chatMessagesContainer" spacing="15" style="-fx-padding: 20; -fx-background-color: #f8f9fa;" />
+        </ScrollPane>
+
+        <!-- Input Area -->
+        <HBox spacing="12" alignment="CENTER">
+            <TextField fx:id="aiInputField" promptText="Ask AI to do something... (e.g., 'Show me all bookings for today')"
+                      style="-fx-background-color: #f3f4f6; -fx-background-radius: 20; -fx-padding: 12 18; -fx-font-size: 14px;"
+                      HBox.hgrow="ALWAYS" onAction="#handleSendMessage" />
+            <Button text="➤ Send" onAction="#handleSendMessage"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 12 24; -fx-font-size: 14px; -fx-font-weight: 600; -fx-cursor: hand;" />
+        </HBox>
+    </VBox>
+
+    <!-- Quick Actions for Employees -->
+    <VBox fx:id="employeeActionsSection" spacing="12" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;">
+        <Label text="⚡ Quick Employee Actions" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+
+        <GridPane hgap="12" vgap="12">
+            <Button text="📝 Create Booking" onAction="#handleCreateBooking"
+                   style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 18; -fx-font-size: 12px; -fx-cursor: hand;"
+                   GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+            <Button text="✓ Approve All Pending" onAction="#handleApproveAll"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 18; -fx-font-size: 12px; -fx-cursor: hand;"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+            <Button text="🔄 Update Booking" onAction="#handleUpdateBooking"
+                   style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 18; -fx-font-size: 12px; -fx-cursor: hand;"
+                   GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+            <Button text="❌ Cancel Booking" onAction="#handleCancelBooking"
+                   style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 18; -fx-font-size: 12px; -fx-cursor: hand;"
+                   GridPane.columnIndex="3" GridPane.rowIndex="0" />
+        </GridPane>
+    </VBox>
+
+    <!-- Info Message -->
+    <Label text="Use the chatbot button (bottom-right) to interact with AI on any page!"
+           style="-fx-font-size: 14px; -fx-text-fill: #3b82f6; -fx-background-color: #eff6ff; -fx-padding: 15; -fx-background-radius: 10;" />
+
+</VBox>
+</ScrollPane>

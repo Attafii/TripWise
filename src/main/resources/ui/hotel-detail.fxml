@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.HotelDetailController"
+            fitToWidth="true" style="-fx-background-color: #f8f9fa;">
+    <VBox spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 30;">
+
+        <!-- Header with Back Button -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Button text="← Back" onAction="#handleBack"
+                   style="-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-border-color: #3b82f6; -fx-border-width: 1.5; -fx-background-radius: 8; -fx-padding: 8 16; -fx-font-weight: 600; -fx-cursor: hand;" />
+        </HBox>
+
+        <!-- Hotel Header Section -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 30;">
+            <HBox spacing="20" alignment="TOP_LEFT">
+                <!-- Hotel Image Placeholder -->
+                <VBox alignment="CENTER" style="-fx-background-color: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); -fx-background-radius: 12; -fx-min-width: 300; -fx-min-height: 200;">
+                    <Label text="🏨" style="-fx-font-size: 60px;" />
+                </VBox>
+
+                <!-- Hotel Info -->
+                <VBox spacing="12">
+                    <Label fx:id="hotelNameLabel" text="Hotel Name" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <Label text="📍" style="-fx-font-size: 16px;" />
+                        <Label fx:id="locationLabel" text="City, Country" style="-fx-font-size: 16px; -fx-text-fill: #6b7280;" />
+                    </HBox>
+
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <Label fx:id="starsLabel" text="⭐⭐⭐⭐⭐" style="-fx-font-size: 18px;" />
+                            <Label fx:id="ratingLabel" text="5.0" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+                        </HBox>
+                        <Label text="•" style="-fx-text-fill: #d1d5db;" />
+                        <Label text="(1,250 reviews)" style="-fx-font-size: 13px; -fx-text-fill: #9ca3af;" />
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Contact:" style="-fx-font-weight: 600; -fx-text-fill: #374151;" />
+                        <Label fx:id="phoneLabel" text="Phone" style="-fx-text-fill: #6b7280;" />
+                        <Label text="•" style="-fx-text-fill: #d1d5db;" />
+                        <Label fx:id="emailLabel" text="Email" style="-fx-text-fill: #3b82f6; -fx-underline: true; -fx-cursor: hand;" />
+                    </HBox>
+
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <VBox spacing="3">
+                            <Label text="Starting from" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                            <Label fx:id="priceLabel" text="$0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                            <Label text="per night" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                        </VBox>
+                        <Button text="Book Now" onAction="#handleBookNow"
+                               style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 10; -fx-padding: 15 40; -fx-font-size: 16px; -fx-font-weight: bold; -fx-cursor: hand;" />
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Description -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;">
+            <Label text="About This Hotel" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+            <Label fx:id="descriptionLabel" text="Description" wrapText="true" style="-fx-font-size: 14px; -fx-text-fill: #4b5563; -fx-line-spacing: 5px;" />
+        </VBox>
+
+        <!-- Amenities -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;">
+            <Label text="Amenities & Services" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+            <FlowPane fx:id="amenitiesContainer" hgap="15" vgap="15" />
+        </VBox>
+
+        <!-- Policies -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;">
+            <Label text="Hotel Policies" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+
+            <HBox spacing="15">
+                <VBox spacing="5">
+                    <Label text="Check-in Time" style="-fx-font-weight: 600; -fx-text-fill: #374151;" />
+                    <Label fx:id="checkinLabel" text="14:00" style="-fx-text-fill: #6b7280;" />
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Check-out Time" style="-fx-font-weight: 600; -fx-text-fill: #374151;" />
+                    <Label fx:id="checkoutLabel" text="11:00" style="-fx-text-fill: #6b7280;" />
+                </VBox>
+            </HBox>
+
+            <VBox spacing="5">
+                <Label text="Cancellation Policy" style="-fx-font-weight: 600; -fx-text-fill: #374151;" />
+                <Label fx:id="cancellationLabel" text="Free cancellation up to 24 hours before check-in" wrapText="true" style="-fx-text-fill: #6b7280;" />
+            </VBox>
+        </VBox>
+
+        <!-- Available Rooms -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;">
+            <Label text="Available Rooms" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+            <VBox fx:id="roomsContainer" spacing="15" />
+        </VBox>
+
+    </VBox>
+</ScrollPane>

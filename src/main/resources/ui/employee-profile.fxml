@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.EmployeeProfileController"
+            fitToWidth="true" style="-fx-background-color: #f8f9fa;">
+    <VBox spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 30;">
+
+        <!-- Header -->
+        <Label text="Employee Profile" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+
+        <!-- Profile Card -->
+        <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 30;">
+            <HBox spacing="25" alignment="TOP_LEFT">
+                <!-- Profile Image Placeholder -->
+                <VBox alignment="CENTER" style="-fx-background-color: #3b82f6; -fx-background-radius: 100; -fx-min-width: 120; -fx-min-height: 120;">
+                    <Label text="👤" style="-fx-font-size: 50px;" />
+                </VBox>
+
+                <!-- Employee Info -->
+                <VBox spacing="12">
+                    <Label fx:id="nameLabel" text="Employee Name" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                    <Label fx:id="emailLabel" text="employee@tripwise.com" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
+                    <Label fx:id="departmentLabel" text="Department: Hotel Management" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
+                    <Label fx:id="positionLabel" text="Position: Booking Manager" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
+                    <Label fx:id="hireDateLabel" text="Hire Date: January 15, 2023" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Stats Cards -->
+        <GridPane hgap="20" vgap="20">
+            <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label text="Total Bookings Managed" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="totalBookingsLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+            </VBox>
+
+            <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label text="Pending Approvals" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="pendingApprovalsLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+            </VBox>
+
+            <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <Label text="Approved Today" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;" />
+                <Label fx:id="approvedTodayLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+            </VBox>
+        </GridPane>
+
+        <!-- Quick Actions -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;">
+            <Label text="Quick Actions" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+
+            <HBox spacing="15">
+                <Button text="📋 Manage Bookings" onAction="#handleManageBookings"
+                       style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 12 20; -fx-font-size: 14px; -fx-font-weight: 600; -fx-cursor: hand;" />
+
+                <Button text="👥 View Customers" onAction="#handleViewCustomers"
+                       style="-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-border-color: #3b82f6; -fx-border-width: 1.5; -fx-background-radius: 8; -fx-padding: 12 20; -fx-font-size: 14px; -fx-font-weight: 600; -fx-cursor: hand;" />
+
+                <Button text="🏨 Hotel Overview" onAction="#handleHotelOverview"
+                       style="-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-border-color: #3b82f6; -fx-border-width: 1.5; -fx-background-radius: 8; -fx-padding: 12 20; -fx-font-size: 14px; -fx-font-weight: 600; -fx-cursor: hand;" />
+            </HBox>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

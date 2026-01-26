@@ -307,3 +307,38 @@
     -fx-text-fill: #ef4444;
     -fx-font-size: 12px;
 }
+
+
+/* Modern Dashboard Styles */
+.sidebar-menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 13px;
+    -fx-alignment: center-left;
+    -fx-padding: 12 15;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.sidebar-menu-item:hover {
+    -fx-background-color: #f3f4f6;
+    -fx-text-fill: #1f2937;
+}
+
+.menu-button {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-padding: 10 20;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.menu-button .arrow {
+    -fx-background-color: white;
+}
+
+.menu-button:hover {
+    -fx-background-color: #2563eb;
+}
+

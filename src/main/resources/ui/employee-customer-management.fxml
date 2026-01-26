@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.EmployeeCustomerManagementController"
+      spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 30;">
+
+    <!-- Header -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Button text="← Back" onAction="#handleBack"
+               style="-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-border-color: #3b82f6; -fx-border-width: 1.5; -fx-background-radius: 8; -fx-padding: 8 16; -fx-font-weight: 600; -fx-cursor: hand;" />
+        <Label text="Customer Profiles" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+        <Region HBox.hgrow="ALWAYS" />
+        <TextField fx:id="searchField" promptText="Search customers..."
+                  style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 10 15; -fx-pref-width: 300;" />
+    </HBox>
+
+    <!-- Customers Table -->
+    <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;" VBox.vgrow="ALWAYS">
+        <TableView fx:id="customersTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="customerIdCol" text="ID" prefWidth="60" />
+                <TableColumn fx:id="nameCol" text="Name" prefWidth="180" />
+                <TableColumn fx:id="emailCol" text="Email" prefWidth="200" />
+                <TableColumn fx:id="phoneCol" text="Phone" prefWidth="130" />
+                <TableColumn fx:id="nationalityCol" text="Nationality" prefWidth="120" />
+                <TableColumn fx:id="totalBookingsCol" text="Total Bookings" prefWidth="120" />
+                <TableColumn fx:id="loyaltyStatusCol" text="Loyalty Status" prefWidth="120" />
+                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="150" />
+            </columns>
+        </TableView>
+    </VBox>
+
+</VBox>
