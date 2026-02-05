@@ -53,6 +53,11 @@ public class DashboardController {
     }
 
     @FXML
+    private void onAdmin() {
+        ui.util.SceneManager.switchScene("/ui/admin/admin-dashboard.fxml");
+    }
+
+    @FXML
     private void onLogout() {
         SceneManager.switchScene("/ui/login.fxml");
     }
@@ -66,4 +71,3 @@ public class DashboardController {
         }
     }
 }
-

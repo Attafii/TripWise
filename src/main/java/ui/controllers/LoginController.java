@@ -45,7 +45,16 @@ public class LoginController {
             return;
         }
 
-        // Mock successful login
+        // --- ADMIN LOGIN (Temporary in-memory auth) ---
+
+        if ("admin@tripwise.com".equalsIgnoreCase(email)) {
+            ui.util.SceneManager.switchScene("/ui/admin/admin-dashboard.fxml");
+            return;
+        }
+
+        // ------------------------------------------------
+
+        // Normal user flow
         SceneManager.switchScene("/ui/dashboard.fxml");
     }
 

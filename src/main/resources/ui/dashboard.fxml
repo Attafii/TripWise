@@ -14,6 +14,7 @@
                 <Button text="Rent Car" onAction="#onRentCar" styleClass="sidebar-button" />
                 <Button text="Profile" onAction="#onProfile" styleClass="sidebar-button" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Button text="Admin Dashboard" onAction="#onAdmin" styleClass="sidebar-button" />
                 <Button text="Logout" onAction="#onLogout" styleClass="logout-button" />
             </children>
         </VBox>

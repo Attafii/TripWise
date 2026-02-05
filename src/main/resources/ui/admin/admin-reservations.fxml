@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.controllers.admin.AdminReservationsController"
+      spacing="10" styleClass="view-root">
+
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <Label text="Reservations" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Verify" onAction="#onVerify" styleClass="primary-button"/>
+        <Button text="Cancel" onAction="#onCancel"/>
+        <Button text="Refresh" onAction="#onRefresh"/>
+    </HBox>
+
+    <TableView fx:id="reservationsTable" prefHeight="600">
+        <columns>
+            <TableColumn fx:id="colResId" text="ID" prefWidth="200"/>
+            <TableColumn fx:id="colType" text="Type" prefWidth="120"/>
+            <TableColumn fx:id="colUser" text="User" prefWidth="220"/>
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+            <TableColumn fx:id="colAmount" text="Amount" prefWidth="120"/>
+            <TableColumn fx:id="colDate" text="Date" prefWidth="220"/>
+        </columns>
+    </TableView>
+</VBox>

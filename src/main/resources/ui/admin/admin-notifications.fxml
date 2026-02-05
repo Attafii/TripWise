@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.controllers.admin.AdminNotificationsController"
+      spacing="10" styleClass="view-root">
+
+    <Label text="Notifications" styleClass="page-title"/>
+
+    <TextField fx:id="titleField" promptText="Title"/>
+    <TextArea fx:id="bodyArea" promptText="Message body" prefRowCount="6"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Send to all" onAction="#onSendToAll" styleClass="primary-button"/>
+        <Button text="Preview" onAction="#onPreview"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="Last sent:"/>
+        <Label fx:id="lastSentLabel"/>
+    </HBox>
+
+    <TableView fx:id="historyTable" prefHeight="420">
+        <columns>
+            <TableColumn fx:id="colTime" text="Time" prefWidth="220"/>
+            <TableColumn fx:id="colTitle" text="Title" prefWidth="240"/>
+            <TableColumn fx:id="colBody" text="Body" prefWidth="420"/>
+        </columns>
+    </TableView>
+</VBox>
