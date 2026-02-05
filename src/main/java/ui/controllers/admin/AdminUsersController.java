@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import ui.admin.model.Role;
 import ui.admin.model.User;
 import ui.admin.repository.impl.InMemoryUserRepository;
@@ -22,11 +21,13 @@ public class AdminUsersController {
 
     @FXML
     private void initialize() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colFullName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        // Bind with lambdas (no PropertyValueFactory, no reflection).
+        colId.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().getId()));
+        colEmail.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().getEmail()));
+        colFullName.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().getFullName()));
         colRole.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().getRole().name()));
         colActive.setCellValueFactory(c -> AdminFX.readOnlyBoolean(c.getValue().isActive()));
+
         refresh();
     }
 

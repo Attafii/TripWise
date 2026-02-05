@@ -5,11 +5,10 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="ui.controllers.admin.AdminReservationsController"
       spacing="10" styleClass="view-root">
-
     <HBox spacing="8" alignment="CENTER_LEFT">
         <Label text="Reservations" styleClass="page-title"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Verify" onAction="#onVerify" styleClass="primary-button"/>
+        <Button text="Verify" onAction="#onVerify"/>
         <Button text="Cancel" onAction="#onCancel"/>
         <Button text="Refresh" onAction="#onRefresh"/>
     </HBox>

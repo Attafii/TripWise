@@ -1,10 +1,10 @@
 package ui.controllers.admin;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import ui.admin.repository.impl.InMemoryReservationRepository;
 import ui.admin.repository.impl.InMemoryUserRepository;
 import ui.admin.service.ReportService;
@@ -27,9 +27,11 @@ public class AdminReportsController {
 
     @FXML
     private void initialize() {
-        colUEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colUCount.setCellValueFactory(new PropertyValueFactory<>("count"));
-        colUAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        // Bind with lambdas (no PropertyValueFactory).
+        colUEmail.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().email));
+        colUCount.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().count));
+        colUAmount.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().amount));
+
         refresh();
     }
 

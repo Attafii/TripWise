@@ -5,13 +5,12 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="ui.controllers.admin.AdminUsersController"
       spacing="10" styleClass="view-root">
-
     <HBox spacing="8" alignment="CENTER_LEFT">
         <Label text="Users" styleClass="page-title"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Create" onAction="#onCreate" styleClass="primary-button"/>
-        <Button text="Edit" onAction="#onEdit" />
-        <Button text="Delete" onAction="#onDelete" />
+        <Button text="Create" onAction="#onCreate"/>
+        <Button text="Edit" onAction="#onEdit"/>
+        <Button text="Delete" onAction="#onDelete"/>
     </HBox>
 
     <TableView fx:id="usersTable" prefHeight="600">

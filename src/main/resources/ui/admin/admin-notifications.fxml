@@ -5,14 +5,13 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="ui.controllers.admin.AdminNotificationsController"
       spacing="10" styleClass="view-root">
-
     <Label text="Notifications" styleClass="page-title"/>
 
     <TextField fx:id="titleField" promptText="Title"/>
     <TextArea fx:id="bodyArea" promptText="Message body" prefRowCount="6"/>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Button text="Send to all" onAction="#onSendToAll" styleClass="primary-button"/>
+        <Button text="Send to all" onAction="#onSendToAll"/>
         <Button text="Preview" onAction="#onPreview"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Label text="Last sent:"/>

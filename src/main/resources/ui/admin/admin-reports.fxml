@@ -6,21 +6,14 @@
       fx:controller="ui.controllers.admin.AdminReportsController"
       spacing="10" styleClass="view-root">
 
-    <!-- Top bar -->
     <HBox spacing="8" alignment="CENTER_LEFT">
-        <Label text="Reports &amp; Statistics" styleClass="page-title"/>
+        <Label text="Reports Statistics" styleClass="page-title"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Export CSV" onAction="#onExportCSV" styleClass="primary-button"/>
-        <Button text="Refresh" onAction="#onRefresh" />
+        <Button text="Export CSV" onAction="#onExportCSV"/>
+        <Button text="Refresh" onAction="#onRefresh"/>
     </HBox>
 
-    <!-- KPIs -->
     <GridPane hgap="16" vgap="8">
-        <columnConstraints>
-            <ColumnConstraints percentWidth="30"/>
-            <ColumnConstraints percentWidth="70"/>
-        </columnConstraints>
-
         <Label text="Total Reservations:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <Label fx:id="lblTotalReservations" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
@@ -31,7 +24,6 @@
         <Label fx:id="lblActiveUsers" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
     </GridPane>
 
-    <!-- Top users table -->
     <TableView fx:id="topUsersTable" prefHeight="420">
         <columns>
             <TableColumn fx:id="colUEmail" text="User" prefWidth="260"/>

@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import ui.admin.model.Reservation;
 import ui.admin.repository.impl.InMemoryReservationRepository;
 import ui.admin.service.ReservationService;
@@ -21,12 +20,13 @@ public class AdminReservationsController {
 
     @FXML
     private void initialize() {
-        colResId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        colUser.setCellValueFactory(new PropertyValueFactory<>("userEmail"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-        colAmount.setCellValueFactory(c -> AdminFX.readOnlyNumber(c.getValue().getAmount()));
+        colResId.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().getId()));
+        colType.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().getType()));
+        colUser.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().getUserEmail()));
+        colStatus.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().getStatus()));
+        colAmount.setCellValueFactory(c -> new javafx.beans.property.ReadOnlyObjectWrapper<>(c.getValue().getAmount()));
         colDate.setCellValueFactory(c -> AdminFX.readOnlyString(String.valueOf(c.getValue().getCreatedAt())));
+
         refresh();
     }
 
