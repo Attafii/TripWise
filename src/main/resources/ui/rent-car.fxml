@@ -22,7 +22,9 @@
 
         <ScrollPane fitToWidth="true">
             <content>
-                <FlowPane fx:id="carContainer" hgap="12" vgap="12" padding="12" />
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
             </content>
         </ScrollPane>
     </children>

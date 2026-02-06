@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ui.controllers.ApprovalsController"
+            prefWidth="1100" prefHeight="720">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Approbation des Demandes de Remboursement"
+                   style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="12">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <TableView fx:id="tableRequests" prefHeight="600">
+                <columns>
+                    <TableColumn fx:id="colEmployee"  text="Employé"    prefWidth="200"/>
+                    <TableColumn fx:id="colDate"      text="Date"       prefWidth="130"/>
+                    <TableColumn fx:id="colAmount"    text="Montant"    prefWidth="120"/>
+                    <TableColumn fx:id="colStatus"    text="Statut"     prefWidth="140"/>
+                    <TableColumn fx:id="colReference" text="Référence"  prefWidth="160"/>
+                    <TableColumn fx:id="colAction"    text="Détails"    prefWidth="120"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <stylesheets>
+        <URL value="@style.css"/>
+    </stylesheets>
+</BorderPane>

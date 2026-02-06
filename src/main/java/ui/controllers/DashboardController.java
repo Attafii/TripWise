@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import ui.util.SceneManager;
 
 import java.io.IOException;
@@ -16,6 +17,10 @@ public class DashboardController {
 
     @FXML
     private Label titleLabel;
+
+    // OPTIONAL: If your dashboard uses a StackPane center instead of BorderPane
+    @FXML
+    private StackPane contentPane;
 
     @FXML
     public void initialize() {
@@ -59,11 +64,25 @@ public class DashboardController {
 
     private void loadCenterView(String resource) {
         try {
-            Pane view = FXMLLoader.load(getClass().getResource(resource));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
+            Pane view = loader.load();
             rootPane.setCenter(view);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to load: " + resource + "\n" + e.getMessage()).showAndWait();
+        }
+    }
+
+    @FXML
+    private void openRemboursements() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/approvals.fxml"));
+            Pane view = loader.load();
+            rootPane.setCenter(view);
+            titleLabel.setText("Remboursements");
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to open Remboursements: " + e.getMessage()).showAndWait();
         }
     }
 }
-
