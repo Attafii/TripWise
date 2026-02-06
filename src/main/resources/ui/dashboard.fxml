@@ -13,38 +13,41 @@
     <left>
         <VBox spacing="12" alignment="TOP_LEFT" styleClass="sidebar" prefWidth="220">
             <children>
+
                 <Label text="TripWise"
                        style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white; -fx-padding: 10;" />
 
-                <!-- Existing navigation -->
-                <Button text="Home"        onAction="#onHome"       styleClass="sidebar-button"/>
-                <Button text="Book Hotel"  onAction="#onBookHotel"  styleClass="sidebar-button"/>
+                <Button text="Home" onAction="#onHome" styleClass="sidebar-button"/>
+                <Button text="Book Hotel" onAction="#onBookHotel" styleClass="sidebar-button"/>
                 <Button text="Book Flight" onAction="#onBookFlight" styleClass="sidebar-button"/>
-                <Button text="Rent Car"    onAction="#onRentCar"    styleClass="sidebar-button"/>
-                <Button text="Profile"     onAction="#onProfile"    styleClass="sidebar-button"/>
+                <Button text="Rent Car" onAction="#onRentCar" styleClass="sidebar-button"/>
+                <Button text="Profile" onAction="#onProfile" styleClass="sidebar-button"/>
 
-                <!-- ⭐ Your module -->
+                <!-- ⭐ Your module button -->
                 <Button text="Remboursements" onAction="#openRemboursements" styleClass="sidebar-button"/>
 
                 <Region VBox.vgrow="ALWAYS"/>
+
                 <Button text="Logout" onAction="#onLogout" styleClass="logout-button"/>
+
             </children>
         </VBox>
     </left>
 
     <!-- MAIN CONTENT AREA -->
     <center>
-        <!-- Controlled by DashboardController via fx:id=rootPane -->
         <BorderPane fx:id="rootPane">
             <top>
-                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="top-bar" padding="10">
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="top-bar">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
                     <children>
                         <Label fx:id="titleLabel" text="Home" styleClass="page-title"/>
                     </children>
                 </HBox>
             </top>
 
-            <!-- Default content -->
             <center>
                 <fx:include source="/ui/home-center.fxml"/>
             </center>

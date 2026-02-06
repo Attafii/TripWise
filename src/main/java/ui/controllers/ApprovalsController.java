@@ -1,10 +1,14 @@
 package ui.controllers;
 
 import javafx.fxml.FXML;
+
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import ui.model.ReimbursementRequest;
 import ui.util.ReimbursementService;
+
+
 
 public class ApprovalsController {
 

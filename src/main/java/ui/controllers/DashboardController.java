@@ -2,10 +2,11 @@ package ui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+
 import ui.util.SceneManager;
 
 import java.io.IOException;
@@ -17,10 +18,6 @@ public class DashboardController {
 
     @FXML
     private Label titleLabel;
-
-    // OPTIONAL: If your dashboard uses a StackPane center instead of BorderPane
-    @FXML
-    private StackPane contentPane;
 
     @FXML
     public void initialize() {
@@ -62,17 +59,6 @@ public class DashboardController {
         SceneManager.switchScene("/ui/login.fxml");
     }
 
-    private void loadCenterView(String resource) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
-            Pane view = loader.load();
-            rootPane.setCenter(view);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to load: " + resource + "\n" + e.getMessage()).showAndWait();
-        }
-    }
-
     @FXML
     private void openRemboursements() {
         try {
@@ -82,7 +68,17 @@ public class DashboardController {
             titleLabel.setText("Remboursements");
         } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Failed to open Remboursements: " + e.getMessage()).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Cannot load module: " + e.getMessage()).showAndWait();
+        }
+    }
+
+    private void loadCenterView(String resource) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
+            Pane view = loader.load();
+            rootPane.setCenter(view);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
