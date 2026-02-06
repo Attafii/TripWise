@@ -5,7 +5,6 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="ui.controllers.admin.AdminReportsController"
       spacing="10" styleClass="view-root">
-
     <HBox spacing="8" alignment="CENTER_LEFT">
         <Label text="Reports Statistics" styleClass="page-title"/>
         <Region HBox.hgrow="ALWAYS"/>
@@ -16,10 +15,8 @@
     <GridPane hgap="16" vgap="8">
         <Label text="Total Reservations:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <Label fx:id="lblTotalReservations" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
         <Label text="Total Amount:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <Label fx:id="lblTotalAmount" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
         <Label text="Active Users:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <Label fx:id="lblActiveUsers" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
     </GridPane>

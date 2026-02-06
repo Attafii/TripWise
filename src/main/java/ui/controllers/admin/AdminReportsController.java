@@ -5,8 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import ui.admin.repository.impl.InMemoryReservationRepository;
-import ui.admin.repository.impl.InMemoryUserRepository;
+import ui.admin.repository.impl.MySqlReservationRepository ;
+import ui.admin.repository.impl.MySqlUserRepository ;
 import ui.admin.service.ReportService;
 import ui.util.AdminExport;
 import ui.util.AdminFX;
@@ -20,19 +20,27 @@ public class AdminReportsController {
     @FXML private TableColumn<ReportService.TopUserRow, String> colUEmail;
     @FXML private TableColumn<ReportService.TopUserRow, Number> colUCount, colUAmount;
 
-    private final InMemoryUserRepository userRepo = new InMemoryUserRepository();
-    private final InMemoryReservationRepository reservationRepo = new InMemoryReservationRepository();
+    // Use MySQL repositories so the view doesn't fail due to missing in-memory classes
+    private final MySqlUserRepository userRepo = new MySqlUserRepository();
+    private final MySqlReservationRepository reservationRepo = new MySqlReservationRepository();
+
     private final ReportService reportService = new ReportService();
     private final ObservableList<ReportService.TopUserRow> rows = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
-        // Bind with lambdas (no PropertyValueFactory).
         colUEmail.setCellValueFactory(c -> AdminFX.readOnlyString(c.getValue().email));
         colUCount.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().count));
         colUAmount.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().amount));
 
-        refresh();
+        // Protect refresh so the view renders even if DB has issues
+        try {
+            refresh();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            AdminFX.warn("Reports", "Could not load reports.\nCause: " + ex.getMessage());
+            topUsersTable.setItems(FXCollections.observableArrayList());
+        }
     }
 
     @FXML
@@ -47,8 +55,8 @@ public class AdminReportsController {
     }
 
     private void refresh() {
-        var users = userRepo.findAll();
-        var reservations = reservationRepo.findAll();
+        var users = userRepo.findAll();               // hits DB
+        var reservations = reservationRepo.findAll(); // hits DB
 
         lblTotalReservations.setText(String.valueOf(reportService.totalReservations(reservations)));
         lblTotalAmount.setText(String.format("%.2f", reportService.totalAmount(reservations)));

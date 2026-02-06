@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="ui.controllers.admin.AdminDashboardController">
+
     <left>
         <VBox spacing="12" alignment="TOP_LEFT" styleClass="sidebar" prefWidth="220">
             <children>

@@ -11,7 +11,7 @@
     <TextArea fx:id="bodyArea" promptText="Message body" prefRowCount="6"/>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Button text="Send to all" onAction="#onSendToAll"/>
+        <Button text="Send to All" onAction="#onSendToAll"/>
         <Button text="Preview" onAction="#onPreview"/>
         <Region HBox.hgrow="ALWAYS"/>
         <Label text="Last sent:"/>

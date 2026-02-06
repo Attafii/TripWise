@@ -16,14 +16,18 @@ public class AdminNotificationsController {
     @FXML private TextArea bodyArea;
     @FXML private Label lastSentLabel;
     @FXML private TableView<Notification> historyTable;
-    @FXML private TableColumn<Notification, String> colTime, colTitle, colBody;
+
+    @FXML private TableColumn<Notification, String> colTime;
+    @FXML private TableColumn<Notification, String> colTitle;
+    @FXML private TableColumn<Notification, String> colBody;
 
     private final NotificationService service = new NotificationService(new InMemoryNotificationRepository());
     private final ObservableList<Notification> history = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
-        colTime.setCellValueFactory(new PropertyValueFactory<>("sentAt"));
+        // Format LocalDateTime to String
+        colTime.setCellValueFactory(c -> AdminFX.formatDateTime(c.getValue().getSentAt()));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colBody.setCellValueFactory(new PropertyValueFactory<>("body"));
         refreshHistory();

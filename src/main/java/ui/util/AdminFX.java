@@ -8,9 +8,13 @@ import javafx.scene.control.ButtonType;
 import ui.admin.model.Role;
 import ui.admin.model.User;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class AdminFX {
+    private static final DateTimeFormatter DT_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     public static ReadOnlyStringWrapper readOnlyString(String value) {
         return new ReadOnlyStringWrapper(value);
     }
@@ -19,6 +23,10 @@ public class AdminFX {
     }
     public static ReadOnlyBooleanWrapper readOnlyBoolean(boolean value) {
         return new ReadOnlyBooleanWrapper(value);
+    }
+    public static ReadOnlyStringWrapper formatDateTime(LocalDateTime dt) {
+        String s = (dt == null) ? "" : dt.format(DT_FMT);
+        return new ReadOnlyStringWrapper(s);
     }
 
     public static boolean confirm(String title, String content) {
@@ -40,10 +48,7 @@ public class AdminFX {
         a.showAndWait();
     }
 
-    /**
-     * Minimal create/edit stub (no FXML).
-     * For demo purposes: on create -> default values; on edit -> toggle active and cycle role.
-     */
+    // Minimal create/edit stub for demo
     public static User userDialog(User existing) {
         if (existing == null) {
             User u = new User();
@@ -61,5 +66,22 @@ public class AdminFX {
             }
             return existing;
         }
+    }
+
+    // ui/util/AdminFX.java
+    public static String fullCauseMessage(Throwable t) {
+        if (t == null) return "";
+        StringBuilder sb = new StringBuilder();
+        Throwable cur = t;
+        int depth = 0;
+        while (cur != null && depth < 8) { // cap to avoid loops
+            sb.append(cur.getClass().getName())
+                    .append(": ")
+                    .append(cur.getMessage() == null ? "" : cur.getMessage())
+                    .append("\n");
+            cur = cur.getCause();
+            depth++;
+        }
+        return sb.toString();
     }
 }
