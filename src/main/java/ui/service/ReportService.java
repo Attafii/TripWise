@@ -1,7 +1,7 @@
-package ui.admin.service;
+package ui.service;
 
-import ui.admin.model.Reservation;
-import ui.admin.model.User;
+import ui.model.Reservation;
+import ui.model.User;
 
 import java.util.*;
 import java.util.stream.Collectors;

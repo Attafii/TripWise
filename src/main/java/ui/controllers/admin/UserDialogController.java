@@ -2,8 +2,8 @@ package ui.controllers.admin;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import ui.admin.model.Role;
-import ui.admin.model.User;
+import ui.model.Role;
+import ui.model.User;
 
 public class UserDialogController {
     @FXML private TextField emailField;

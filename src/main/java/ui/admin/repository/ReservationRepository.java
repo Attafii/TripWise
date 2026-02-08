@@ -1,7 +1,6 @@
 package ui.admin.repository;
 
-import ui.admin.model.Reservation;
-
+import ui.model.Reservation;
 import java.util.List;
 
 public interface ReservationRepository {

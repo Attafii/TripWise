@@ -1,17 +1,16 @@
 package ui.admin.repository.impl;
 
-import ui.admin.model.Role;
-import ui.admin.model.User;
 import ui.admin.repository.UserRepository;
+import ui.model.Role;
+import ui.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// No import for DB needed when in the same package.
-
 public class MySqlUserRepository implements UserRepository {
+
     @Override
     public List<User> findAll() {
         String sql = "SELECT id, email, full_name, role, active FROM users ORDER BY email";
@@ -19,6 +18,7 @@ public class MySqlUserRepository implements UserRepository {
         try (Connection cn = DB.get();
              PreparedStatement ps = cn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 User u = new User();
                 u.setEmail(rs.getString("email"));
@@ -59,8 +59,11 @@ public class MySqlUserRepository implements UserRepository {
 
     @Override
     public void save(User user) {
-        String update = "UPDATE users SET full_name=?, role=?, active=? WHERE email=?";
-        String insert = "INSERT INTO users (id, email, full_name, role, active) VALUES (UUID(), ?, ?, ?, ?)";
+        String update =
+                "UPDATE users SET full_name=?, role=?, active=? WHERE email=?";
+        String insert =
+                "INSERT INTO users (id, email, full_name, role, active) VALUES (UUID(), ?, ?, ?, ?)";
+
         try (Connection cn = DB.get()) {
             try (PreparedStatement ps = cn.prepareStatement(update)) {
                 ps.setString(1, user.getFullName());
@@ -85,9 +88,10 @@ public class MySqlUserRepository implements UserRepository {
 
     @Override
     public void deleteById(String id) {
-        throw new UnsupportedOperationException("deleteById is not used; use deleteByEmail instead.");
+        throw new UnsupportedOperationException("deleteById is not used; prefer deleteByEmail.");
     }
 
+    // Helper for UI
     public void deleteByEmail(String email) {
         String sql = "DELETE FROM users WHERE email = ?";
         try (Connection cn = DB.get();

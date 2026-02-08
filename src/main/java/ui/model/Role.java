@@ -1,5 +1,7 @@
-package ui.admin.model;
+package ui.model;
 
 public enum Role {
-    ADMIN, MANAGER, USER
+    ADMIN,
+    MANAGER,
+    USER
 }

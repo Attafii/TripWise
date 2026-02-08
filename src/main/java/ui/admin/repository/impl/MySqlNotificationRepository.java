@@ -1,7 +1,7 @@
 package ui.admin.repository.impl;
 
-import ui.admin.model.Notification;
 import ui.admin.repository.NotificationRepository;
+import ui.model.Notification;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ public class MySqlNotificationRepository implements NotificationRepository {
             SELECT id, title, body, sent_at
             FROM notifications
             ORDER BY sent_at DESC
-            """;
+        """;
         List<Notification> list = new ArrayList<>();
         try (Connection cn = DB.get();
              PreparedStatement ps = cn.prepareStatement(sql);
@@ -40,13 +40,13 @@ public class MySqlNotificationRepository implements NotificationRepository {
         String sql = """
             INSERT INTO notifications (id, title, body, sent_at)
             VALUES (UUID(), ?, ?, ?)
-            """;
+        """;
         try (Connection cn = DB.get();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setString(1, n.getTitle());
             ps.setString(2, n.getBody());
-            LocalDateTime at = n.getSentAt();
-            ps.setTimestamp(3, Timestamp.valueOf(at == null ? LocalDateTime.now() : at));
+            LocalDateTime at = n.getSentAt() == null ? LocalDateTime.now() : n.getSentAt();
+            ps.setTimestamp(3, Timestamp.valueOf(at));
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Error saving notification", e);

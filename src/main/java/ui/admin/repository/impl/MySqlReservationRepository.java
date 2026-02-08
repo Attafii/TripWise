@@ -1,24 +1,26 @@
 package ui.admin.repository.impl;
 
-import ui.admin.model.Reservation;
 import ui.admin.repository.ReservationRepository;
+import ui.model.Reservation;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlReservationRepository implements ReservationRepository {
+
     @Override
     public List<Reservation> findAll() {
         String sql = """
             SELECT id, user_email, type, status, amount, created_at
             FROM reservations
             ORDER BY created_at DESC
-            """;
+        """;
         List<Reservation> list = new ArrayList<>();
         try (Connection cn = DB.get();
              PreparedStatement ps = cn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Reservation r = new Reservation();
                 r.setUserEmail(rs.getString("user_email"));
@@ -40,7 +42,7 @@ public class MySqlReservationRepository implements ReservationRepository {
         String sql = """
             INSERT INTO reservations (id, user_email, type, status, amount, created_at)
             VALUES (UUID(), ?, ?, ?, ?, NOW())
-            """;
+        """;
         try (Connection cn = DB.get();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setString(1, r.getUserEmail());
@@ -55,6 +57,7 @@ public class MySqlReservationRepository implements ReservationRepository {
 
     @Override
     public void update(Reservation r) {
+        // Demo strategy: update the latest reservation row for that user/type
         String sql = """
             UPDATE reservations
             SET status = ?
@@ -62,7 +65,7 @@ public class MySqlReservationRepository implements ReservationRepository {
               AND type = ?
             ORDER BY created_at DESC
             LIMIT 1
-            """;
+        """;
         try (Connection cn = DB.get();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setString(1, r.getStatus());

@@ -1,7 +1,7 @@
 package ui.util;
 
 import javafx.stage.FileChooser;
-import ui.admin.service.ReportService;
+import ui.service.ReportService;
 
 import java.io.File;
 import java.io.FileWriter;

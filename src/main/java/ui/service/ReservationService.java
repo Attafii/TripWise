@@ -1,6 +1,6 @@
-package ui.admin.service;
+package ui.service;
 
-import ui.admin.model.Reservation;
+import ui.model.Reservation;
 import ui.admin.repository.ReservationRepository;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package ui.admin.service;
+package ui.service;
 
-import ui.admin.model.User;
+import ui.model.User;
 import ui.admin.repository.UserRepository;
 
 import java.util.List;

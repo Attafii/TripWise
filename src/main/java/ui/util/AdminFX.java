@@ -5,8 +5,8 @@ import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import ui.admin.model.Role;
-import ui.admin.model.User;
+import ui.model.Role;
+import ui.model.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
