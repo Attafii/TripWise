@@ -64,6 +64,11 @@ public class DashboardController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/approvals.fxml"));
             Pane view = loader.load();
+
+            // Attach CSS from classpath (no ambiguity)
+            String css = getClass().getResource("/ui/style.css").toExternalForm();
+            view.getStylesheets().add(css);
+
             rootPane.setCenter(view);
             titleLabel.setText("Remboursements");
         } catch (Exception e) {

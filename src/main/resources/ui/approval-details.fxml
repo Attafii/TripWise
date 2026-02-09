@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="ui.controllers.ApprovalDetailsController"
-      spacing="12" padding="20" prefWidth="520">
+      spacing="12">
 
+    <!-- FIX: use Insets element instead of padding="16" -->
     <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
+        <Insets top="16" right="16" bottom="16" left="16"/>
     </padding>
 
-    <Label text="Détails de la Demande" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Label text="Détails de la demande" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
 
     <GridPane hgap="10" vgap="8">
         <columnConstraints>
-            <ColumnConstraints halignment="RIGHT" prefWidth="140"/>
-            <ColumnConstraints prefWidth="320"/>
+            <ColumnConstraints percentWidth="35"/>
+            <ColumnConstraints percentWidth="65"/>
         </columnConstraints>
+        <children>
+            <Label text="Employé:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="empLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <Label text="Employé:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <Label fx:id="lblEmployee" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Référence:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="refLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-        <Label text="Date:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <Label fx:id="lblDate" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Montant:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="amountLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-        <Label text="Montant:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <Label fx:id="lblAmount" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Date:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label fx:id="dateLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-        <Label text="Référence:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <Label fx:id="lblReference" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-        <Label text="Justificatif:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <Hyperlink fx:id="lnkJustification" text="Ouvrir" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <Label text="Statut:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Label fx:id="statusLabel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        </children>
     </GridPane>
 
     <Label text="Commentaire (obligatoire pour le rejet)"/>
-    <TextArea fx:id="txtComment" prefRowCount="4" promptText="Entrez un commentaire ici…"/>
+    <TextArea fx:id="rejectComment" promptText="Raison du rejet..." prefRowCount="3"/>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Fermer"    onAction="#onClose"/>
-        <Button text="Rejeter"   onAction="#onReject"/>
-        <Button text="Approuver" onAction="#onApprove"/>
+        <Button fx:id="approveBtn" text="Approuver" onAction="#onApprove"/>
+        <Button fx:id="rejectBtn"  text="Rejeter"    onAction="#onReject"/>
     </HBox>
 </VBox>

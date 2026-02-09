@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
-<?import java.net.*?>
-
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -17,8 +14,16 @@
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
+
             <Label text="Approbation des Demandes de Remboursement"
                    style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+
+            <!-- push badge to the right -->
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- small pending badge -->
+            <Label fx:id="pendingCountLabel"
+                   style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-padding: 3 8; -fx-background-radius: 12; -fx-font-size: 12px;"/>
         </HBox>
     </top>
 
@@ -40,8 +45,4 @@
             </TableView>
         </VBox>
     </center>
-
-    <stylesheets>
-        <String fx:value="@style.css"/>
-    </stylesheets>
 </BorderPane>

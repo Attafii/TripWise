@@ -189,7 +189,7 @@
     -fx-effect: dropshadow(gaussian, rgba(77,184,196,0.5), 10, 0, 0, 3);
 }
 
-.form-title, .home-title {
+.form-title, .home-title {s
     -fx-font-size: 20px;
     -fx-font-weight: 700;
     -fx-text-fill: #1f2937;
