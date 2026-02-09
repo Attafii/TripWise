@@ -5,24 +5,41 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="ui.controllers.admin.AdminNotificationsController"
       spacing="10" styleClass="view-root">
-    <Label text="Notifications" styleClass="page-title"/>
 
+    <!-- Header -->
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <Label text="Notifications" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Send to All" onAction="#onSendToAll"/>
+        <Button text="Preview" onAction="#onPreview"/>
+        <Button text="Delete" onAction="#onDelete"/>
+    </HBox>
+
+    <!-- Compose -->
     <TextField fx:id="titleField" promptText="Title"/>
     <TextArea fx:id="bodyArea" promptText="Message body" prefRowCount="6"/>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <Button text="Send to All" onAction="#onSendToAll"/>
-        <Button text="Preview" onAction="#onPreview"/>
-        <Region HBox.hgrow="ALWAYS"/>
         <Label text="Last sent:"/>
         <Label fx:id="lastSentLabel"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Refresh" onAction="#onRefresh"/>
     </HBox>
 
+    <!-- History -->
     <TableView fx:id="historyTable" prefHeight="420">
         <columns>
-            <TableColumn fx:id="colTime" text="Time" prefWidth="220"/>
+            <TableColumn fx:id="colTime"  text="Time"  prefWidth="200"/>
             <TableColumn fx:id="colTitle" text="Title" prefWidth="240"/>
-            <TableColumn fx:id="colBody" text="Body" prefWidth="420"/>
+            <TableColumn fx:id="colBody"  text="Body"  prefWidth="420"/>
         </columns>
     </TableView>
+
+    <!-- Paging footer -->
+    <HBox spacing="8" alignment="CENTER_RIGHT">
+        <Label fx:id="lblPageInfo" text="Page 1"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Prev" onAction="#onPrevPage"/>
+        <Button text="Next" onAction="#onNextPage"/>
+    </HBox>
 </VBox>
