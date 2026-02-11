@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LuggageController">
+    <top>
+        <ToolBar>
+            <TextField fx:id="tfBookingId" promptText="Booking ID" />
+            <Button text="Load" onAction="#loadByBooking" />
+            <TextField fx:id="tfWeight" promptText="Weight (kg)" />
+            <TextField fx:id="tfStatus" promptText="Status" />
+            <Button text="Add" onAction="#addLuggage" />
+        </ToolBar>
+    </top>
+    <center>
+        <TableView fx:id="luggageTable">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60" />
+                <TableColumn fx:id="colBooking" text="Booking" prefWidth="100" />
+                <TableColumn fx:id="colWeight" text="Weight" prefWidth="100" />
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="150" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

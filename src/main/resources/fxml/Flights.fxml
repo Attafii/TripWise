@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FlightController">
+    <top>
+        <ToolBar>
+            <TextField fx:id="tfSearch" promptText="Search flights..." />
+
+            <ComboBox fx:id="cbFilter"/>
+            <TextField fx:id="tfNumber" promptText="Flight Number" />
+            <TextField fx:id="tfOrigin" promptText="Origin" />
+            <TextField fx:id="tfDestination" promptText="Destination" />
+
+            <DatePicker fx:id="dpDepartureDate" promptText="Departure Date"/>
+            <Spinner fx:id="spHour" editable="true" />
+            <Spinner fx:id="spMinute" editable="true" />
+
+            <TextField fx:id="tfSeatsAvailable" promptText="Seats Available" />
+            <Button fx:id="btnAdd" text="Add" onAction="#addFlight" />
+            <Button fx:id="btnDel" text="Delete" onAction="#deleteFlight" />
+            <Button fx:id="btnUpdate" text="Update" onAction="#updateFlight" />
+
+        </ToolBar>
+    </top>
+    <center>
+        <TableView fx:id="flightsTable">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60" />
+                <TableColumn fx:id="colNumber" text="Number" prefWidth="120" />
+                <TableColumn fx:id="colOrigin" text="Origin" prefWidth="150" />
+                <TableColumn fx:id="colDestination" text="Destination" prefWidth="150" />
+                <TableColumn fx:id="colDepartureTime" text="Departure Time" prefWidth="150" />
+                <TableColumn fx:id="colSeatsAvailable" text="Seats Available" prefWidth="140" />
+
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
