@@ -9,10 +9,8 @@
             <TextField fx:id="tfFlightId" promptText="Flight ID" />
             <TextField fx:id="tfSeat" promptText="Seat" />
             <Button text="Add" onAction="#addBooking" />
-            <Button fx:id="btnDelete"  text="Delete" onAction="#delBooking" />
-            <Button fx:id="btnUpdate"  text="Update" onAction="#updateBooking" />
-
-
+            <Button fx:id="btnDelete" text="Delete" onAction="#delBooking" />
+            <Button fx:id="btnUpdate" text="Update" onAction="#updateBooking" />
         </ToolBar>
     </top>
     <center>
@@ -22,6 +20,7 @@
                 <TableColumn fx:id="colPassenger" text="Passenger" prefWidth="160" />
                 <TableColumn fx:id="colFlightId" text="Flight ID" prefWidth="100" />
                 <TableColumn fx:id="colSeat" text="Seat" prefWidth="100" />
+                <TableColumn fx:id="colBookingDate" text="Booking Date" prefWidth="160" /> <!-- NEW -->
             </columns>
         </TableView>
     </center>
