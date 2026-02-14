@@ -24,6 +24,7 @@
                 <Label text="Guests:" />
                 <Spinner fx:id="guestsSpinner" prefWidth="80" />
                 <Button fx:id="searchButton" text="Search Hotels" onAction="#handleSearch" styleClass="primary-button" />
+                <Button text="Booked Hotels" onAction="#handleViewBookedHotels" />
             </children>
         </HBox>
     </top>

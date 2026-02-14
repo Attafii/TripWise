@@ -3,6 +3,7 @@ package ui.app;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ui.util.SceneManager;
+import ui.api.PaymentApiServer;
 
 public class Main extends Application {
 
@@ -15,7 +16,14 @@ public class Main extends Application {
         primaryStage.setMinWidth(900);
         primaryStage.setMinHeight(600);
 
-        // Load the login screen
+        try {
+            PaymentApiServer server = new PaymentApiServer(9090);
+            server.start();
+            System.out.println("Payment API listening on http://localhost:9090/");
+        } catch (Exception e) {
+            System.out.println("Payment API failed to start: " + e.getMessage());
+        }
+
         SceneManager.switchScene("/ui/login.fxml");
         primaryStage.show();
     }
