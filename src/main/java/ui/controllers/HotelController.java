@@ -12,11 +12,12 @@ import ui.model.Hotel;
 import ui.model.Room;
 import ui.model.HotelBooking;
 import ui.model.Payment;
+import ui.repo.HotelRepository;
+import ui.repo.BookingRepository;
+import ui.service.PaymentClient;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,28 +96,7 @@ public class HotelController {
     }
 
     private void initializeSampleData() {
-        allHotels = FXCollections.observableArrayList();
-        
-        Hotel h1 = new Hotel("Grand Plaza Hotel", "Paris", 199.99, 4.5, "Luxury hotel near Eiffel Tower.");
-        h1.addRoom(new Room("Standard", 199.99, 2, Arrays.asList("Wifi", "TV")));
-        h1.addRoom(new Room("Deluxe", 299.99, 2, Arrays.asList("Wifi", "TV", "Balcony")));
-        h1.addRoom(new Room("Suite", 499.99, 4, Arrays.asList("Wifi", "TV", "Balcony", "Jacuzzi")));
-
-        Hotel h2 = new Hotel("Ocean View Resort", "Miami", 299.99, 4.8, "Beautiful resort with ocean view.");
-        h2.addRoom(new Room("Ocean Front", 350.00, 2, Arrays.asList("Wifi", "Ocean View")));
-        h2.addRoom(new Room("Standard", 250.00, 2, Arrays.asList("Wifi")));
-
-        Hotel h3 = new Hotel("City Center Inn", "New York", 159.99, 4.2, "Convenient location in Manhattan.");
-        h3.addRoom(new Room("Single", 159.99, 1, Arrays.asList("Wifi")));
-        h3.addRoom(new Room("Double", 189.99, 2, Arrays.asList("Wifi", "TV")));
-
-        Hotel h4 = new Hotel("Mountain Lodge", "Denver", 179.99, 4.6, "Cozy lodge in the mountains.");
-        h4.addRoom(new Room("Cabin", 179.99, 4, Arrays.asList("Fireplace", "Kitchen")));
-
-        Hotel h5 = new Hotel("Beach Paradise", "Bali", 249.99, 4.9, "Tropical paradise for relaxation.");
-        h5.addRoom(new Room("Bungalow", 249.99, 2, Arrays.asList("Private Pool", "Breakfast")));
-
-        allHotels.addAll(h1, h2, h3, h4, h5);
+        allHotels = FXCollections.observableArrayList(HotelRepository.getAll());
     }
 
     private void setupSearchTable() {
@@ -207,19 +187,24 @@ public class HotelController {
 
     @FXML
     private void handleConfirmBooking() {
-        Payment payment = new Payment(cardNumberField.getText(), expiryDateField.getText(), cvvField.getText());
-        if (payment.processPayment()) {
+        PaymentClient.Result result = PaymentClient.processPayment(cardNumberField.getText(), expiryDateField.getText(), cvvField.getText());
+        if (result.success) {
             currentBooking.setStatus(HotelBooking.Status.CONFIRMED);
+            BookingRepository.save(currentBooking);
             bookingStatusLabel.setText("Status: CONFIRMED! Booking ID: " + currentBooking.getBookingId());
             bookingStatusLabel.setStyle("-fx-text-fill: green;");
             confirmButton.setDisable(true);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Booking Confirmed");
             alert.setHeaderText("Success!");
-            alert.setContentText("Your booking has been confirmed. ID: " + currentBooking.getBookingId());
+            alert.setContentText("Saved to database. ID: " + currentBooking.getBookingId() +
+                    (result.transactionId != null ? "\nTransaction: " + result.transactionId : ""));
             alert.showAndWait();
+            if (hotelTable != null) {
+                hotelTable.refresh();
+            }
         } else {
-            bookingStatusLabel.setText("Payment Failed. Check details.");
+            bookingStatusLabel.setText("Payment Failed. " + (result.error != null ? result.error : "Check details."));
             bookingStatusLabel.setStyle("-fx-text-fill: red;");
         }
     }
@@ -232,6 +217,11 @@ public class HotelController {
     @FXML
     private void handleBackToDetails() {
         navigateTo("/ui/hotel/hotel-details.fxml");
+    }
+
+    @FXML
+    private void handleViewBookedHotels() {
+        navigateTo("/ui/hotel/hotel-booked.fxml");
     }
 
     // Navigation helper

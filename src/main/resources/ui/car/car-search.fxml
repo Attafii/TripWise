@@ -24,6 +24,7 @@
                 <Label text="Type:" />
                 <ComboBox fx:id="typeCombo" prefWidth="120" />
                 <Button text="Search Cars" onAction="#handleSearch" styleClass="primary-button" />
+                <Button text="Booked Cars" onAction="#handleViewBookedCars" />
             </children>
         </HBox>
     </top>
