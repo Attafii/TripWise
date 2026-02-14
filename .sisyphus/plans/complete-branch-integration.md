@@ -209,7 +209,7 @@ Task 5: Final verification and cleanup
 
 ---
 
-- [ ] 2. Merge Hamza Admin Dashboard
+- [x] 2. Merge Hamza Admin Dashboard
 
   **What to do**:
   1. Start merge:
@@ -301,7 +301,7 @@ Task 5: Final verification and cleanup
 
 ---
 
-- [ ] 3. Merge Moetaz Car Rental & Hotel Booking
+- [x] 3. Merge Moetaz Car Rental & Hotel Booking
 
   **What to do**:
   1. Start merge:
