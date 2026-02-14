@@ -25,7 +25,8 @@ public class AdminUsersController {
 
     // Repo/service
     private final UserRepository repo = new MySqlUserRepository();
-    private final UserService userService = new UserService(repo);
+    // UserService uses a no-arg constructor and provides add/getAll/delete(int)
+    private final UserService userService = new UserService();
 
     // Data + wrappers
     private final ObservableList<User> users = FXCollections.observableArrayList();
@@ -97,7 +98,8 @@ public class AdminUsersController {
         User u = AdminFX.userDialog(null);
         if (u != null) {
             if (u.getRole() == null) u.setRole(Role.USER);
-            userService.create(u);
+            // UserService provides add(User)
+            userService.add(u);
             refresh();
         }
     }
@@ -121,7 +123,8 @@ public class AdminUsersController {
             if (repo instanceof MySqlUserRepository mysql) {
                 mysql.deleteByEmail(selected.getEmail());
             } else {
-                userService.delete(selected.getId());
+                // delete expects an int id
+                userService.delete(selected.getUserId());
             }
             refresh();
         }
@@ -136,7 +139,7 @@ public class AdminUsersController {
     private void refresh() {
         // Load users on a background thread so the view always appears
         Task<java.util.List<User>> task = new Task<>() {
-            @Override protected java.util.List<User> call() { return userService.all(); }
+            @Override protected java.util.List<User> call() { return userService.getAll(); }
         };
         task.setOnSucceeded(e -> users.setAll(task.getValue()));
         task.setOnFailed(e -> {

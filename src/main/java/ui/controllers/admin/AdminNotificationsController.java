@@ -27,7 +27,8 @@ public class AdminNotificationsController {
     // Repo + service
     private final MySqlNotificationRepository mysqlRepo = new MySqlNotificationRepository();
     private final NotificationRepository repo = mysqlRepo;
-    private final NotificationService service = new NotificationService(repo);
+    // NotificationService uses a no-arg constructor; repository handles DB paging
+    private final NotificationService service = new NotificationService();
 
     private final ObservableList<Notification> history = FXCollections.observableArrayList();
 
@@ -39,6 +40,7 @@ public class AdminNotificationsController {
     @FXML
     private void initialize() {
         colTime.setCellValueFactory(c -> AdminFX.formatDateTime(c.getValue().getSentAt()));
+        // Model provides backward-compatible getters: getTitle/getBody
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colBody.setCellValueFactory(new PropertyValueFactory<>("body"));
 
@@ -64,7 +66,13 @@ public class AdminNotificationsController {
             AdminFX.warn("Validation", "Please fill in both title and message.");
             return;
         }
-        service.broadcast(title, body);
+        // Build a Notification using backward-compatible setters and save via repo
+        Notification n = new Notification();
+        n.setTitle(title);
+        n.setBody(body);
+        // Save using the repository which writes UUID id and sent_at
+        repo.save(n);
+
         lastSentLabel.setText("Just now");
         titleField.clear();
         bodyArea.clear();
