@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.CarRentalController" spacing="15" alignment="TOP_CENTER">
+    <stylesheets>
+        <String fx:value="@../style.css" />
+        <String fx:value="@../modern.css" />
+    </stylesheets>
+    <padding>
+        <Insets top="20" right="40" bottom="20" left="40" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT">
+        <Button text="← Back to Details" onAction="#handleBackToDetails" />
+    </HBox>
+
+    <Label text="Confirm Car Rental" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <VBox spacing="10" style="-fx-background-color: #f4f4f4; -fx-padding: 20; -fx-background-radius: 5;">
+        <Label text="Rental Summary" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+        <Label fx:id="rentalCarLabel" />
+        <Label fx:id="rentalLocationLabel" />
+        <Label fx:id="rentalDatesLabel" />
+        <Label fx:id="rentalPriceLabel" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+    </VBox>
+
+    <VBox spacing="10" maxWidth="400">
+        <Label text="Payment Information" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+        
+        <Label text="Card Number" />
+        <TextField fx:id="cardNumberField" promptText="0000 0000 0000 0000" />
+        
+        <HBox spacing="10">
+            <VBox HBox.hgrow="ALWAYS">
+                <Label text="Expiry Date" />
+                <TextField fx:id="expiryDateField" promptText="MM/YY" />
+            </VBox>
+            <VBox HBox.hgrow="ALWAYS">
+                <Label text="CVV" />
+                <TextField fx:id="cvvField" promptText="123" />
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <Button fx:id="confirmButton" text="Pay &amp; Confirm Rental" onAction="#handleConfirmRental" styleClass="primary-button" prefWidth="200" prefHeight="40" />
+
+    <Label fx:id="bookingStatusLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+
+</VBox>
