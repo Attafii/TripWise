@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.controllers.admin.AdminUsersController"
+      spacing="10" styleClass="view-root">
+
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <Label text="Users" styleClass="page-title"/>
+
+        <!-- New: search + refresh -->
+        <TextField fx:id="searchField"
+                   promptText="Search email or full name"
+                   prefWidth="240"/>
+        <Button text="Refresh" onAction="#onRefresh"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Existing actions -->
+        <Button text="Create" onAction="#onCreate"/>
+        <Button text="Edit" onAction="#onEdit"/>
+        <Button text="Delete" onAction="#onDelete"/>
+    </HBox>
+
+    <TableView fx:id="usersTable" prefHeight="600">
+        <columns>
+            <TableColumn fx:id="colId"        text="ID"         prefWidth="200"/>
+            <TableColumn fx:id="colEmail"     text="Email"      prefWidth="220"/>
+            <TableColumn fx:id="colFullName"  text="Full name"  prefWidth="220"/>
+            <TableColumn fx:id="colRole"      text="Role"       prefWidth="120"/>
+            <TableColumn fx:id="colActive"    text="Active"     prefWidth="80"/>
+        </columns>
+    </TableView>
+</VBox>

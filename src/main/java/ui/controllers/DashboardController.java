@@ -356,6 +356,11 @@ public class DashboardController {
     }
 
     @FXML
+    private void onAdmin() {
+        ui.util.SceneManager.switchScene("/ui/admin/admin-dashboard.fxml");
+    }
+
+    @FXML
     private void onLogout() {
         // Clear user session
         User currentUser = SessionManager.getInstance().getCurrentUser();

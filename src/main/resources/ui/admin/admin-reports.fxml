@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.controllers.admin.AdminReportsController"
+      spacing="10" styleClass="view-root">
+
+    <!-- Header: title + date range + actions -->
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <Label text="Reports Statistics" styleClass="page-title"/>
+
+        <Label text="From:"/>
+        <DatePicker fx:id="fromDate" promptText="yyyy-MM-dd"/>
+        <Label text="To:"/>
+        <DatePicker fx:id="toDate" promptText="yyyy-MM-dd"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Button text="Export CSV" onAction="#onExportCSV" styleClass="primary-button"/>
+        <Button text="Refresh"    onAction="#onRefresh"    styleClass="primary-button"/>
+    </HBox>
+
+    <!-- KPI cards -->
+    <HBox styleClass="kpi-row">
+        <VBox styleClass="card kpi-card" spacing="4">
+            <Label text="Total Reservations:" styleClass="kpi-title"/>
+            <Label fx:id="lblTotalReservations" styleClass="kpi-value"/>
+        </VBox>
+
+        <VBox styleClass="card kpi-card" spacing="4">
+            <Label text="Total Amount:" styleClass="kpi-title"/>
+            <Label fx:id="lblTotalAmount" styleClass="kpi-value"/>
+        </VBox>
+
+        <VBox styleClass="card kpi-card" spacing="4">
+            <Label text="Active Users:" styleClass="kpi-title"/>
+            <Label fx:id="lblActiveUsers" styleClass="kpi-value"/>
+        </VBox>
+    </HBox>
+
+    <!-- Charts -->
+    <HBox spacing="16">
+        <VBox spacing="6" VBox.vgrow="ALWAYS" styleClass="card">
+            <Label text="Top Users by Amount" styleClass="form-title"/>
+            <BarChart fx:id="barTopUsersAmount" prefHeight="300">
+                <xAxis><CategoryAxis label="User"/></xAxis>
+                <yAxis><NumberAxis   label="Amount"/></yAxis>
+            </BarChart>
+        </VBox>
+
+        <VBox spacing="6" VBox.vgrow="ALWAYS" styleClass="card">
+            <Label text="Reservations per Day" styleClass="form-title"/>
+            <LineChart fx:id="lineResPerDay" prefHeight="300">
+                <xAxis><CategoryAxis label="Date"/></xAxis>
+                <yAxis><NumberAxis   label="Count"/></yAxis>
+            </LineChart>
+        </VBox>
+    </HBox>
+
+    <!-- Existing table -->
+    <TableView fx:id="topUsersTable" prefHeight="260">
+        <columns>
+            <TableColumn fx:id="colUEmail"  text="User"          prefWidth="260"/>
+            <TableColumn fx:id="colUCount"  text="Reservations"  prefWidth="160"/>
+            <TableColumn fx:id="colUAmount" text="Amount"        prefWidth="180"/>
+        </columns>
+    </TableView>
+</VBox>

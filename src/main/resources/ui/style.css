@@ -1279,3 +1279,50 @@
 .header {
     -fx-padding: 0 0 20 0;
 }
+/* ---------- Cards & KPI ---------- */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 14;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 4);
+}
+.kpi-row { -fx-spacing: 12; }
+.kpi-card .kpi-title {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+}
+.kpi-card .kpi-value {
+    -fx-text-fill: #111827;
+    -fx-font-size: 22px;
+    -fx-font-weight: 900;
+}
+
+/* ---------- Status & Role chips ---------- */
+.chip {
+    -fx-background-radius: 14;
+    -fx-padding: 2 8;
+    -fx-text-fill: #fff;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-alignment: CENTER;
+}
+.chip-paid      { -fx-background-color: #10b981; } /* green */
+.chip-pending   { -fx-background-color: #f59e0b; } /* amber */
+.chip-cancelled { -fx-background-color: #ef4444; } /* red  */
+
+.chip-role-admin   { -fx-background-color: #2563eb; } /* blue */
+.chip-role-manager { -fx-background-color: #7c3aed; } /* purple */
+.chip-role-user    { -fx-background-color: #6b7280; } /* gray  */
+
+/* ---------- Charts ---------- */
+.chart-plot-background { -fx-background-color: transparent; }
+.axis-label { -fx-text-fill: #374151; -fx-font-weight: 600; }
+.chart-legend { -fx-background-color: transparent; }
+.default-color0.chart-series-line { -fx-stroke: #0ea5e9; -fx-stroke-width: 2; }
+.default-color0.chart-bar         { -fx-bar-fill: #10b981; }
+.default-color1.chart-series-line { -fx-stroke: #6366f1; }
+.default-color1.chart-bar         { -fx-bar-fill: #6366f1; }
+
+/* optional table zebra */
+.table-row-cell:odd { -fx-background-color: #fcfcfd; }
