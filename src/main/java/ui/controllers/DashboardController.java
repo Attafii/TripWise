@@ -79,6 +79,9 @@ public class DashboardController {
     @FXML
     private Button employeeAnalyticsBtn;
 
+    @FXML
+    private Button reimbursementsBtn;
+
     // Admin-specific buttons
     @FXML
     private Separator adminSeparator;
@@ -167,6 +170,11 @@ public class DashboardController {
         if (employeeAnalyticsBtn != null) {
             employeeAnalyticsBtn.setVisible(isEmployee);
             employeeAnalyticsBtn.setManaged(isEmployee);
+        }
+
+        if (reimbursementsBtn != null) {
+            reimbursementsBtn.setVisible(isEmployee);
+            reimbursementsBtn.setManaged(isEmployee);
         }
 
         System.out.println("✅ Employee menu configured - User Type: " + user.getUserType() + " - Visible: " + isEmployee);
@@ -282,6 +290,15 @@ public class DashboardController {
     private void onEmployeeAnalytics() {
         loadView("Employee Analytics", "/ui/employee/employee-analytics.fxml");
         highlightButton(employeeAnalyticsBtn);
+    }
+
+    /**
+     * Open Reimbursement Requests (Islem's module)
+     */
+    @FXML
+    private void onReimbursements() {
+        loadView("Reimbursements", "/ui/approvals.fxml");
+        highlightButton(reimbursementsBtn);
     }
 
     @FXML

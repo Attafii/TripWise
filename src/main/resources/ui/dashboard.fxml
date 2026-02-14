@@ -85,6 +85,10 @@
                            maxWidth="Infinity"
                            style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
+                    <Button fx:id="reimbursementsBtn" text="💰 Reimbursements" onAction="#onReimbursements"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+
                     <!-- Admin-Only Section -->
                     <Separator style="-fx-padding: 10 0;" fx:id="adminSeparator" />
                     <Label text="ADMIN PANEL" fx:id="adminLabel" style="-fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: #9ca3af; -fx-padding: 10 15 5 15;" />

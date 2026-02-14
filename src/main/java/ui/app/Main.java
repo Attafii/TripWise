@@ -1,27 +1,22 @@
 package ui.app;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ui.util.SceneManager;
 
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        SceneManager.setPrimaryStage(primaryStage);
-        primaryStage.setTitle("TripWise - Travel Management");
-        primaryStage.setWidth(1100);
-        primaryStage.setHeight(720);
-        primaryStage.setMinWidth(900);
-        primaryStage.setMinHeight(600);
-
-        // Load the login screen
-        SceneManager.switchScene("/ui/login.fxml");
-        primaryStage.show();
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/dashboard.fxml"));
+        Scene scene = new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setTitle("TripWise");
+        stage.show();
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 }
-
