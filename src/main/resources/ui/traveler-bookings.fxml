@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.TravelerBookingsController"
+            stylesheets="@style.css" fitToWidth="true" style="-fx-background-color: #f8f9fa; -fx-border-color: transparent;">
+    <VBox spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 25;">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Button fx:id="backBtn" text="← Back" onAction="#handleBack"
+                   style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 10 20; -fx-border-color: #e5e7eb; -fx-border-radius: 8; -fx-cursor: hand;"/>
+            <VBox spacing="3">
+                <Label text="My Bookings" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Label text="View and manage all your reservations" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="🔄 Refresh" onAction="#handleRefresh"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Filter Tabs -->
+        <HBox spacing="10">
+            <ToggleButton fx:id="allBtn" text="All"
+                         style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand;"/>
+            <ToggleButton fx:id="flightsBtn" text="✈️ Flights"
+                         style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 20; -fx-padding: 8 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-cursor: hand;"/>
+            <ToggleButton fx:id="hotelsBtn" text="🏨 Hotels"
+                         style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 20; -fx-padding: 8 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-cursor: hand;"/>
+            <ToggleButton fx:id="carsBtn" text="🚗 Cars"
+                         style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 20; -fx-padding: 8 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-cursor: hand;"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Status Filter -->
+            <ComboBox fx:id="statusFilter" promptText="All Statuses" prefWidth="150"
+                     style="-fx-background-color: white; -fx-background-radius: 8;"/>
+        </HBox>
+
+        <!-- Bookings Container -->
+        <VBox fx:id="bookingsContainer" spacing="15">
+            <!-- Bookings will be loaded here -->
+            <Label fx:id="noBookingsLabel" text="No bookings found"
+                  style="-fx-font-size: 14px; -fx-text-fill: #9ca3af; -fx-padding: 40;"
+                  alignment="CENTER" maxWidth="Infinity"/>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

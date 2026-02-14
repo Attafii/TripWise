@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.TravelerDashboardController"
+            stylesheets="@style.css" fitToWidth="true" style="-fx-background-color: #f8f9fa; -fx-border-color: transparent;">
+    <VBox spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 25;">
+
+        <!-- Welcome Section -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <VBox spacing="5">
+                <Label fx:id="welcomeLabel" text="Welcome back, Traveler!"
+                      style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Label fx:id="dateLabel" text="Today is February 14, 2026"
+                      style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="refreshBtn" text="🔄 Refresh" onAction="#onRefresh"
+                   style="-fx-background-color: #eff6ff; -fx-text-fill: #3b82f6; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Stats Cards -->
+        <HBox spacing="15">
+            <VBox spacing="8" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <Label text="📊 Total Bookings" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                <Label fx:id="totalBookingsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Label fx:id="bookingsTrendLabel" text="this month" style="-fx-font-size: 12px; -fx-text-fill: #10b981;"/>
+            </VBox>
+
+            <VBox spacing="8" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <Label text="✈️ Upcoming Trips" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                <Label fx:id="upcomingTripsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                <Label fx:id="nextTripLabel" text="Next trip soon" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+            </VBox>
+
+            <VBox spacing="8" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <Label text="💰 Total Spent" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                <Label fx:id="totalSpentLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                <Label fx:id="spentTrendLabel" text="This year" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+            </VBox>
+
+            <VBox spacing="8" style="-fx-background-color: #f59e0b; -fx-background-radius: 16; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <Label text="⭐ Loyalty Points" style="-fx-font-size: 13px; -fx-text-fill: white;"/>
+                <Label fx:id="loyaltyPointsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label fx:id="loyaltyStatusLabel" text="Member" style="-fx-font-size: 12px; -fx-text-fill: white;"/>
+            </VBox>
+        </HBox>
+
+        <!-- Quick Actions -->
+        <HBox spacing="15">
+            <VBox spacing="12" style="-fx-background-color: #3b82f6; -fx-background-radius: 16; -fx-padding: 25; -fx-cursor: hand;"
+                  HBox.hgrow="ALWAYS" onMouseClicked="#onBookFlight">
+                <Label text="✈️ Book a Flight" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label text="Search flights worldwide" style="-fx-font-size: 12px; -fx-text-fill: white;"/>
+                <Button text="Search Flights →" onAction="#onBookFlight"
+                       style="-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;"/>
+            </VBox>
+
+            <VBox spacing="12" style="-fx-background-color: #10b981; -fx-background-radius: 16; -fx-padding: 25; -fx-cursor: hand;"
+                  HBox.hgrow="ALWAYS" onMouseClicked="#onBookHotel">
+                <Label text="🏨 Book a Hotel" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label text="Find accommodations" style="-fx-font-size: 12px; -fx-text-fill: white;"/>
+                <Button text="Search Hotels →" onAction="#onBookHotel"
+                       style="-fx-background-color: white; -fx-text-fill: #10b981; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;"/>
+            </VBox>
+
+            <VBox spacing="12" style="-fx-background-color: #f59e0b; -fx-background-radius: 16; -fx-padding: 25; -fx-cursor: hand;"
+                  HBox.hgrow="ALWAYS" onMouseClicked="#onRentCar">
+                <Label text="🚗 Rent a Car" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Label text="Wide range of vehicles" style="-fx-font-size: 12px; -fx-text-fill: white;"/>
+                <Button text="Browse Cars →" onAction="#onRentCar"
+                       style="-fx-background-color: white; -fx-text-fill: #f59e0b; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;"/>
+            </VBox>
+        </HBox>
+
+        <!-- Main Content -->
+        <HBox spacing="20">
+            <!-- Upcoming Trips -->
+            <VBox spacing="15" HBox.hgrow="ALWAYS" style="-fx-min-width: 450;">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="📅 Upcoming Trips" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="View All →" onAction="#onViewAllBookings"
+                           style="-fx-background-color: transparent; -fx-text-fill: #3b82f6; -fx-font-size: 13px; -fx-cursor: hand;"/>
+                </HBox>
+                <VBox fx:id="upcomingTripsContainer" spacing="12" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 15;">
+                    <Label fx:id="noTripsLabel" text="No upcoming trips. Book your next adventure!"
+                          style="-fx-font-size: 14px; -fx-text-fill: #9ca3af; -fx-padding: 30;" alignment="CENTER" maxWidth="Infinity"/>
+                </VBox>
+            </VBox>
+
+            <!-- Right Column -->
+            <VBox spacing="15" prefWidth="320">
+                <!-- Next Flight -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;">
+                    <Label text="⏱️ Next Flight" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #374151;"/>
+                    <Label fx:id="nextFlightLabel" text="No upcoming flights" style="-fx-font-size: 16px; -fx-text-fill: #111827;"/>
+                    <Label fx:id="countdownLabel" text="" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                    <Label fx:id="flightRouteLabel" text="" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                </VBox>
+
+                <!-- Travel Summary -->
+                <VBox spacing="12" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;">
+                    <Label text="📈 Travel Summary" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #374151;"/>
+                    <HBox spacing="15">
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Flights" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                            <Label fx:id="flightCountLabel" text="0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                        </VBox>
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Hotels" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                            <Label fx:id="hotelCountLabel" text="0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                        </VBox>
+                        <VBox spacing="3" HBox.hgrow="ALWAYS">
+                            <Label text="Cars" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                            <Label fx:id="carCountLabel" text="0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Quick Links -->
+                <VBox spacing="8" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;">
+                    <Label text="🔗 Quick Links" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #374151;"/>
+                    <Button text="📅 My Schedule" onAction="#onViewSchedule" maxWidth="Infinity" alignment="CENTER_LEFT"
+                           style="-fx-background-color: #f3f4f6; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 10 15; -fx-cursor: hand;"/>
+                    <Button text="💳 Payment History" onAction="#onViewPayments" maxWidth="Infinity" alignment="CENTER_LEFT"
+                           style="-fx-background-color: #f3f4f6; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 10 15; -fx-cursor: hand;"/>
+                    <Button text="🛫 Track Flights" onAction="#onTrackFlights" maxWidth="Infinity" alignment="CENTER_LEFT"
+                           style="-fx-background-color: #f3f4f6; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 10 15; -fx-cursor: hand;"/>
+                    <Button text="🔥 View Deals" onAction="#onViewDeals" maxWidth="Infinity" alignment="CENTER_LEFT"
+                           style="-fx-background-color: #f3f4f6; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 10 15; -fx-cursor: hand;"/>
+                </VBox>
+            </VBox>
+        </HBox>
+
+        <!-- Recent Activity -->
+        <VBox spacing="15">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="📋 Recent Activity" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lastUpdatedLabel" text="Last updated: just now" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;"/>
+            </HBox>
+            <VBox fx:id="recentActivityContainer" spacing="0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 5;">
+            </VBox>
+        </VBox>
+
+        <!-- Popular Destinations -->
+        <VBox spacing="15">
+            <Label text="🌍 Popular Destinations" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+            <HBox fx:id="destinationsContainer" spacing="15">
+            </HBox>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

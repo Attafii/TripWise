@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.BookFlightNewController"
+            stylesheets="@style.css" fitToWidth="true" style="-fx-background-color: #f8f9fa; -fx-border-color: transparent;">
+    <VBox spacing="20" style="-fx-background-color: #f8f9fa; -fx-padding: 25;">
+
+        <!-- Search Card -->
+        <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+
+            <!-- Trip Type Buttons -->
+            <HBox spacing="10">
+                <ToggleButton fx:id="roundTripBtn" text="Round Trip" styleClass="trip-type-btn-active"
+                             style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 8 20; -fx-font-size: 13px; -fx-cursor: hand;"/>
+                <ToggleButton fx:id="oneWayBtn" text="One Way" styleClass="trip-type-btn"
+                             style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 20; -fx-padding: 8 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-font-size: 13px; -fx-cursor: hand;"/>
+                <ToggleButton fx:id="multiCityBtn" text="Multi City" styleClass="trip-type-btn"
+                             style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 20; -fx-padding: 8 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-font-size: 13px; -fx-cursor: hand;"/>
+            </HBox>
+
+            <!-- Search Fields Row -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <!-- From -->
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="From" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                    <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f9fafb; -fx-background-radius: 10; -fx-padding: 12 15; -fx-border-color: #e5e7eb; -fx-border-radius: 10;">
+                        <Label text="◎" style="-fx-text-fill: #9ca3af; -fx-font-size: 14px;"/>
+                        <TextField fx:id="fromField" promptText="City or Airport"
+                                  style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 14px;" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Swap Button -->
+                <VBox alignment="CENTER" style="-fx-padding: 20 0 0 0;">
+                    <Button text="⇄" onAction="#handleSwapCities"
+                           style="-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-font-size: 18px; -fx-background-radius: 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-padding: 8 12; -fx-cursor: hand;"/>
+                </VBox>
+
+                <!-- To -->
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <Label text="To" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                    <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f9fafb; -fx-background-radius: 10; -fx-padding: 12 15; -fx-border-color: #e5e7eb; -fx-border-radius: 10;">
+                        <Label text="◎" style="-fx-text-fill: #9ca3af; -fx-font-size: 14px;"/>
+                        <TextField fx:id="toField" promptText="City or Airport"
+                                  style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 14px;" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Departure Date -->
+                <VBox spacing="5">
+                    <Label text="Departure" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                    <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f9fafb; -fx-background-radius: 10; -fx-padding: 5 10; -fx-border-color: #e5e7eb; -fx-border-radius: 10;">
+                        <Label text="📅" style="-fx-font-size: 14px;"/>
+                        <DatePicker fx:id="departureDate" promptText="Select date" prefWidth="140"
+                                   style="-fx-background-color: transparent; -fx-border-color: transparent;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Return Date -->
+                <VBox spacing="5" fx:id="returnDateBox">
+                    <Label text="Return" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                    <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f9fafb; -fx-background-radius: 10; -fx-padding: 5 10; -fx-border-color: #e5e7eb; -fx-border-radius: 10;">
+                        <Label text="📅" style="-fx-font-size: 14px;"/>
+                        <DatePicker fx:id="returnDate" promptText="Select date" prefWidth="140"
+                                   style="-fx-background-color: transparent; -fx-border-color: transparent;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Passengers -->
+                <VBox spacing="5">
+                    <Label text="Passengers" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                    <HBox alignment="CENTER_LEFT" style="-fx-background-color: #f9fafb; -fx-background-radius: 10; -fx-padding: 8 15; -fx-border-color: #e5e7eb; -fx-border-radius: 10;">
+                        <Label text="👤" style="-fx-font-size: 14px;"/>
+                        <Spinner fx:id="passengersSpinner" prefWidth="70"
+                                style="-fx-background-color: transparent;"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+
+            <!-- Class Selection -->
+            <VBox spacing="8">
+                <Label text="Class" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                <HBox spacing="10" fx:id="classButtonsBox">
+                    <ToggleButton fx:id="economyBtn" text="Economy"
+                                 style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 8 20; -fx-font-size: 13px; -fx-cursor: hand;"/>
+                    <ToggleButton fx:id="premiumBtn" text="Premium"
+                                 style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 20; -fx-padding: 8 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-font-size: 13px; -fx-cursor: hand;"/>
+                    <ToggleButton fx:id="businessBtn" text="Business"
+                                 style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 20; -fx-padding: 8 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-font-size: 13px; -fx-cursor: hand;"/>
+                    <ToggleButton fx:id="firstBtn" text="First"
+                                 style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 20; -fx-padding: 8 20; -fx-border-color: #e5e7eb; -fx-border-radius: 20; -fx-font-size: 13px; -fx-cursor: hand;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Search Button -->
+            <Button text="🔍  Search Flights" onAction="#handleSearch" prefHeight="50" maxWidth="Infinity"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: 600; -fx-background-radius: 10; -fx-cursor: hand;"/>
+        </VBox>
+
+        <!-- Results Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Label text="Available Flights" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="filtersBtn" text="☰ Filters"
+                   style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 8 16; -fx-border-color: #e5e7eb; -fx-border-radius: 8; -fx-font-size: 13px; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Flight Results Container -->
+        <VBox fx:id="flightResultsContainer" spacing="15">
+            <!-- Flight cards will be added here dynamically -->
+            <Label fx:id="noResultsLabel" text="Search for flights to see results"
+                  style="-fx-font-size: 14px; -fx-text-fill: #9ca3af; -fx-padding: 40;"
+                  alignment="CENTER" maxWidth="Infinity"/>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

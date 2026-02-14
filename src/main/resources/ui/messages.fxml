@@ -3,8 +3,61 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="20" style="-fx-background-color: #f8f9fa; -fx-padding: 30;" alignment="CENTER">
-    <Label text="💬 Messages" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
-    <Label text="Customer support and communication" style="-fx-font-size: 16px; -fx-text-fill: #6b7280;" />
-    <Label text="Coming Soon..." style="-fx-font-size: 14px; -fx-text-fill: #9ca3af; -fx-padding: 20;" />
-</VBox>
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.MessagesController"
+      spacing="0" style="-fx-background-color: #f8f9fa;">
+
+    <!-- Conversations List -->
+    <VBox spacing="0" prefWidth="320" style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-border-width: 0 1 0 0;">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 20; -fx-background-color: white;">
+            <Label text="Messages" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="+" onAction="#startNewConversation"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 20; -fx-min-width: 36; -fx-min-height: 36; -fx-font-size: 18px;"/>
+        </HBox>
+
+        <!-- Search -->
+        <HBox style="-fx-padding: 0 15 15 15;">
+            <TextField fx:id="searchField" promptText="Search messages..." HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: #f3f4f6; -fx-background-radius: 20; -fx-padding: 10 15;"/>
+        </HBox>
+
+        <!-- Conversation List -->
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+            <VBox fx:id="conversationsList" spacing="2" style="-fx-padding: 5;">
+            </VBox>
+        </ScrollPane>
+    </VBox>
+
+    <!-- Chat Area -->
+    <VBox HBox.hgrow="ALWAYS" style="-fx-background-color: #f8f9fa;">
+
+        <!-- Chat Header -->
+        <HBox fx:id="chatHeader" alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 20; -fx-background-color: white; -fx-border-color: #e5e7eb; -fx-border-width: 0 0 1 0;">
+            <Label fx:id="chatTitleLabel" text="Select a conversation" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="chatStatusLabel" text="" style="-fx-font-size: 12px; -fx-text-fill: #10b981;"/>
+        </HBox>
+
+        <!-- Messages Area -->
+        <ScrollPane fx:id="messagesScroll" fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+            <VBox fx:id="messagesContainer" spacing="10" style="-fx-padding: 20;">
+                <!-- Welcome message when no conversation selected -->
+                <VBox alignment="CENTER" spacing="15" style="-fx-padding: 50;">
+                    <Label text="Welcome to TripWise Support" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <Label text="Select a conversation or start a new one" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+
+        <!-- Message Input -->
+        <HBox spacing="10" style="-fx-padding: 15; -fx-background-color: white; -fx-border-color: #e5e7eb; -fx-border-width: 1 0 0 0;">
+            <TextField fx:id="messageInput" promptText="Type a message..." HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: #f3f4f6; -fx-background-radius: 20; -fx-padding: 12 20;"/>
+            <Button text="Send" onAction="#sendMessage"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 12 25; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+
+</HBox>

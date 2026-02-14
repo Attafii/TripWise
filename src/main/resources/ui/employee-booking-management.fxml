@@ -6,10 +6,14 @@
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.EmployeeBookingManagementController"
       spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 30;">
 
-    <!-- Header -->
+    <!-- Header with Back Button -->
     <HBox spacing="15" alignment="CENTER_LEFT">
+        <Button fx:id="backBtn" text="← Back" onAction="#handleBack"
+               style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 10 20; -fx-border-color: #e5e7eb; -fx-border-radius: 8; -fx-cursor: hand; -fx-font-size: 13px;" />
         <Label text="Hotel Booking Management" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
         <Region HBox.hgrow="ALWAYS" />
+        <Button text="🔄 Refresh" onAction="#refreshBookings"
+               style="-fx-background-color: #6366f1; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand; -fx-font-size: 13px;" />
         <Label fx:id="employeeNameLabel" text="Employee Name" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
     </HBox>
 

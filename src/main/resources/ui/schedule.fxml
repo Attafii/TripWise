@@ -3,8 +3,64 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="20" style="-fx-background-color: #f8f9fa; -fx-padding: 30;" alignment="CENTER">
-    <Label text="📅 Schedule" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
-    <Label text="Flight and hotel schedule management" style="-fx-font-size: 16px; -fx-text-fill: #6b7280;" />
-    <Label text="Coming Soon..." style="-fx-font-size: 14px; -fx-text-fill: #9ca3af; -fx-padding: 20;" />
-</VBox>
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.ScheduleController"
+            fitToWidth="true" style="-fx-background-color: #f8f9fa; -fx-border-color: transparent;">
+    <VBox spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 25;">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <VBox spacing="3">
+                <Label text="My Travel Schedule" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Label text="Your upcoming flights and travel plans" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Refresh" onAction="#refreshSchedule"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Stats Cards -->
+        <HBox spacing="20">
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Upcoming Flights" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                </HBox>
+                <Label fx:id="upcomingFlightsLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+            </VBox>
+
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="This Week" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                </HBox>
+                <Label fx:id="thisWeekLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+            </VBox>
+
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="This Month" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                </HBox>
+                <Label fx:id="thisMonthLabel" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+            </VBox>
+
+            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Next Flight In" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                </HBox>
+                <Label fx:id="nextFlightLabel" text="--" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ec4899;"/>
+            </VBox>
+        </HBox>
+
+        <!-- Schedule List -->
+        <VBox fx:id="scheduleContainer" spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;">
+            <Label text="Upcoming Flights" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+            <Separator/>
+        </VBox>
+
+        <!-- Past Flights Section -->
+        <VBox fx:id="pastFlightsContainer" spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;">
+            <Label text="Past Flights" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+            <Separator/>
+        </VBox>
+
+    </VBox>
+</ScrollPane>
+

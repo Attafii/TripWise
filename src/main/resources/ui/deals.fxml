@@ -3,8 +3,71 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="20" style="-fx-background-color: #f8f9fa; -fx-padding: 30;" alignment="CENTER">
-    <Label text="🎯 Deals" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
-    <Label text="Special offers and promotional packages" style="-fx-font-size: 16px; -fx-text-fill: #6b7280;" />
-    <Label text="Coming Soon..." style="-fx-font-size: 14px; -fx-text-fill: #9ca3af; -fx-padding: 20;" />
-</VBox>
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.DealsController"
+            fitToWidth="true" style="-fx-background-color: #f8f9fa; -fx-border-color: transparent;">
+    <VBox spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 25;">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <VBox spacing="3">
+                <Label text="Deals and Offers" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Label text="Discover the best travel deals and discounts" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Refresh Deals" onAction="#refreshDeals"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Featured Deal Banner -->
+        <VBox spacing="15" style="-fx-background-color: linear-gradient(to right, #7c3aed, #ec4899); -fx-background-radius: 20; -fx-padding: 30;">
+            <Label text="FEATURED DEAL" style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.8); -fx-font-weight: bold;"/>
+            <Label fx:id="featuredTitle" text="Summer Sale - Up to 40% Off!"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label fx:id="featuredDesc" text="Book your summer vacation now and save big on flights and hotels"
+                   style="-fx-font-size: 14px; -fx-text-fill: rgba(255,255,255,0.9);"/>
+            <HBox spacing="15">
+                <Button text="Book Now" onAction="#bookFeaturedDeal"
+                       style="-fx-background-color: white; -fx-text-fill: #7c3aed; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 12 30; -fx-cursor: hand;"/>
+                <Label fx:id="featuredExpiry" text="Expires in 5 days" style="-fx-font-size: 12px; -fx-text-fill: rgba(255,255,255,0.7);"/>
+            </HBox>
+        </VBox>
+
+        <!-- Filter Tabs -->
+        <HBox spacing="10">
+            <ToggleButton fx:id="allDealsBtn" text="All Deals" selected="true" onAction="#filterAll"
+                         style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 20;"/>
+            <ToggleButton fx:id="flightDealsBtn" text="Flights" onAction="#filterFlights"
+                         style="-fx-background-color: #e5e7eb; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 8 20;"/>
+            <ToggleButton fx:id="hotelDealsBtn" text="Hotels" onAction="#filterHotels"
+                         style="-fx-background-color: #e5e7eb; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 8 20;"/>
+            <ToggleButton fx:id="packageDealsBtn" text="Packages" onAction="#filterPackages"
+                         style="-fx-background-color: #e5e7eb; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 8 20;"/>
+        </HBox>
+
+        <!-- Deals Grid -->
+        <Label text="Current Offers" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+
+        <FlowPane fx:id="dealsContainer" hgap="20" vgap="20" prefWrapLength="900">
+        </FlowPane>
+
+        <!-- Popular Destinations -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20;">
+            <Label text="Popular Destinations with Deals" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+            <HBox fx:id="destinationsContainer" spacing="15">
+            </HBox>
+        </VBox>
+
+        <!-- Newsletter Signup -->
+        <HBox spacing="20" alignment="CENTER" style="-fx-background-color: #eff6ff; -fx-background-radius: 16; -fx-padding: 25;">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label text="Get Exclusive Deals" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Label text="Subscribe to our newsletter for personalized offers" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+            </VBox>
+            <TextField fx:id="emailField" promptText="Enter your email" prefWidth="250"
+                      style="-fx-background-radius: 8; -fx-padding: 12;"/>
+            <Button text="Subscribe" onAction="#subscribe"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 12 25; -fx-cursor: hand;"/>
+        </HBox>
+
+    </VBox>
+</ScrollPane>

@@ -45,11 +45,27 @@
                 <Button fx:id="flightTrackingBtn" text="✈️ Flight Tracking" onAction="#onFlightTracking"
                        styleClass="sidebar-menu-item" />
 
+                <Button fx:id="flightAnalyticsBtn" text="📈 Flight Analytics" onAction="#onFlightAnalytics"
+                       styleClass="sidebar-menu-item" />
+
                 <Button fx:id="aiAgentBtn" text="🤖 AI Agent" onAction="#onAIAgent"
                        styleClass="sidebar-menu-item" />
 
                 <Button fx:id="dealsBtn" text="🎯 Deals" onAction="#onDeals"
                        styleClass="sidebar-menu-item" />
+
+                <!-- Quick Booking Section -->
+                <Separator style="-fx-padding: 10 0;" />
+                <Label text="QUICK BOOKING" style="-fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: #9ca3af; -fx-padding: 10 15 5 15;" />
+
+                <Button text="✈️ Book Flight" onAction="#onBookFlight"
+                       style="-fx-background-color: #eff6ff; -fx-text-fill: #3b82f6; -fx-font-size: 13px; -fx-font-weight: 600; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" maxWidth="Infinity" />
+
+                <Button text="🏨 Book Hotel" onAction="#onBookHotel"
+                       style="-fx-background-color: #ecfdf5; -fx-text-fill: #10b981; -fx-font-size: 13px; -fx-font-weight: 600; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" maxWidth="Infinity" />
+
+                <Button text="🚗 Rent Car" onAction="#onRentCar"
+                       style="-fx-background-color: #fef3c7; -fx-text-fill: #f59e0b; -fx-font-size: 13px; -fx-font-weight: 600; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" maxWidth="Infinity" />
 
                 <!-- Employee-Only Section -->
                 <Separator style="-fx-padding: 10 0;" fx:id="employeeSeparator" />
@@ -58,7 +74,10 @@
                 <Button fx:id="employeeProfileBtn" text="👤 My Profile" onAction="#onEmployeeProfile"
                        styleClass="sidebar-menu-item" />
 
-                <Button fx:id="manageBookingsBtn" text="📝 Manage Bookings" onAction="#onManageBookings"
+                <Button fx:id="manageBookingsBtn" text="📝 Manage Hotel Bookings" onAction="#onManageBookings"
+                       styleClass="sidebar-menu-item" />
+
+                <Button fx:id="manageFlightsBtn" text="✈️ Manage Flight Bookings" onAction="#onManageFlights"
                        styleClass="sidebar-menu-item" />
 
                 <Button fx:id="viewCustomersBtn" text="👥 View Customers" onAction="#onViewCustomers"

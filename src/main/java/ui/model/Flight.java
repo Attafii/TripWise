@@ -29,9 +29,22 @@ public class Flight {
     private String aeroportArriveeName;
     private String villeDepart;
     private String villeArrivee;
+    private String codeAeroportDepart;
+    private String codeAeroportArrivee;
+
+    // Price from classes_vol (minimum price for display)
+    private double minPrice;
+    private String defaultClass;
+
+    // Amenities
+    private boolean hasWifi;
+    private boolean hasEntertainment;
+    private boolean hasMeal;
+    private boolean hasFreeCancellation;
+    private int stops;
 
     public enum StatutVol {
-        PROGRAMME, EN_COURS, ATTERRI, ANNULE, RETARDE
+        PROGRAMME, EN_VOL, ATTERRI, ANNULE, RETARDE, EN_COURS
     }
 
     // Constructors
@@ -111,6 +124,44 @@ public class Flight {
 
     public String getVilleArrivee() { return villeArrivee; }
     public void setVilleArrivee(String villeArrivee) { this.villeArrivee = villeArrivee; }
+
+    public String getCodeAeroportDepart() { return codeAeroportDepart; }
+    public void setCodeAeroportDepart(String codeAeroportDepart) { this.codeAeroportDepart = codeAeroportDepart; }
+
+    public String getCodeAeroportArrivee() { return codeAeroportArrivee; }
+    public void setCodeAeroportArrivee(String codeAeroportArrivee) { this.codeAeroportArrivee = codeAeroportArrivee; }
+
+    public double getMinPrice() { return minPrice; }
+    public void setMinPrice(double minPrice) { this.minPrice = minPrice; }
+
+    public String getDefaultClass() { return defaultClass; }
+    public void setDefaultClass(String defaultClass) { this.defaultClass = defaultClass; }
+
+    public boolean isHasWifi() { return hasWifi; }
+    public void setHasWifi(boolean hasWifi) { this.hasWifi = hasWifi; }
+
+    public boolean isHasEntertainment() { return hasEntertainment; }
+    public void setHasEntertainment(boolean hasEntertainment) { this.hasEntertainment = hasEntertainment; }
+
+    public boolean isHasMeal() { return hasMeal; }
+    public void setHasMeal(boolean hasMeal) { this.hasMeal = hasMeal; }
+
+    public boolean isHasFreeCancellation() { return hasFreeCancellation; }
+    public void setHasFreeCancellation(boolean hasFreeCancellation) { this.hasFreeCancellation = hasFreeCancellation; }
+
+    public int getStops() { return stops; }
+    public void setStops(int stops) { this.stops = stops; }
+
+    public String getStopsDisplay() {
+        return stops == 0 ? "Nonstop" : stops + " stop" + (stops > 1 ? "s" : "");
+    }
+
+    public String getDurationDisplay() {
+        if (dureeVol == null || dureeVol == 0) return "";
+        int hours = dureeVol / 60;
+        int minutes = dureeVol % 60;
+        return hours + "h " + minutes + "m";
+    }
 
     public String getRoute() {
         return (villeDepart != null && villeArrivee != null)

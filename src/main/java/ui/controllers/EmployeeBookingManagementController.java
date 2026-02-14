@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import ui.model.User;
+import ui.util.SceneManager;
 import ui.util.SessionManager;
 
 import java.sql.Connection;
@@ -178,6 +179,54 @@ public class EmployeeBookingManagementController {
             System.err.println("❌ Error loading bookings: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void handleBack() {
+        System.out.println("🔙 Back button clicked - returning to AI Agent");
+
+        try {
+            // Try to navigate within the dashboard BorderPane (preserves sidebar)
+            if (employeeNameLabel != null && employeeNameLabel.getScene() != null) {
+                javafx.scene.Parent root = employeeNameLabel.getScene().getRoot();
+
+                // Check if we're inside a BorderPane (dashboard layout)
+                if (root instanceof javafx.scene.layout.BorderPane) {
+                    javafx.scene.layout.BorderPane borderPane = (javafx.scene.layout.BorderPane) root;
+
+                    // Load the AI Agent page into the center
+                    javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                        getClass().getResource("/ui/ai-agent.fxml")
+                    );
+                    javafx.scene.Parent aiAgentPane = loader.load();
+                    borderPane.setCenter(aiAgentPane);
+
+                    System.out.println("✅ Navigated back to AI Agent page (with sidebar)");
+                    return;
+                }
+            }
+
+            // Fallback: switch entire scene to dashboard
+            SceneManager.switchScene("/ui/dashboard.fxml");
+            System.out.println("✅ Fallback navigation to dashboard");
+
+        } catch (Exception e) {
+            System.err.println("❌ Error navigating back: " + e.getMessage());
+            e.printStackTrace();
+            // Last resort fallback
+            try {
+                SceneManager.switchScene("/ui/dashboard.fxml");
+            } catch (Exception ex) {
+                showAlert("Error", "Could not navigate back. Please restart the application.", Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    @FXML
+    private void refreshBookings() {
+        loadAllBookings();
+        updateFilterCounts();
+        System.out.println("✅ Bookings refreshed");
     }
 
     private void updateFilterCounts() {

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.FlightDetailsController"
+            stylesheets="@style.css" fitToWidth="true" style="-fx-background-color: #f8f9fa; -fx-border-color: transparent;">
+    <VBox spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 25;">
+
+        <!-- Header with Back Button -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Button fx:id="backBtn" text="← Back to Flights" onAction="#handleBack"
+                   style="-fx-background-color: white; -fx-text-fill: #374151; -fx-background-radius: 8; -fx-padding: 10 20; -fx-border-color: #e5e7eb; -fx-border-radius: 8; -fx-cursor: hand;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="aiAssistBtn" text="🤖 AI Flight Assistant" onAction="#handleAIAssist"
+                   style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Flight Header Card -->
+        <VBox fx:id="flightHeaderCard" spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+
+            <!-- Airline and Flight Number -->
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label fx:id="airlineIcon" text="✈️" style="-fx-font-size: 36px; -fx-background-color: #eff6ff; -fx-padding: 15; -fx-background-radius: 12;"/>
+                <VBox spacing="3">
+                    <Label fx:id="airlineLabel" text="Air France" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <Label fx:id="flightNumberLabel" text="AF 1234" style="-fx-font-size: 14px; -fx-text-fill: #3b82f6;"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <VBox alignment="CENTER_RIGHT" spacing="3">
+                    <Label fx:id="statusLabel" text="On Time" style="-fx-font-size: 14px; -fx-font-weight: 600; -fx-padding: 6 15; -fx-background-color: #d1fae5; -fx-text-fill: #065f46; -fx-background-radius: 15;"/>
+                    <Label fx:id="aircraftLabel" text="Boeing 777" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                </VBox>
+            </HBox>
+
+            <Separator/>
+
+            <!-- Route Visualization -->
+            <HBox alignment="CENTER" spacing="30" style="-fx-padding: 20 0;">
+                <!-- Departure -->
+                <VBox alignment="CENTER" spacing="5" prefWidth="180">
+                    <Label fx:id="departureTimeLabel" text="08:30 AM" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <Label fx:id="departureCodeLabel" text="CDG" style="-fx-font-size: 20px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;"/>
+                    <Label fx:id="departureCityLabel" text="Paris" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                    <Label fx:id="departureAirportLabel" text="Charles de Gaulle" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;"/>
+                    <Label fx:id="departureDateLabel" text="Feb 15, 2026" style="-fx-font-size: 13px; -fx-text-fill: #374151; -fx-font-weight: 500;"/>
+                </VBox>
+
+                <!-- Flight Path -->
+                <VBox alignment="CENTER" spacing="5" HBox.hgrow="ALWAYS">
+                    <Label fx:id="durationLabel" text="8h 30m" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                    <HBox alignment="CENTER" spacing="5">
+                        <Line startX="0" startY="0" endX="120" endY="0" stroke="#e5e7eb" strokeWidth="2"/>
+                        <Label text="✈" style="-fx-font-size: 20px; -fx-text-fill: #3b82f6; -fx-rotate: 90;"/>
+                        <Line startX="0" startY="0" endX="120" endY="0" stroke="#e5e7eb" strokeWidth="2"/>
+                    </HBox>
+                    <Label fx:id="stopsLabel" text="Nonstop" style="-fx-font-size: 12px; -fx-text-fill: #10b981; -fx-font-weight: 500;"/>
+                </VBox>
+
+                <!-- Arrival -->
+                <VBox alignment="CENTER" spacing="5" prefWidth="180">
+                    <Label fx:id="arrivalTimeLabel" text="11:00 AM" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <Label fx:id="arrivalCodeLabel" text="JFK" style="-fx-font-size: 20px; -fx-font-weight: 600; -fx-text-fill: #3b82f6;"/>
+                    <Label fx:id="arrivalCityLabel" text="New York" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                    <Label fx:id="arrivalAirportLabel" text="John F. Kennedy" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;"/>
+                    <Label fx:id="arrivalDateLabel" text="Feb 15, 2026" style="-fx-font-size: 13px; -fx-text-fill: #374151; -fx-font-weight: 500;"/>
+                </VBox>
+            </HBox>
+        </VBox>
+
+        <!-- Two Column Layout -->
+        <HBox spacing="20">
+            <!-- Left Column -->
+            <VBox spacing="20" HBox.hgrow="ALWAYS">
+
+                <!-- Class Selection & Pricing -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+                    <Label text="Select Your Class" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <VBox fx:id="classOptionsContainer" spacing="12">
+                        <!-- Class options will be added dynamically -->
+                    </VBox>
+                </VBox>
+
+                <!-- Amenities -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+                    <Label text="Included Amenities" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <FlowPane fx:id="amenitiesContainer" hgap="15" vgap="12">
+                        <!-- Amenities will be added dynamically -->
+                    </FlowPane>
+                </VBox>
+
+                <!-- Gate & Terminal Info -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+                    <Label text="Boarding Information" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                    <HBox spacing="30">
+                        <VBox spacing="5">
+                            <Label text="Terminal" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                            <Label fx:id="terminalLabel" text="2E" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Gate" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                            <Label fx:id="gateLabel" text="A32" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Boarding Time" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                            <Label fx:id="boardingTimeLabel" text="07:45 AM" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #374151;"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Seats Available" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;"/>
+                            <Label fx:id="seatsLabel" text="42" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Right Column - Booking Summary -->
+            <VBox spacing="20" prefWidth="380">
+
+                <!-- Booking Form -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+                    <Label text="Book This Flight" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+
+                    <!-- Passengers -->
+                    <VBox spacing="5">
+                        <Label text="Number of Passengers" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                        <Spinner fx:id="passengersSpinner" prefWidth="9999" style="-fx-background-color: #f9fafb; -fx-background-radius: 8;"/>
+                    </VBox>
+
+                    <!-- Special Requests -->
+                    <VBox spacing="5">
+                        <Label text="Special Requests (Optional)" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                        <TextArea fx:id="specialRequestsField" promptText="Wheelchair assistance, meal preferences, etc." prefRowCount="3"
+                                 style="-fx-background-color: #f9fafb; -fx-background-radius: 8;"/>
+                    </VBox>
+
+                    <Separator/>
+
+                    <!-- Price Summary -->
+                    <VBox spacing="10">
+                        <HBox>
+                            <Label text="Base Price" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="basePriceLabel" text="450.00" style="-fx-font-size: 14px; -fx-text-fill: #374151;"/>
+                        </HBox>
+                        <HBox>
+                            <Label text="Taxes &amp; Fees" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="taxesLabel" text="45.00" style="-fx-font-size: 14px; -fx-text-fill: #374151;"/>
+                        </HBox>
+                        <HBox>
+                            <Label fx:id="passengersCountLabel" text="× 1 passenger" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                        </HBox>
+                        <Separator/>
+                        <HBox>
+                            <Label text="Total" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="totalPriceLabel" text="495.00" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+                        </HBox>
+                    </VBox>
+
+                    <Button fx:id="bookBtn" text="Book Now" onAction="#handleBookFlight" prefHeight="50" maxWidth="Infinity"
+                           style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: 600; -fx-background-radius: 10; -fx-cursor: hand;"/>
+
+                    <Label text="✓ Free cancellation up to 24 hours before departure" style="-fx-font-size: 12px; -fx-text-fill: #10b981;" alignment="CENTER" maxWidth="Infinity"/>
+                </VBox>
+
+                <!-- AI Recommendations -->
+                <VBox fx:id="aiRecommendationsCard" spacing="15" style="-fx-background-color: linear-gradient(to right, #8b5cf6, #6366f1); -fx-background-radius: 16; -fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="🤖" style="-fx-font-size: 20px;"/>
+                        <Label text="AI Insights" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                    </HBox>
+                    <Label fx:id="aiInsightLabel" text="This flight has 92% on-time performance. Best value in Economy class!"
+                          style="-fx-font-size: 13px; -fx-text-fill: white;" wrapText="true"/>
+                    <Button text="Get More Recommendations" onAction="#handleAIRecommendations"
+                           style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 16; -fx-cursor: hand;"/>
+                </VBox>
+            </VBox>
+        </HBox>
+
+    </VBox>
+</ScrollPane>

@@ -145,7 +145,14 @@ public class AIAgentController {
             // ========== FLIGHT OPERATIONS ==========
             if (lowerCommand.contains("flight")) {
                 if (lowerCommand.contains("booking")) {
+                    if (lowerCommand.contains("my") || lowerCommand.contains("traveler")) {
+                        return showMyFlightBookings();
+                    }
                     return showFlightBookings();
+                } else if (lowerCommand.contains("recommend") || lowerCommand.contains("suggest")) {
+                    return getFlightRecommendations();
+                } else if (lowerCommand.contains("stats") || lowerCommand.contains("analytics")) {
+                    return getMyFlightStats();
                 } else {
                     if (lowerCommand.contains("show") || lowerCommand.contains("view") || lowerCommand.contains("list") || lowerCommand.contains("all")) {
                         return showAllFlights();
@@ -154,6 +161,12 @@ public class AIAgentController {
                         return searchFlights(command);
                     }
                 }
+            }
+
+            // ========== MY TRIPS / RECOMMENDATIONS ==========
+            if (lowerCommand.contains("my trip") || lowerCommand.contains("my travel") ||
+                lowerCommand.contains("recommend") || lowerCommand.contains("suggest")) {
+                return getFlightRecommendations();
             }
 
             // ========== CAR RENTAL OPERATIONS ==========
@@ -943,8 +956,30 @@ public class AIAgentController {
     @FXML
     private void handleManageBookings() {
         try {
+            // Try to navigate within the dashboard BorderPane (preserves sidebar)
+            if (chatMessagesContainer != null && chatMessagesContainer.getScene() != null) {
+                javafx.scene.Parent root = chatMessagesContainer.getScene().getRoot();
+
+                // Check if we're inside a BorderPane (dashboard layout)
+                if (root instanceof javafx.scene.layout.BorderPane) {
+                    javafx.scene.layout.BorderPane borderPane = (javafx.scene.layout.BorderPane) root;
+
+                    // Load the booking management page into the center
+                    javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
+                        getClass().getResource("/ui/employee-booking-management.fxml")
+                    );
+                    javafx.scene.Parent bookingPane = loader.load();
+                    borderPane.setCenter(bookingPane);
+
+                    System.out.println("✅ Navigated to Booking Management (with sidebar)");
+                    return;
+                }
+            }
+
+            // Fallback: switch entire scene
             SceneManager.switchScene("/ui/employee-booking-management.fxml");
         } catch (Exception e) {
+            System.err.println("❌ Error navigating to booking management: " + e.getMessage());
             showAlert("Error", "Could not navigate to booking management", Alert.AlertType.ERROR);
         }
     }
@@ -1065,5 +1100,174 @@ public class AIAgentController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    // ========== TRAVELER-SPECIFIC AI METHODS ==========
+
+    private String showMyFlightBookings() {
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            return "Please log in to see your flight bookings.";
+        }
+
+        try {
+            int voyageurId = getVoyageurId(currentUser.getUserId());
+            if (voyageurId == -1) {
+                return "No traveler profile found for your account.";
+            }
+
+            String query = "SELECT rv.reservation_id, rv.numero_confirmation, rv.statut_reservation, " +
+                          "rv.prix_total, v.numero_vol, v.date_depart, " +
+                          "ad.ville as depart, aa.ville as arrivee " +
+                          "FROM reservations_vol rv " +
+                          "JOIN vols v ON rv.vol_id = v.vol_id " +
+                          "JOIN aeroports ad ON v.aeroport_depart_id = ad.aeroport_id " +
+                          "JOIN aeroports aa ON v.aeroport_arrivee_id = aa.aeroport_id " +
+                          "WHERE rv.voyageur_id = ? " +
+                          "ORDER BY v.date_depart DESC LIMIT 10";
+            PreparedStatement stmt = dbConnection.prepareStatement(query);
+            stmt.setInt(1, voyageurId);
+            ResultSet rs = stmt.executeQuery();
+
+            StringBuilder result = new StringBuilder("✈️ YOUR FLIGHT BOOKINGS:\n\n");
+            int count = 0;
+            while (rs.next()) {
+                count++;
+                String status = rs.getString("statut_reservation");
+                String statusIcon = status.equals("CONFIRMEE") ? "✅" :
+                                   status.equals("EN_ATTENTE") ? "⏳" : "❌";
+                result.append(String.format("%s #%s - %s\n",
+                    statusIcon, rs.getString("numero_confirmation"), rs.getString("numero_vol")));
+                result.append(String.format("   📍 %s → %s\n",
+                    rs.getString("depart"), rs.getString("arrivee")));
+                result.append(String.format("   📅 %s | 💰 $%.2f\n\n",
+                    rs.getDate("date_depart"), rs.getDouble("prix_total")));
+            }
+
+            if (count == 0) {
+                return "You haven't made any flight bookings yet.\n\n" +
+                       "💡 Use 'Search flights' or visit the Book Flight page to make your first reservation!";
+            }
+
+            return result.toString() + String.format("Total: %d booking(s)", count);
+        } catch (Exception e) {
+            return "❌ Error fetching your bookings: " + e.getMessage();
+        }
+    }
+
+    private String getMyFlightStats() {
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            return "Please log in to see your flight statistics.";
+        }
+
+        try {
+            int voyageurId = getVoyageurId(currentUser.getUserId());
+            if (voyageurId == -1) {
+                return "No traveler profile found for your account.";
+            }
+
+            String query = "SELECT COUNT(*) as total, " +
+                          "COALESCE(SUM(prix_total), 0) as spent, " +
+                          "COALESCE(AVG(prix_total), 0) as avg_price " +
+                          "FROM reservations_vol WHERE voyageur_id = ? AND statut_reservation != 'ANNULEE'";
+            PreparedStatement stmt = dbConnection.prepareStatement(query);
+            stmt.setInt(1, voyageurId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int total = rs.getInt("total");
+                double spent = rs.getDouble("spent");
+                double avgPrice = rs.getDouble("avg_price");
+
+                // Get upcoming flights
+                query = "SELECT COUNT(*) as upcoming FROM reservations_vol rv " +
+                       "JOIN vols v ON rv.vol_id = v.vol_id " +
+                       "WHERE rv.voyageur_id = ? AND v.date_depart > NOW() " +
+                       "AND rv.statut_reservation IN ('EN_ATTENTE', 'CONFIRMEE')";
+                stmt = dbConnection.prepareStatement(query);
+                stmt.setInt(1, voyageurId);
+                ResultSet rs2 = stmt.executeQuery();
+                int upcoming = rs2.next() ? rs2.getInt("upcoming") : 0;
+
+                // Get favorite destination
+                query = "SELECT aa.ville, COUNT(*) as cnt FROM reservations_vol rv " +
+                       "JOIN vols v ON rv.vol_id = v.vol_id " +
+                       "JOIN aeroports aa ON v.aeroport_arrivee_id = aa.aeroport_id " +
+                       "WHERE rv.voyageur_id = ? GROUP BY aa.ville ORDER BY cnt DESC LIMIT 1";
+                stmt = dbConnection.prepareStatement(query);
+                stmt.setInt(1, voyageurId);
+                ResultSet rs3 = stmt.executeQuery();
+                String favDest = rs3.next() ? rs3.getString("ville") : "N/A";
+
+                return String.format("📊 YOUR FLIGHT STATISTICS:\n\n" +
+                                   "✈️ Total Flights: %d\n" +
+                                   "💰 Total Spent: $%.2f\n" +
+                                   "📈 Average Price: $%.2f\n" +
+                                   "📅 Upcoming Flights: %d\n" +
+                                   "🎯 Favorite Destination: %s\n" +
+                                   "⭐ Loyalty Points: %d\n\n" +
+                                   "💡 Keep traveling to earn more points!",
+                                   total, spent, avgPrice, upcoming, favDest, (int)(spent / 10));
+            }
+            return "No flight statistics available yet.";
+        } catch (Exception e) {
+            return "❌ Error fetching statistics: " + e.getMessage();
+        }
+    }
+
+    private String getFlightRecommendations() {
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            return "🤖 FLIGHT RECOMMENDATIONS:\n\n" +
+                   "Welcome! Here are some popular destinations:\n\n" +
+                   "✈️ Paris - City of Lights\n" +
+                   "✈️ New York - The Big Apple\n" +
+                   "✈️ Dubai - Modern Luxury\n" +
+                   "✈️ London - Historical & Cultural\n" +
+                   "✈️ Tokyo - Technology & Tradition\n\n" +
+                   "💡 Log in to get personalized recommendations!";
+        }
+
+        try {
+            int voyageurId = getVoyageurId(currentUser.getUserId());
+            if (voyageurId == -1) {
+                return "No traveler profile found. Create one to get personalized recommendations!";
+            }
+
+            // Use FlightBookingService for AI recommendations
+            ui.service.FlightBookingService bookingService = new ui.service.FlightBookingService();
+            java.util.List<String> recommendations = bookingService.getAIRecommendations(voyageurId);
+
+            StringBuilder result = new StringBuilder("🤖 AI-POWERED RECOMMENDATIONS FOR YOU:\n\n");
+            for (String rec : recommendations) {
+                result.append(rec).append("\n\n");
+            }
+
+            // Add some trending destinations
+            result.append("📈 TRENDING DESTINATIONS:\n");
+            result.append("• Paris - Great deals this week!\n");
+            result.append("• Dubai - 15% off Business Class\n");
+            result.append("• New York - Starting from $299\n");
+
+            return result.toString();
+        } catch (Exception e) {
+            return "❌ Error generating recommendations: " + e.getMessage();
+        }
+    }
+
+    private int getVoyageurId(int userId) {
+        try {
+            String query = "SELECT voyageur_id FROM voyageurs WHERE user_id = ?";
+            PreparedStatement stmt = dbConnection.prepareStatement(query);
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("voyageur_id");
+            }
+        } catch (Exception e) {
+            System.err.println("Error getting voyageur ID: " + e.getMessage());
+        }
+        return -1;
     }
 }

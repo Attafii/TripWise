@@ -79,14 +79,58 @@ public class DashboardController {
 
             // Show/hide employee menu based on user type
             configureEmployeeMenu(currentUser);
+
+            // Configure menu based on user type
+            configureMenuForUserType(currentUser);
         }
 
-        // Load dashboard home view by default
-        loadView("Dashboard", "/ui/dashboard-home.fxml");
+        // Load appropriate dashboard based on user type
+        loadDefaultDashboard();
         highlightButton(dashboardBtn);
 
         // Add global AI Chatbot floating button
         addGlobalChatbot();
+    }
+
+    /**
+     * Load the appropriate dashboard based on user type
+     */
+    private void loadDefaultDashboard() {
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            loadView("Dashboard", "/ui/dashboard-home.fxml");
+            return;
+        }
+
+        switch (currentUser.getUserType()) {
+            case VOYAGEUR:
+                loadView("My Dashboard", "/ui/traveler-dashboard.fxml");
+                break;
+            case EMPLOYE:
+            case ADMIN:
+            case RESPONSABLE:
+                loadView("Dashboard", "/ui/dashboard-home.fxml");
+                break;
+            default:
+                loadView("Dashboard", "/ui/dashboard-home.fxml");
+        }
+    }
+
+    /**
+     * Configure menu visibility based on user type
+     */
+    private void configureMenuForUserType(User user) {
+        boolean isTraveler = user.getUserType() == User.UserType.VOYAGEUR;
+        boolean isVisitor = user.getUserType() == User.UserType.VISITEUR;
+
+        // For travelers, hide admin-only features
+        if (isTraveler || isVisitor) {
+            // Hide AI Agent for regular travelers (optional - can enable if desired)
+            // aiAgentBtn.setVisible(false);
+            // aiAgentBtn.setManaged(false);
+        }
+
+        System.out.println("✅ Menu configured for user type: " + user.getUserType());
     }
 
     /**
@@ -133,8 +177,13 @@ public class DashboardController {
 
     @FXML
     private void onManageBookings() {
-        loadView("Manage Bookings", "/ui/employee-booking-management.fxml");
+        loadView("Manage Hotel Bookings", "/ui/employee-booking-management.fxml");
         highlightButton(manageBookingsBtn);
+    }
+
+    @FXML
+    private void onManageFlights() {
+        loadView("Manage Flight Bookings", "/ui/employee-flight-management.fxml");
     }
 
     @FXML
@@ -145,14 +194,39 @@ public class DashboardController {
 
     @FXML
     private void onDashboard() {
-        loadView("Dashboard", "/ui/dashboard-home.fxml");
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+        if (currentUser != null && currentUser.getUserType() == User.UserType.VOYAGEUR) {
+            loadView("My Dashboard", "/ui/traveler-dashboard.fxml");
+        } else {
+            loadView("Dashboard", "/ui/dashboard-home.fxml");
+        }
         highlightButton(dashboardBtn);
     }
 
     @FXML
     private void onBookings() {
-        loadView("Bookings", "/ui/all-bookings.fxml");
+        User currentUser = SessionManager.getInstance().getCurrentUser();
+        if (currentUser != null && currentUser.getUserType() == User.UserType.VOYAGEUR) {
+            loadView("My Bookings", "/ui/traveler-bookings.fxml");
+        } else {
+            loadView("Bookings", "/ui/all-bookings.fxml");
+        }
         highlightButton(bookingsBtn);
+    }
+
+    @FXML
+    private void onBookFlight() {
+        loadView("Book Flight", "/ui/book-flight-new.fxml");
+    }
+
+    @FXML
+    private void onBookHotel() {
+        loadView("Book Hotel", "/ui/book-hotel-new.fxml");
+    }
+
+    @FXML
+    private void onRentCar() {
+        loadView("Rent Car", "/ui/rent-car.fxml");
     }
 
     @FXML
@@ -177,6 +251,11 @@ public class DashboardController {
     private void onFlightTracking() {
         loadView("Flight Tracking", "/ui/flight-tracking.fxml");
         highlightButton(flightTrackingBtn);
+    }
+
+    @FXML
+    private void onFlightAnalytics() {
+        loadView("Flight Analytics", "/ui/flight-analytics.fxml");
     }
 
     @FXML
@@ -230,23 +309,80 @@ public class DashboardController {
      * Highlight the active menu button
      */
     private void highlightButton(Button activeButton) {
-        // Reset all buttons
-        Button[] buttons = {dashboardBtn, bookingsBtn, scheduleBtn, paymentsBtn,
-                           messagesBtn, flightTrackingBtn, aiAgentBtn, dealsBtn};
+        // Reset all buttons with their unique colors
+        resetMenuButtonStyles();
 
-        String inactiveStyle = "-fx-background-color: transparent; -fx-text-fill: #6b7280; " +
-                              "-fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; " +
-                              "-fx-background-radius: 10; -fx-cursor: hand;";
-
-        String activeStyle = "-fx-background-color: #eff6ff; -fx-text-fill: #1e40af; " +
-                           "-fx-font-size: 13px; -fx-font-weight: 600; -fx-alignment: center-left; " +
-                           "-fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;";
-
-        for (Button btn : buttons) {
-            if (btn != null) {
-                btn.setStyle(btn == activeButton ? activeStyle : inactiveStyle);
-            }
+        // Apply active style to selected button
+        if (activeButton != null) {
+            String activeColor = getButtonActiveColor(activeButton);
+            String activeStyle = "-fx-background-color: " + activeColor + "; -fx-text-fill: white; " +
+                               "-fx-font-size: 13px; -fx-font-weight: 600; -fx-alignment: center-left; " +
+                               "-fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand; -fx-min-width: 180;";
+            activeButton.setStyle(activeStyle);
         }
+    }
+
+    /**
+     * Reset all menu buttons to their default colored styles
+     */
+    private void resetMenuButtonStyles() {
+        String baseStyle = "-fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; " +
+                          "-fx-background-radius: 10; -fx-cursor: hand; -fx-font-weight: 500; -fx-min-width: 180;";
+
+        // Dashboard - Blue
+        if (dashboardBtn != null) {
+            dashboardBtn.setStyle("-fx-background-color: #eff6ff; -fx-text-fill: #3b82f6; " + baseStyle);
+        }
+
+        // Bookings - Purple
+        if (bookingsBtn != null) {
+            bookingsBtn.setStyle("-fx-background-color: #f5f3ff; -fx-text-fill: #8b5cf6; " + baseStyle);
+        }
+
+        // Schedule - Cyan
+        if (scheduleBtn != null) {
+            scheduleBtn.setStyle("-fx-background-color: #ecfeff; -fx-text-fill: #06b6d4; " + baseStyle);
+        }
+
+        // Payments - Green
+        if (paymentsBtn != null) {
+            paymentsBtn.setStyle("-fx-background-color: #ecfdf5; -fx-text-fill: #10b981; " + baseStyle);
+        }
+
+        // Messages - Pink
+        if (messagesBtn != null) {
+            messagesBtn.setStyle("-fx-background-color: #fdf2f8; -fx-text-fill: #ec4899; " + baseStyle);
+        }
+
+        // Flight Tracking - Orange
+        if (flightTrackingBtn != null) {
+            flightTrackingBtn.setStyle("-fx-background-color: #fff7ed; -fx-text-fill: #f97316; " + baseStyle);
+        }
+
+        // AI Agent - Purple
+        if (aiAgentBtn != null) {
+            aiAgentBtn.setStyle("-fx-background-color: #f3e8ff; -fx-text-fill: #9333ea; " + baseStyle);
+        }
+
+        // Deals - Yellow/Gold
+        if (dealsBtn != null) {
+            dealsBtn.setStyle("-fx-background-color: #fefce8; -fx-text-fill: #ca8a04; " + baseStyle);
+        }
+    }
+
+    /**
+     * Get active color for each button
+     */
+    private String getButtonActiveColor(Button button) {
+        if (button == dashboardBtn) return "#2563eb";      // Blue
+        if (button == bookingsBtn) return "#7c3aed";       // Purple
+        if (button == scheduleBtn) return "#0891b2";       // Cyan
+        if (button == paymentsBtn) return "#059669";       // Green
+        if (button == messagesBtn) return "#db2777";       // Pink
+        if (button == flightTrackingBtn) return "#ea580c"; // Orange
+        if (button == aiAgentBtn) return "#7c3aed";        // Purple
+        if (button == dealsBtn) return "#d97706";          // Gold
+        return "#3b82f6"; // default blue
     }
 
     /**

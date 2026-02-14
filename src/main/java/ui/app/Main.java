@@ -2,12 +2,20 @@ package ui.app;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ui.util.FlightDataInitializer;
 import ui.util.SceneManager;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // Initialize flight mock data for testing
+        try {
+            FlightDataInitializer.initializeFlightData();
+        } catch (Exception e) {
+            System.err.println("⚠️ Could not initialize flight data: " + e.getMessage());
+        }
+
         SceneManager.setPrimaryStage(primaryStage);
         primaryStage.setTitle("TripWise - Travel Management");
         primaryStage.setWidth(1100);

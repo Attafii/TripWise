@@ -6,13 +6,38 @@ TripWise is a comprehensive travel management desktop application built with Jav
 
 ### ✨ Key Features
 - 🤖 **AI Travel Assistant** - Natural language interface for managing all operations
-- ✈️ **Flight Booking** - Search, book, and manage flight reservations
+- ✈️ **Flight Booking** - Search, book, and manage flight reservations with class selection
 - 🏨 **Hotel Reservations** - Browse hotels, check availability, and book rooms
 - 🚗 **Car Rentals** - Rent vehicles from multiple agencies and locations
 - 👥 **User Management** - Multi-role system (Visitors, Travelers, Employees, Managers, Admins)
+- 👤 **Traveler Dashboard** - Personalized dashboard for travelers with upcoming trips and statistics
 - 💳 **Payment Processing** - Secure payment handling for all bookings
 - 📊 **Analytics Dashboard** - Comprehensive reports and statistics
 - 📱 **Responsive UI** - Modern JavaFX interface with smooth navigation
+
+---
+
+## 👤 User Roles
+
+### Traveler (VOYAGEUR)
+- Personal dashboard with upcoming trips overview
+- Book flights, hotels, and car rentals
+- View and manage personal bookings
+- Cancel pending or confirmed bookings
+- View booking history and loyalty points
+
+### Employee (EMPLOYE)
+- All traveler features
+- Manage hotel bookings (approve/reject)
+- Manage flight bookings (approve/reject)
+- View customer information
+- Access employee profile
+
+### Admin (ADMIN)
+- All employee features
+- Full access to AI Agent with database operations
+- User management capabilities
+- System-wide analytics and reports
 
 ---
 ## Setup Instructions
@@ -29,7 +54,8 @@ TripWise is a comprehensive travel management desktop application built with Jav
 2. **Import the database**:
    - Open phpMyAdmin or MySQL client
    - Import `database/setup.sql` to create the `tripwise_db` database
-   - The script will create all necessary tables and sample data
+   - Import `database/update-flight-booking.sql` for flight booking tables
+   - The scripts will create all necessary tables and sample data
 
 ### 3. Getting Started
 1. **Clone the repository**:

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.EmployeeFlightManagementController"
+            stylesheets="@style.css" fitToWidth="true" style="-fx-background-color: #f8f9fa; -fx-border-color: transparent;">
+    <VBox spacing="25" style="-fx-background-color: #f8f9fa; -fx-padding: 25;">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <VBox spacing="3" HBox.hgrow="ALWAYS">
+                <Label text="Flight Booking Management" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+                <Label fx:id="employeeNameLabel" text="Employee Name" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;"/>
+            </VBox>
+            <Button text="+ Add Flight" onAction="#onAddFlight"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;"/>
+        </HBox>
+
+        <!-- Stats Cards -->
+        <HBox spacing="15">
+            <VBox spacing="5" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <Label text="Total Flights" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                <Label fx:id="totalFlightsLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+            </VBox>
+            <VBox spacing="5" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <Label text="Pending Bookings" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                <Label fx:id="pendingBookingsLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;"/>
+            </VBox>
+            <VBox spacing="5" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <Label text="Confirmed Bookings" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                <Label fx:id="confirmedBookingsLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #10b981;"/>
+            </VBox>
+            <VBox spacing="5" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                <Label text="Today's Revenue" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;"/>
+                <Label fx:id="todayRevenueLabel" text="0 USD" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;"/>
+            </VBox>
+        </HBox>
+
+        <!-- Filter Tabs -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <ToggleButton fx:id="allBtn" text="All Bookings" onAction="#filterAll"/>
+            <ToggleButton fx:id="pendingBtn" text="Pending (0)" onAction="#filterPending"/>
+            <ToggleButton fx:id="confirmedBtn" text="Confirmed (0)" onAction="#filterConfirmed"/>
+            <ToggleButton fx:id="cancelledBtn" text="Cancelled (0)" onAction="#filterCancelled"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <TextField fx:id="searchField" promptText="Search by flight number, passenger..."
+                      style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 10 15; -fx-pref-width: 250;"/>
+        </HBox>
+
+        <!-- Bookings Table -->
+        <TableView fx:id="bookingsTable" style="-fx-background-color: white; -fx-background-radius: 12;">
+            <columns>
+                <TableColumn fx:id="bookingIdCol" text="Booking ID" prefWidth="100"/>
+                <TableColumn fx:id="passengerCol" text="Passenger" prefWidth="150"/>
+                <TableColumn fx:id="flightCol" text="Flight" prefWidth="100"/>
+                <TableColumn fx:id="routeCol" text="Route" prefWidth="180"/>
+                <TableColumn fx:id="dateCol" text="Departure" prefWidth="130"/>
+                <TableColumn fx:id="classCol" text="Class" prefWidth="100"/>
+                <TableColumn fx:id="passengersCol" text="Pax" prefWidth="60"/>
+                <TableColumn fx:id="priceCol" text="Price" prefWidth="100"/>
+                <TableColumn fx:id="statusCol" text="Status" prefWidth="100"/>
+                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="180"/>
+            </columns>
+        </TableView>
+
+    </VBox>
+</ScrollPane>
