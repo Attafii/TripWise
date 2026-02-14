@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+
 import ui.util.SceneManager;
 
 import java.io.IOException;
@@ -60,8 +61,22 @@ public class DashboardController {
         SceneManager.switchScene("/ui/login.fxml");
     }
 
+    @FXML
+    private void openRemboursements() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/approvals.fxml"));
+            Pane view = loader.load();
+            rootPane.setCenter(view);
+            titleLabel.setText("Remboursements");
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Cannot load module: " + e.getMessage()).showAndWait();
+        }
+    }
+
     private void loadCenterView(String resource) {
         try {
+<<<<<<< HEAD
             var url = getClass().getResource(resource);
             if (url == null) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
@@ -72,6 +87,10 @@ public class DashboardController {
                 return;
             }
             Pane view = FXMLLoader.load(url);
+=======
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(resource));
+            Pane view = loader.load();
+>>>>>>> origin/main
             rootPane.setCenter(view);
         } catch (Exception e) {
             Alert a = new Alert(Alert.AlertType.ERROR);
@@ -82,4 +101,3 @@ public class DashboardController {
         }
     }
 }
-

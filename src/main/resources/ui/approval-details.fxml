@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ui.controllers.ApprovalDetailsController"
+      spacing="12" padding="20" prefWidth="520">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Détails de la Demande" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="10" vgap="8">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" prefWidth="140"/>
+            <ColumnConstraints prefWidth="320"/>
+        </columnConstraints>
+
+        <Label text="Employé:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="lblEmployee" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Date:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="lblDate" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Montant:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="lblAmount" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Référence:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="lblReference" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Justificatif:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <Hyperlink fx:id="lnkJustification" text="Ouvrir" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <Label text="Commentaire (obligatoire pour le rejet)"/>
+    <TextArea fx:id="txtComment" prefRowCount="4" promptText="Entrez un commentaire ici…"/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Fermer"    onAction="#onClose"/>
+        <Button text="Rejeter"   onAction="#onReject"/>
+        <Button text="Approuver" onAction="#onApprove"/>
+    </HBox>
+</VBox>

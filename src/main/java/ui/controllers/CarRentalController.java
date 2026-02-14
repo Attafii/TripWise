@@ -11,8 +11,6 @@ import javafx.scene.layout.BorderPane;
 import ui.model.Car;
 import ui.model.CarRental;
 import ui.model.Payment;
-import ui.repo.BookingRepository;
-import ui.service.PaymentClient;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -157,28 +155,21 @@ public class CarRentalController {
 
     @FXML
     private void handleConfirmRental() {
-        PaymentClient.Result result = PaymentClient.processPayment(cardNumberField.getText(), expiryDateField.getText(), cvvField.getText());
-        if (result.success) {
+        Payment payment = new Payment(cardNumberField.getText(), expiryDateField.getText(), cvvField.getText());
+        if (payment.processPayment()) {
             currentRental.setStatus(CarRental.Status.CONFIRMED);
-            BookingRepository.save(currentRental);
             bookingStatusLabel.setText("Status: CONFIRMED! Rental ID: " + currentRental.getRentalId());
             bookingStatusLabel.setStyle("-fx-text-fill: green;");
             confirmButton.setDisable(true);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Rental Confirmed");
             alert.setHeaderText("Success!");
-            alert.setContentText("Saved to database. ID: " + currentRental.getRentalId() +
-                    (result.transactionId != null ? "\nTransaction: " + result.transactionId : ""));
+            alert.setContentText("Your rental has been confirmed. ID: " + currentRental.getRentalId());
             alert.showAndWait();
         } else {
-            bookingStatusLabel.setText("Payment Failed. " + (result.error != null ? result.error : ""));
+            bookingStatusLabel.setText("Payment Failed.");
             bookingStatusLabel.setStyle("-fx-text-fill: red;");
         }
-    }
-
-    @FXML
-    private void handleViewBookedCars() {
-        navigateTo("/ui/car/car-booked.fxml");
     }
 
     @FXML
