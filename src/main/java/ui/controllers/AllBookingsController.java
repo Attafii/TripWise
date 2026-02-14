@@ -3,170 +3,234 @@ package ui.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import ui.model.HotelBooking;
-import ui.service.HotelBookingService;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import ui.model.FlightBooking;
+import ui.service.FlightBookingService;
 import ui.util.SceneManager;
 
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * AllBookingsController - Manages the main bookings view
- * Shows all bookings with filters (All, Confirmed, Pending, Cancelled)
+ * AllBookingsController - Modern flight bookings management interface
+ * Matches the blue/white design from the screenshot
  */
 public class AllBookingsController {
 
-    @FXML
-    private TextField searchField;
+    @FXML private TextField searchField;
+    @FXML private Button allFilterBtn, confirmedFilterBtn, pendingFilterBtn, cancelledFilterBtn;
+    @FXML private TableView<FlightBooking> bookingsTable;
+    @FXML private TableColumn<FlightBooking, String> bookingIdColumn;
+    @FXML private TableColumn<FlightBooking, String> passengerColumn;
+    @FXML private TableColumn<FlightBooking, String> flightDetailsColumn;
+    @FXML private TableColumn<FlightBooking, String> routeColumn;
+    @FXML private TableColumn<FlightBooking, String> statusColumn;
+    @FXML private TableColumn<FlightBooking, Double> priceColumn;
+    @FXML private TableColumn<FlightBooking, Void> actionsColumn;
+    @FXML private Label paginationLabel;
 
-    @FXML
-    private Button allFilterBtn;
-
-    @FXML
-    private Button confirmedFilterBtn;
-
-    @FXML
-    private Button pendingFilterBtn;
-
-    @FXML
-    private Button cancelledFilterBtn;
-
-    @FXML
-    private TableView<HotelBooking> bookingsTable;
-
-    @FXML
-    private TableColumn<HotelBooking, String> bookingIdColumn;
-
-    @FXML
-    private TableColumn<HotelBooking, String> passengerColumn;
-
-    @FXML
-    private TableColumn<HotelBooking, String> hotelDetailsColumn;
-
-    @FXML
-    private TableColumn<HotelBooking, String> routeColumn;
-
-    @FXML
-    private TableColumn<HotelBooking, String> statusColumn;
-
-    @FXML
-    private TableColumn<HotelBooking, Double> priceColumn;
-
-    @FXML
-    private TableColumn<HotelBooking, Void> actionsColumn;
-
-    private HotelBookingService bookingService;
-    private ObservableList<HotelBooking> allBookings;
+    private FlightBookingService bookingService;
+    private ObservableList<FlightBooking> allBookings;
     private String currentFilter = "ALL";
-
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm a");
 
     @FXML
     private void initialize() {
-        bookingService = new HotelBookingService();
+        bookingService = new FlightBookingService();
         allBookings = FXCollections.observableArrayList();
 
         setupTableColumns();
         loadAllBookings();
-        setupFilterButtons();
+        updatePaginationLabel();
     }
 
     private void setupTableColumns() {
-        // Booking ID column
+        // Booking ID column with blue styling
         bookingIdColumn.setCellValueFactory(cellData ->
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getBookingId()));
-
-        // Passenger column with passenger count
-        passengerColumn.setCellValueFactory(cellData -> {
-            HotelBooking booking = cellData.getValue();
-            String text = booking.getGuestName() + "\n" +
-                         "👤 " + (booking.getNombreAdultes() + booking.getNombreEnfants()) + " guests";
-            return new javafx.beans.property.SimpleStringProperty(text);
-        });
-
-        // Hotel Details column
-        hotelDetailsColumn.setCellValueFactory(cellData -> {
-            HotelBooking booking = cellData.getValue();
-            String text = booking.getNumeroConfirmation() + "\n" +
-                         booking.getChambreType() + " • " +
-                         booking.getDateCheckin().format(DATE_FORMATTER);
-            return new javafx.beans.property.SimpleStringProperty(text);
-        });
-
-        // Route column (Check-in -> Check-out with dates)
-        routeColumn.setCellValueFactory(cellData -> {
-            HotelBooking booking = cellData.getValue();
-            String text = "📅 " + booking.getHotelName() + "\n" +
-                         booking.getDateCheckin().format(DATE_FORMATTER) + " → " +
-                         booking.getDateCheckout().format(DATE_FORMATTER);
-            return new javafx.beans.property.SimpleStringProperty(text);
-        });
-
-        // Status column with styled labels
-        statusColumn.setCellFactory(column -> new TableCell<HotelBooking, String>() {
+        bookingIdColumn.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                if (empty || item == null) {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    HotelBooking booking = getTableRow().getItem();
+                    Label label = new Label(item);
+                    label.setStyle("-fx-text-fill: #3b82f6; -fx-font-weight: 700; -fx-font-size: 13px;");
+                    
+                    FlightBooking booking = getTableView().getItems().get(getIndex());
+                    VBox vbox = new VBox(2);
+                    vbox.getChildren().add(label);
+                    
+                    if (booking.getBookingDate() != null) {
+                        Label dateLabel = new Label("📅 " + booking.getBookingDate().format(DATE_FORMATTER));
+                        dateLabel.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 11px;");
+                        vbox.getChildren().add(dateLabel);
+                    }
+                    
+                    setGraphic(vbox);
+                }
+            }
+        });
+
+        // Passenger column
+        passengerColumn.setCellValueFactory(cellData ->
+            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getPassengerName()));
+        passengerColumn.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    FlightBooking booking = getTableView().getItems().get(getIndex());
+                    Label nameLabel = new Label(booking.getPassengerName());
+                    nameLabel.setStyle("-fx-font-weight: 600; -fx-font-size: 14px; -fx-text-fill: #1a202c;");
+                    
+                    Label passengersLabel = new Label("👤 " + booking.getPassengerCount() + " passenger" + 
+                                                     (booking.getPassengerCount() > 1 ? "s" : ""));
+                    passengersLabel.setStyle("-fx-text-fill: #718096; -fx-font-size: 12px;");
+                    
+                    VBox vbox = new VBox(3, nameLabel, passengersLabel);
+                    setGraphic(vbox);
+                }
+            }
+        });
+
+        // Flight Details column
+        flightDetailsColumn.setCellValueFactory(cellData ->
+            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getFlightNumber()));
+        flightDetailsColumn.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    FlightBooking booking = getTableView().getItems().get(getIndex());
+                    
+                    Label flightLabel = new Label(booking.getFlightNumber());
+                    flightLabel.setStyle("-fx-font-weight: 700; -fx-font-size: 14px; -fx-text-fill: #1a202c;");
+                    
+                    Label airlineLabel = new Label(booking.getAirlineName());
+                    airlineLabel.setStyle("-fx-text-fill: #4a5568; -fx-font-size: 12px;");
+                    
+                    HBox classTimeBox = new HBox(5);
+                    if (booking.getFlightClass() != null) {
+                        Label classLabel = new Label(booking.getFlightClass());
+                        classLabel.setStyle("-fx-text-fill: #3b82f6; -fx-font-size: 12px; -fx-font-weight: 600;");
+                        classTimeBox.getChildren().add(classLabel);
+                    }
+                    
+                    if (booking.getDepartureTime() != null) {
+                        Label timeLabel = new Label("🕐 " + booking.getDepartureTime().format(TIME_FORMATTER));
+                        timeLabel.setStyle("-fx-text-fill: #718096; -fx-font-size: 11px;");
+                        classTimeBox.getChildren().add(timeLabel);
+                    }
+                    
+                    VBox vbox = new VBox(3, flightLabel, airlineLabel, classTimeBox);
+                    setGraphic(vbox);
+                }
+            }
+        });
+
+        // Route column
+        routeColumn.setCellValueFactory(cellData ->
+            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getRoute()));
+        routeColumn.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    FlightBooking booking = getTableView().getItems().get(getIndex());
+                    
+                    Label routeLabel = new Label("📍 " + booking.getDepartureCity() + " → " + booking.getArrivalCity());
+                    routeLabel.setStyle("-fx-font-weight: 600; -fx-font-size: 13px; -fx-text-fill: #2d3748;");
+                    
+                    if (booking.getTravelDate() != null) {
+                        Label dateLabel = new Label(booking.getTravelDate().format(DATE_FORMATTER));
+                        dateLabel.setStyle("-fx-text-fill: #718096; -fx-font-size: 12px;");
+                        
+                        VBox vbox = new VBox(3, routeLabel, dateLabel);
+                        setGraphic(vbox);
+                    } else {
+                        setGraphic(routeLabel);
+                    }
+                }
+            }
+        });
+
+        // Status column with colored badges
+        statusColumn.setCellValueFactory(cellData ->
+            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getStatusDisplay()));
+        statusColumn.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    FlightBooking booking = getTableView().getItems().get(getIndex());
                     Label statusLabel = new Label(booking.getStatusDisplay());
-                    statusLabel.setPadding(new Insets(5, 15, 5, 15));
-                    statusLabel.setStyle(getStatusStyle(booking.getStatutReservation()));
-                    setGraphic(statusLabel);
+                    statusLabel.setPadding(new Insets(6, 14, 6, 14));
+                    statusLabel.setStyle(getStatusStyle(booking.getStatus()));
+                    statusLabel.setAlignment(Pos.CENTER);
+                    
+                    HBox hbox = new HBox(statusLabel);
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                    setGraphic(hbox);
                 }
             }
         });
 
         // Price column
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("prixTotal"));
-        priceColumn.setCellFactory(column -> new TableCell<HotelBooking, Double>() {
+        priceColumn.setCellValueFactory(cellData ->
+            new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getTotalPrice()));
+        priceColumn.setCellFactory(col -> new TableCell<>() {
             @Override
             protected void updateItem(Double price, boolean empty) {
                 super.updateItem(price, empty);
                 if (empty || price == null) {
                     setText(null);
+                    setStyle("");
                 } else {
-                    setText("$" + String.format("%.0f", price));
-                    setStyle("-fx-font-weight: bold; -fx-text-fill: #1e40af;");
+                    setText("$" + String.format("%,.0f", price));
+                    setStyle("-fx-font-weight: 700; -fx-text-fill: #1a202c; -fx-font-size: 14px;");
+                    setAlignment(Pos.CENTER_LEFT);
                 }
             }
         });
 
-        // Actions column with buttons
+        // Actions column with icon buttons
         actionsColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button viewBtn = new Button("👁");
-            private final Button editBtn = new Button("✏");
-            private final Button deleteBtn = new Button("🗑");
+            private final Button viewBtn = createIconButton("👁");
+            private final Button editBtn = createIconButton("✏");
+            private final Button deleteBtn = createIconButton("🗑");
 
             {
-                viewBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 16px;");
-                editBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 16px;");
-                deleteBtn.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 16px;");
-
                 viewBtn.setOnAction(event -> {
-                    HotelBooking booking = getTableView().getItems().get(getIndex());
+                    FlightBooking booking = getTableView().getItems().get(getIndex());
                     viewBookingDetails(booking);
                 });
 
                 editBtn.setOnAction(event -> {
-                    HotelBooking booking = getTableView().getItems().get(getIndex());
+                    FlightBooking booking = getTableView().getItems().get(getIndex());
                     editBooking(booking);
                 });
 
                 deleteBtn.setOnAction(event -> {
-                    HotelBooking booking = getTableView().getItems().get(getIndex());
+                    FlightBooking booking = getTableView().getItems().get(getIndex());
                     deleteBooking(booking);
                 });
             }
@@ -177,25 +241,61 @@ public class AllBookingsController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox actions = new HBox(5, viewBtn, editBtn, deleteBtn);
+                    HBox actions = new HBox(4, viewBtn, editBtn, deleteBtn);
+                    actions.setAlignment(Pos.CENTER_LEFT);
                     setGraphic(actions);
                 }
             }
         });
     }
 
-    private void setupFilterButtons() {
-        allFilterBtn.setOnAction(e -> filterBookings("ALL"));
-        confirmedFilterBtn.setOnAction(e -> filterBookings("CONFIRMEE"));
-        pendingFilterBtn.setOnAction(e -> filterBookings("EN_ATTENTE"));
-        cancelledFilterBtn.setOnAction(e -> filterBookings("ANNULEE"));
+    private Button createIconButton(String icon) {
+        Button btn = new Button(icon);
+        btn.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 16px; -fx-padding: 4;");
+        btn.setOnMouseEntered(e -> btn.setStyle("-fx-background-color: #edf2f7; -fx-cursor: hand; -fx-font-size: 16px; -fx-padding: 4; -fx-background-radius: 4;"));
+        btn.setOnMouseExited(e -> btn.setStyle("-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 16px; -fx-padding: 4;"));
+        return btn;
+    }
+
+    private String getStatusStyle(FlightBooking.StatutReservation status) {
+        switch (status) {
+            case CONFIRMEE:
+                return "-fx-background-color: #d1fae5; -fx-text-fill: #065f46; -fx-background-radius: 16; -fx-font-weight: 600; -fx-font-size: 12px;";
+            case EN_ATTENTE:
+                return "-fx-background-color: #fef3c7; -fx-text-fill: #92400e; -fx-background-radius: 16; -fx-font-weight: 600; -fx-font-size: 12px;";
+            case ANNULEE:
+                return "-fx-background-color: #fee2e2; -fx-text-fill: #991b1b; -fx-background-radius: 16; -fx-font-weight: 600; -fx-font-size: 12px;";
+            default:
+                return "-fx-background-color: #e5e7eb; -fx-text-fill: #374151; -fx-background-radius: 16; -fx-font-weight: 600; -fx-font-size: 12px;";
+        }
     }
 
     private void loadAllBookings() {
-        System.out.println("📋 Loading all bookings...");
-        List<HotelBooking> bookings = bookingService.getAll();
+        System.out.println("📋 Loading all flight bookings...");
+        List<FlightBooking> bookings = bookingService.getAllFlightBookings();
         allBookings.setAll(bookings);
         bookingsTable.setItems(allBookings);
+        updatePaginationLabel();
+    }
+
+    @FXML
+    private void handleFilterAll() {
+        filterBookings("ALL");
+    }
+
+    @FXML
+    private void handleFilterConfirmed() {
+        filterBookings("CONFIRMEE");
+    }
+
+    @FXML
+    private void handleFilterPending() {
+        filterBookings("EN_ATTENTE");
+    }
+
+    @FXML
+    private void handleFilterCancelled() {
+        filterBookings("ANNULEE");
     }
 
     private void filterBookings(String status) {
@@ -205,48 +305,38 @@ public class AllBookingsController {
         if ("ALL".equals(status)) {
             bookingsTable.setItems(allBookings);
         } else {
-            HotelBooking.StatutReservation statutFilter = HotelBooking.StatutReservation.valueOf(status);
-            List<HotelBooking> filtered = bookingService.getBookingsByStatus(statutFilter);
+            FlightBooking.StatutReservation statutFilter = FlightBooking.StatutReservation.valueOf(status);
+            List<FlightBooking> filtered = bookingService.getBookingsByStatus(statutFilter);
             bookingsTable.setItems(FXCollections.observableArrayList(filtered));
         }
+        updatePaginationLabel();
     }
 
     private void updateFilterButtonStyles() {
-        String activeStyle = "-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold;";
-        String inactiveStyle = "-fx-background-color: #f3f4f6; -fx-text-fill: #6b7280;";
+        String activeStyle = "-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: 600;";
+        String inactiveStyle = "-fx-background-color: #edf2f7; -fx-text-fill: #4a5568;";
 
-        allFilterBtn.setStyle("ALL".equals(currentFilter) ? activeStyle : inactiveStyle);
-        confirmedFilterBtn.setStyle("CONFIRMEE".equals(currentFilter) ? activeStyle : inactiveStyle);
-        pendingFilterBtn.setStyle("EN_ATTENTE".equals(currentFilter) ? activeStyle : inactiveStyle);
-        cancelledFilterBtn.setStyle("ANNULEE".equals(currentFilter) ? activeStyle : inactiveStyle);
+        allFilterBtn.setStyle(("ALL".equals(currentFilter) ? activeStyle : inactiveStyle) + " -fx-background-radius: 6; -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 13px;");
+        confirmedFilterBtn.setStyle(("CONFIRMEE".equals(currentFilter) ? activeStyle : inactiveStyle) + " -fx-background-radius: 6; -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 13px;");
+        pendingFilterBtn.setStyle(("EN_ATTENTE".equals(currentFilter) ? activeStyle : inactiveStyle) + " -fx-background-radius: 6; -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 13px;");
+        cancelledFilterBtn.setStyle(("ANNULEE".equals(currentFilter) ? activeStyle : inactiveStyle) + " -fx-background-radius: 6; -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 13px;");
     }
 
     @FXML
     private void handleSearch() {
-        String searchText = searchField.getText().toLowerCase();
+        String searchText = searchField.getText().toLowerCase().trim();
         if (searchText.isBlank()) {
             bookingsTable.setItems(allBookings);
-            return;
+        } else {
+            ObservableList<FlightBooking> filtered = allBookings.filtered(booking ->
+                booking.getBookingId().toLowerCase().contains(searchText) ||
+                booking.getPassengerName().toLowerCase().contains(searchText) ||
+                booking.getFlightNumber().toLowerCase().contains(searchText) ||
+                booking.getAirlineName().toLowerCase().contains(searchText)
+            );
+            bookingsTable.setItems(filtered);
         }
-
-        ObservableList<HotelBooking> filtered = allBookings.filtered(booking ->
-            booking.getBookingId().toLowerCase().contains(searchText) ||
-            booking.getGuestName().toLowerCase().contains(searchText) ||
-            booking.getNumeroConfirmation().toLowerCase().contains(searchText) ||
-            booking.getHotelName().toLowerCase().contains(searchText)
-        );
-
-        bookingsTable.setItems(filtered);
-    }
-
-    @FXML
-    private void handleBookHotel() {
-        try {
-            SceneManager.switchScene("/ui/book-hotel-new.fxml");
-        } catch (Exception e) {
-            System.err.println("❌ Error opening hotel booking: " + e.getMessage());
-            e.printStackTrace();
-        }
+        updatePaginationLabel();
     }
 
     @FXML
@@ -255,7 +345,15 @@ public class AllBookingsController {
             SceneManager.switchScene("/ui/book-flight.fxml");
         } catch (Exception e) {
             System.err.println("❌ Error opening flight booking: " + e.getMessage());
-            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleBookHotel() {
+        try {
+            SceneManager.switchScene("/ui/book-hotel-new.fxml");
+        } catch (Exception e) {
+            System.err.println("❌ Error opening hotel booking: " + e.getMessage());
         }
     }
 
@@ -265,49 +363,70 @@ public class AllBookingsController {
             SceneManager.switchScene("/ui/rent-car.fxml");
         } catch (Exception e) {
             System.err.println("❌ Error opening car rental: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
-    private void viewBookingDetails(HotelBooking booking) {
+    @FXML
+    private void handleExportData() {
+        showInfo("Export feature coming soon!");
+    }
+
+    @FXML
+    private void handlePrevPage() {
+        showInfo("Previous page");
+    }
+
+    @FXML
+    private void handleNextPage() {
+        showInfo("Next page");
+    }
+
+    @FXML
+    private void handlePageClick() {
+        showInfo("Page clicked");
+    }
+
+    private void updatePaginationLabel() {
+        int total = bookingsTable.getItems().size();
+        paginationLabel.setText("Showing 1-" + Math.min(5, total) + " of " + total + " bookings");
+    }
+
+    private void viewBookingDetails(FlightBooking booking) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Booking Details");
-        alert.setHeaderText(booking.getBookingId() + " - " + booking.getHotelName());
+        alert.setHeaderText(booking.getBookingId() + " - " + booking.getFlightNumber());
 
         String details = String.format(
-            "Guest: %s\n" +
-            "Email: %s\n" +
-            "Confirmation: %s\n\n" +
-            "Hotel: %s\n" +
-            "Room Type: %s\n" +
-            "Check-in: %s\n" +
-            "Check-out: %s\n" +
-            "Nights: %d\n\n" +
-            "Guests: %d adults, %d children\n" +
-            "Total Price: $%.2f\n" +
-            "Status: %s\n\n" +
-            "Special Requests: %s",
-            booking.getGuestName(),
-            booking.getGuestEmail(),
-            booking.getNumeroConfirmation(),
-            booking.getHotelName(),
-            booking.getChambreType(),
-            booking.getDateCheckin().format(DATE_FORMATTER),
-            booking.getDateCheckout().format(DATE_FORMATTER),
-            booking.getNombreNuits(),
-            booking.getNombreAdultes(),
-            booking.getNombreEnfants(),
-            booking.getPrixTotal(),
+            "Passenger: %s\n" +
+            "Passengers: %d\n\n" +
+            "Flight: %s\n" +
+            "Airline: %s\n" +
+            "Class: %s\n" +
+            "Departure: %s\n\n" +
+            "Route: %s → %s\n" +
+            "Travel Date: %s\n\n" +
+            "Total Price: $%.0f\n" +
+            "Status: %s\n" +
+            "Confirmation: %s",
+            booking.getPassengerName(),
+            booking.getPassengerCount(),
+            booking.getFlightNumber(),
+            booking.getAirlineName(),
+            booking.getFlightClass(),
+            booking.getDepartureTime() != null ? booking.getDepartureTime().format(DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm")) : "N/A",
+            booking.getDepartureCity(),
+            booking.getArrivalCity(),
+            booking.getTravelDate() != null ? booking.getTravelDate().format(DATE_FORMATTER) : "N/A",
+            booking.getTotalPrice(),
             booking.getStatusDisplay(),
-            booking.getDemandesSpeciales() != null ? booking.getDemandesSpeciales() : "None"
+            booking.getNumeroConfirmation()
         );
 
         alert.setContentText(details);
         alert.showAndWait();
     }
 
-    private void editBooking(HotelBooking booking) {
-        // Show dialog to change status
+    private void editBooking(FlightBooking booking) {
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Confirmed",
             "Confirmed", "Pending", "Cancelled", "Completed");
         dialog.setTitle("Update Booking Status");
@@ -315,26 +434,26 @@ public class AllBookingsController {
         dialog.setContentText("Change status to:");
 
         dialog.showAndWait().ifPresent(status -> {
-            HotelBooking.StatutReservation newStatus;
+            FlightBooking.StatutReservation newStatus;
             switch (status) {
-                case "Confirmed": newStatus = HotelBooking.StatutReservation.CONFIRMEE; break;
-                case "Pending": newStatus = HotelBooking.StatutReservation.EN_ATTENTE; break;
-                case "Cancelled": newStatus = HotelBooking.StatutReservation.ANNULEE; break;
-                case "Completed": newStatus = HotelBooking.StatutReservation.TERMINEE; break;
+                case "Confirmed": newStatus = FlightBooking.StatutReservation.CONFIRMEE; break;
+                case "Pending": newStatus = FlightBooking.StatutReservation.EN_ATTENTE; break;
+                case "Cancelled": newStatus = FlightBooking.StatutReservation.ANNULEE; break;
+                case "Completed": newStatus = FlightBooking.StatutReservation.TERMINEE; break;
                 default: return;
             }
 
-            booking.setStatutReservation(newStatus);
-            if (bookingService.update(booking)) {
+            booking.setStatus(newStatus);
+            if (bookingService.updateBookingStatus(booking.getReservationId(), newStatus)) {
                 showSuccess("Booking status updated successfully!");
-                loadAllBookings();
+                bookingsTable.refresh();
             } else {
                 showError("Failed to update booking status.");
             }
         });
     }
 
-    private void deleteBooking(HotelBooking booking) {
+    private void deleteBooking(FlightBooking booking) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Delete Booking");
         confirm.setHeaderText("Delete " + booking.getBookingId() + "?");
@@ -342,7 +461,7 @@ public class AllBookingsController {
 
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                if (bookingService.delete(booking.getReservationId())) {
+                if (bookingService.deleteBooking(booking.getReservationId())) {
                     showSuccess("Booking deleted successfully!");
                     loadAllBookings();
                 } else {
@@ -352,21 +471,12 @@ public class AllBookingsController {
         });
     }
 
-    private String getStatusStyle(HotelBooking.StatutReservation status) {
-        switch (status) {
-            case CONFIRMEE:
-                return "-fx-background-color: #d1fae5; -fx-text-fill: #065f46; " +
-                       "-fx-background-radius: 12; -fx-font-weight: bold;";
-            case EN_ATTENTE:
-                return "-fx-background-color: #fef3c7; -fx-text-fill: #92400e; " +
-                       "-fx-background-radius: 12; -fx-font-weight: bold;";
-            case ANNULEE:
-                return "-fx-background-color: #fee2e2; -fx-text-fill: #991b1b; " +
-                       "-fx-background-radius: 12; -fx-font-weight: bold;";
-            default:
-                return "-fx-background-color: #e5e7eb; -fx-text-fill: #374151; " +
-                       "-fx-background-radius: 12; -fx-font-weight: bold;";
-        }
+    private void showInfo(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void showSuccess(String message) {

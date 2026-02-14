@@ -8,7 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ui.model.User;
-// import ui.service.NVIDIAChatService; // Temporarily disabled
+import ui.service.NVIDIAChatService;
+import ui.service.AIQueryGeneratorService;
 import ui.util.SceneManager;
 import ui.util.SessionManager;
 
@@ -17,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AIAgentController {
 
@@ -28,17 +31,39 @@ public class AIAgentController {
 
     @FXML
     private VBox employeeActionsSection;
+    
+    @FXML
+    private HBox quickActionsBox;
 
-    // private NVIDIAChatService chatService; // Temporarily disabled
+    private NVIDIAChatService chatService;
+    private AIQueryGeneratorService aiQueryService;
     private Connection dbConnection;
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+    private List<ChatMessage> conversationHistory;
+    private static final int MAX_HISTORY = 10;
 
     @FXML
     private void initialize() {
-        // chatService = new NVIDIAChatService(); // Temporarily disabled
+        conversationHistory = new ArrayList<>();
+        
+        try {
+            chatService = new NVIDIAChatService();
+            System.out.println("✅ NVIDIA Mistral AI chatbot initialized successfully");
+        } catch (Exception e) {
+            System.err.println("❌ Failed to initialize NVIDIA chatbot: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        try {
+            aiQueryService = new AIQueryGeneratorService();
+            System.out.println("✅ AI Query Generator initialized successfully");
+        } catch (Exception e) {
+            System.err.println("❌ Failed to initialize AI Query Generator: " + e.getMessage());
+        }
 
         try {
             dbConnection = ui.util.DataSource.getInstance().getConnection();
+            System.out.println("✅ Database connected successfully");
         } catch (Exception e) {
             System.err.println("❌ Error connecting to database: " + e.getMessage());
         }
@@ -47,37 +72,72 @@ public class AIAgentController {
         User currentUser = SessionManager.getInstance().getCurrentUser();
         if (currentUser != null) {
             boolean isEmployee = currentUser.getUserType() == User.UserType.EMPLOYE ||
-                                currentUser.getUserType() == User.UserType.ADMIN;
+                                currentUser.getUserType() == User.UserType.ADMIN ||
+                                currentUser.getUserType() == User.UserType.RESPONSABLE;
             employeeActionsSection.setVisible(isEmployee);
             employeeActionsSection.setManaged(isEmployee);
         }
+        
+        // Add quick action buttons
+        addQuickActionButtons();
 
         // Add welcome message
-        addAIMessage("Hello! I'm your AI Travel Assistant with full database access. I can help you with:\n\n" +
-                    "👥 USER MANAGEMENT:\n" +
-                    "   • View all users\n" +
-                    "   • Search users by name/email\n" +
-                    "   • View user details\n\n" +
-                    "📋 BOOKING MANAGEMENT:\n" +
-                    "   • View all bookings (hotels, flights, cars)\n" +
-                    "   • Create new bookings\n" +
-                    "   • Update/Cancel bookings\n" +
-                    "   • Show pending/confirmed bookings\n\n" +
-                    "🏨 HOTEL OPERATIONS:\n" +
-                    "   • View all hotels\n" +
-                    "   • Search hotels by city\n" +
-                    "   • View hotel details\n\n" +
-                    "✈️ FLIGHT OPERATIONS:\n" +
-                    "   • View all flights\n" +
-                    "   • Search flights by route\n" +
-                    "   • Check flight status\n\n" +
-                    "🚗 CAR RENTAL:\n" +
-                    "   • View available cars\n" +
-                    "   • Search cars by location\n\n" +
-                    "📊 ANALYTICS:\n" +
-                    "   • Generate reports\n" +
-                    "   • View statistics\n\n" +
-                    "What would you like me to do?");
+        addAIMessage("🤖 Hello! I'm your AI Travel Assistant powered by **NVIDIA Mistral AI** with **Natural Language Database Access**.\n\n" +
+                    "💡 **NEW FEATURES:**\n" +
+                    "   • Ask questions in plain English!\n" +
+                    "   • I'll automatically query the database\n" +
+                    "   • Context-aware conversations\n\n" +
+                    "📊 **EXAMPLES:**\n" +
+                    "   • \"Show me all confirmed bookings\"\n" +
+                    "   • \"Find flights to New York\"\n" +
+                    "   • \"Which hotels are in Paris?\"\n" +
+                    "   • \"How many users are registered?\"\n" +
+                    "   • \"Show pending reservations\"\n\n" +
+                    "🚀 **TRY IT:** Use the quick action buttons below or type your question!");
+    }
+    
+    private void addQuickActionButtons() {
+        if (quickActionsBox == null) return;
+        
+        quickActionsBox.getChildren().clear();
+        
+        String[] actions = {
+            "📋 All Bookings",
+            "✈️ Find Flights", 
+            "🏨 Browse Hotels",
+            "👥 User Stats",
+            "📊 Analytics"
+        };
+        
+        for (String action : actions) {
+            Button btn = new Button(action);
+            btn.setStyle("-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-border-color: #3b82f6; " +
+                        "-fx-border-width: 1.5; -fx-background-radius: 20; -fx-padding: 8 16; -fx-cursor: hand; " +
+                        "-fx-font-size: 12px; -fx-font-weight: 600;");
+            btn.setOnAction(e -> handleQuickAction(action));
+            quickActionsBox.getChildren().add(btn);
+        }
+    }
+    
+    private void handleQuickAction(String action) {
+        switch (action) {
+            case "📋 All Bookings":
+                aiInputField.setText("Show me all bookings");
+                break;
+            case "✈️ Find Flights":
+                aiInputField.setText("Show available flights");
+                break;
+            case "🏨 Browse Hotels":
+                aiInputField.setText("List all hotels");
+                break;
+            case "👥 User Stats":
+                aiInputField.setText("How many users are registered?");
+                break;
+            case "📊 Analytics":
+                aiInputField.setText("Generate analytics report");
+                break;
+        }
+        handleSendMessage();
     }
 
     @FXML
@@ -86,6 +146,11 @@ public class AIAgentController {
         if (message.isEmpty()) return;
 
         addUserMessage(message);
+        conversationHistory.add(new ChatMessage("user", message));
+        if (conversationHistory.size() > MAX_HISTORY) {
+            conversationHistory.remove(0);
+        }
+        
         aiInputField.clear();
 
         // Show typing indicator
@@ -107,6 +172,24 @@ public class AIAgentController {
         String lowerCommand = command.toLowerCase();
 
         try {
+            // ========== STEP 1: TRY AI QUERY GENERATION FIRST ==========
+            if (aiQueryService != null) {
+                System.out.println("🤖 Attempting AI query generation for: " + command);
+                
+                // Use the processNaturalLanguageQuery method which handles everything
+                String aiResult = aiQueryService.processNaturalLanguageQuery(command);
+                
+                // If AI query succeeded (didn't return error), use it
+                if (aiResult != null && !aiResult.startsWith("❌")) {
+                    System.out.println("✅ AI query succeeded!");
+                    conversationHistory.add(new ChatMessage("assistant", aiResult));
+                    return aiResult;
+                } else {
+                    System.out.println("⚠️ AI query failed, falling back to pattern matching");
+                }
+            }
+            
+            // ========== STEP 2: FALLBACK TO PATTERN MATCHING ==========
             // ========== USER MANAGEMENT ==========
             if (lowerCommand.contains("user") || lowerCommand.contains("customer") || lowerCommand.contains("client")) {
                 if (lowerCommand.contains("show") || lowerCommand.contains("view") || lowerCommand.contains("list") || lowerCommand.contains("all")) {
@@ -217,8 +300,8 @@ public class AIAgentController {
 
         // Greeting
         if (lower.contains("hello") || lower.contains("hi") || lower.matches("^(hey|sup|yo)\\b.*")) {
-            return "Hello! I'm your AI Travel Assistant. I can help you with hotel bookings, " +
-                   "analytics, and managing reservations. What would you like to do?";
+            return "Hello! I'm your AI Travel Assistant powered by Mistral AI. I can help you with hotel bookings, " +
+                   "flights, car rentals, analytics, and managing reservations. What would you like to do?";
         }
 
         // Help
@@ -230,10 +313,22 @@ public class AIAgentController {
                    "🚗 CARS: 'Show all cars', 'Search cars in Dubai'\n" +
                    "📋 BOOKINGS: 'Show all bookings', 'Show pending bookings', 'Cancel booking #123'\n" +
                    "📊 ANALYTICS: 'Generate analytics', 'Show revenue', 'Generate report'\n\n" +
-                   "Try any of these commands!";
+                   "Try any of these commands, or ask me anything about travel!";
         }
 
-        // Default
+        // Use NVIDIA Mistral chatbot for general questions
+        try {
+            if (chatService != null) {
+                System.out.println("🤖 Using NVIDIA Mistral AI for: " + command);
+                String aiResponse = chatService.sendMessage(command);
+                return "🤖 AI Assistant (Powered by Mistral):\n\n" + aiResponse;
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Error calling NVIDIA API: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        // Default fallback
         return "I understand you're asking: \"" + command + "\"\n\n" +
                "I can help with:\n" +
                "👥 User Management: 'Show all users'\n" +
@@ -1065,5 +1160,28 @@ public class AIAgentController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+    
+    // ========== INNER CLASSES ==========
+    
+    /**
+     * Chat Message Model for conversation history tracking
+     */
+    private static class ChatMessage {
+        private String role; // "user" or "assistant"
+        private String content;
+        
+        public ChatMessage(String role, String content) {
+            this.role = role;
+            this.content = content;
+        }
+        
+        public String getRole() { 
+            return role; 
+        }
+        
+        public String getContent() { 
+            return content; 
+        }
     }
 }

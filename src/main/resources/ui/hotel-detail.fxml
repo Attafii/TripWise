@@ -67,7 +67,7 @@
 
         <!-- Amenities -->
         <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;">
-            <Label text="Amenities & Services" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+            <Label text="Amenities &amp; Services" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
             <FlowPane fx:id="amenitiesContainer" hgap="15" vgap="15" />
         </VBox>
 

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" 
+           fx:controller="ui.controllers.admin.AdminSettingsController"
+           style="-fx-background-color: #f8f9fa;">
+    
+    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
+        <VBox spacing="25" style="-fx-padding: 30;">
+            
+            <!-- Header -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="⚙️ System Settings" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="💾 Save Settings" onAction="#handleSaveSettings"
+                       style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand; -fx-font-weight: 600;" />
+                <Button text="🔄 Reset Defaults" onAction="#handleResetDefaults"
+                       style="-fx-background-color: #6b7280; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+            </HBox>
+            
+            <!-- Application Settings -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <Label text="🚀 Application Settings" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                
+                <GridPane hgap="20" vgap="15">
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Application Name" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextField fx:id="txtAppName" style="-fx-background-radius: 8; -fx-padding: 10; -fx-pref-width: 300;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Version" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextField fx:id="txtAppVersion" style="-fx-background-radius: 8; -fx-padding: 10; -fx-pref-width: 150;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                        <Label text="Description" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextArea fx:id="txtAppDescription" prefRowCount="2" wrapText="true"
+                                 style="-fx-background-radius: 8; -fx-padding: 10;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <CheckBox fx:id="chkMaintenanceMode" text="Maintenance Mode" 
+                                 style="-fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #ef4444;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                        <Label text="Maintenance Message" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextField fx:id="txtMaintenanceMessage" style="-fx-background-radius: 8; -fx-padding: 10;" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+            
+            <!-- Email Settings -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Label text="📧 Email Settings" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button text="🧪 Test Email" onAction="#handleTestEmail"
+                           style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 16; -fx-font-size: 12px; -fx-cursor: hand;" />
+                </HBox>
+                
+                <CheckBox fx:id="chkEmailEnabled" text="Enable Email Notifications" 
+                         style="-fx-font-size: 14px; -fx-font-weight: 600;" />
+                
+                <GridPane hgap="20" vgap="15">
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="SMTP Host" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextField fx:id="txtSmtpHost" style="-fx-background-radius: 8; -fx-padding: 10; -fx-pref-width: 300;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="SMTP Port" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextField fx:id="txtSmtpPort" style="-fx-background-radius: 8; -fx-padding: 10; -fx-pref-width: 100;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="SMTP Username" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextField fx:id="txtSmtpUser" style="-fx-background-radius: 8; -fx-padding: 10;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="SMTP Password" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <PasswordField fx:id="txtSmtpPassword" style="-fx-background-radius: 8; -fx-padding: 10;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="2">
+                        <Label text="From Email" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextField fx:id="txtEmailFrom" style="-fx-background-radius: 8; -fx-padding: 10;" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+            
+            <!-- Notification Settings -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <Label text="🔔 Notification Settings" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                
+                <VBox spacing="12">
+                    <CheckBox fx:id="chkBookingNotifications" text="Booking Notifications" style="-fx-font-size: 14px;" />
+                    <CheckBox fx:id="chkPaymentNotifications" text="Payment Notifications" style="-fx-font-size: 14px;" />
+                    <CheckBox fx:id="chkUserNotifications" text="User Registration Notifications" style="-fx-font-size: 14px;" />
+                    <CheckBox fx:id="chkSmsNotifications" text="SMS Notifications (Requires Twilio)" style="-fx-font-size: 14px;" />
+                    <CheckBox fx:id="chkPushNotifications" text="Push Notifications" style="-fx-font-size: 14px;" />
+                </VBox>
+            </VBox>
+            
+            <!-- Booking Settings -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <Label text="📋 Booking Settings" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                
+                <GridPane hgap="20" vgap="15">
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Max Booking Days Ahead" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Spinner fx:id="spnMaxBookingDays" editable="true" prefWidth="150"
+                                style="-fx-background-radius: 8;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Min Booking Days Ahead" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Spinner fx:id="spnMinBookingDays" editable="true" prefWidth="150"
+                                style="-fx-background-radius: 8;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <CheckBox fx:id="chkAutoApproveBookings" text="Auto-Approve Bookings" style="-fx-font-size: 14px; -fx-font-weight: 600;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Cancellation Period (hours)" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <TextField fx:id="txtCancellationPeriod" style="-fx-background-radius: 8; -fx-padding: 10; -fx-pref-width: 150;" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+            
+            <!-- Security Settings -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <Label text="🔒 Security Settings" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                
+                <GridPane hgap="20" vgap="15">
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Password Min Length" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Spinner fx:id="spnPasswordMinLength" editable="true" prefWidth="150"
+                                style="-fx-background-radius: 8;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Session Timeout (minutes)" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Spinner fx:id="spnSessionTimeout" editable="true" prefWidth="150"
+                                style="-fx-background-radius: 8;" />
+                    </VBox>
+                    
+                    <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                        <Label text="Password Requirements" style="-fx-font-size: 14px; -fx-text-fill: #111827; -fx-font-weight: 600;" />
+                        <CheckBox fx:id="chkRequireUppercase" text="Require Uppercase Letter" style="-fx-font-size: 13px;" />
+                        <CheckBox fx:id="chkRequireNumber" text="Require Number" style="-fx-font-size: 13px;" />
+                        <CheckBox fx:id="chkRequireSpecialChar" text="Require Special Character" style="-fx-font-size: 13px;" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+            
+            <!-- Import/Export Actions -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Button text="📥 Import Settings" onAction="#handleImportSettings"
+                       style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+                <Button text="📤 Export Settings" onAction="#handleExportSettings"
+                       style="-fx-background-color: #06b6d4; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+                <Button text="🧹 Clear Cache" onAction="#handleClearCache"
+                       style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+            </HBox>
+            
+        </VBox>
+    </ScrollPane>
+</StackPane>

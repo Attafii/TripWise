@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" 
+           fx:controller="ui.controllers.admin.AdminSystemHealthController"
+           style="-fx-background-color: #f8f9fa;">
+    
+    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
+        <VBox spacing="25" style="-fx-padding: 30;">
+            
+            <!-- Header -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="💚 System Health Monitor" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="🔄 Refresh" onAction="#handleRefresh"
+                       style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+                <Button text="🧪 Test Connection" onAction="#handleTestConnection"
+                       style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+            </HBox>
+            
+            <!-- Database Health Section -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <Label text="🗄️ Database Health" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                
+                <GridPane hgap="40" vgap="20">
+                    <!-- Database Status -->
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Connection Status" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblDbStatus" text="Checking..." style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+                    </VBox>
+                    
+                    <!-- Active Connections -->
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Active Connections" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblDbConnections" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                    </VBox>
+                    
+                    <!-- Database Size -->
+                    <VBox spacing="8" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <Label text="Database Size" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblDbSize" text="0 MB" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+                    </VBox>
+                    
+                    <!-- Database Uptime -->
+                    <VBox spacing="8" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                        <Label text="Database Uptime" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblDbUptime" text="0d 0h" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+            
+            <!-- System Resources Section -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <Label text="🖥️ System Resources" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                
+                <GridPane hgap="40" vgap="25">
+                    <!-- CPU Usage -->
+                    <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="CPU Usage" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                            <Label fx:id="lblCpuUsage" text="0%" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                        </HBox>
+                        <ProgressBar fx:id="progressCpu" progress="0" prefWidth="400" prefHeight="12"
+                                    style="-fx-accent: #3b82f6;" />
+                    </VBox>
+                    
+                    <!-- Memory Usage -->
+                    <VBox spacing="10" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="Memory Usage" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                            <Label fx:id="lblMemoryUsage" text="0 MB" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+                        </HBox>
+                        <ProgressBar fx:id="progressMemory" progress="0" prefWidth="400" prefHeight="12"
+                                    style="-fx-accent: #f59e0b;" />
+                    </VBox>
+                    
+                    <!-- Memory Details -->
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="Total Memory" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblMemoryTotal" text="0 MB" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Free Memory" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblMemoryFree" text="0 MB" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Label text="Active Threads" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblActiveThreads" text="0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+            
+            <!-- Table Statistics Section -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <Label text="📊 Database Tables" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                
+                <GridPane hgap="40" vgap="20">
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Total Tables" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblTotalTables" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Users" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblUsersCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <Label text="Bookings" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblBookingsCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="Hotels" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblHotelsCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Flights" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblFlightsCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ef4444;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Label text="Vehicles" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblVehiclesCount" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #06b6d4;" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+            
+            <!-- Performance Metrics Section -->
+            <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);">
+                <Label text="⚡ Performance Metrics" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                
+                <GridPane hgap="40" vgap="20">
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Avg Response Time" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblAvgResponseTime" text="0 ms" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Total Requests" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblTotalRequests" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <Label text="Error Rate" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblErrorRate" text="0%" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ef4444;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="Cache Hit Rate" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblCacheHitRate" text="0%" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Query Cache Size" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblQueryCacheSize" text="0 MB" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+                    </VBox>
+                    
+                    <VBox spacing="8" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Label text="Slow Queries" style="-fx-font-size: 13px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                        <Label fx:id="lblSlowQueries" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ef4444;" />
+                    </VBox>
+                </GridPane>
+            </VBox>
+            
+            <!-- Action Buttons -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Button text="🧹 Clear Cache" onAction="#handleClearCache"
+                       style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 12 24; -fx-font-size: 14px; -fx-cursor: hand; -fx-font-weight: 600;" />
+                <Button text="⚡ Optimize Tables" onAction="#handleOptimizeTables"
+                       style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 12 24; -fx-font-size: 14px; -fx-cursor: hand; -fx-font-weight: 600;" />
+                <Label text="Auto-refresh: Every 5 seconds" style="-fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-font-style: italic;" />
+            </HBox>
+            
+        </VBox>
+    </ScrollPane>
+</StackPane>

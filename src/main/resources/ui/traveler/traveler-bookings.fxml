@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<!-- 
+  My Bookings Dashboard - Traveler view of all their bookings
+  Features: Filter by type/status, view booking details, modify dates, cancel, download PDF
+-->
+
+<VBox xmlns="http://javafx.com/javafx/20.0.2" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ui.controllers.traveler.TravelerBookingsController"
+      spacing="24" 
+      styleClass="content-container">
+
+    <!-- Header -->
+    <VBox spacing="8">
+        <Text text="My Bookings" styleClass="page-title"/>
+        <Text text="View and manage all your travel bookings" styleClass="page-subtitle"/>
+    </VBox>
+
+    <!-- Filter Section -->
+    <HBox spacing="16" alignment="CENTER_LEFT" styleClass="card">
+        <padding>
+            <Insets top="16" right="16" bottom="16" left="16"/>
+        </padding>
+
+        <!-- Booking Type Filter -->
+        <VBox spacing="4" HBox.hgrow="SOMETIMES">
+            <Label text="Booking Type" styleClass="field-label"/>
+            <ComboBox fx:id="typeComboBox" promptText="All Types" prefWidth="150" styleClass="form-field"/>
+        </VBox>
+
+        <!-- Status Filter -->
+        <VBox spacing="4" HBox.hgrow="SOMETIMES">
+            <Label text="Status" styleClass="field-label"/>
+            <ComboBox fx:id="statusComboBox" promptText="All Statuses" prefWidth="150" styleClass="form-field"/>
+        </VBox>
+
+        <!-- Date Range Filter -->
+        <VBox spacing="4" HBox.hgrow="SOMETIMES">
+            <Label text="From Date" styleClass="field-label"/>
+            <DatePicker fx:id="fromDatePicker" promptText="Start date" prefWidth="150" styleClass="form-field"/>
+        </VBox>
+
+        <VBox spacing="4" HBox.hgrow="SOMETIMES">
+            <Label text="To Date" styleClass="field-label"/>
+            <DatePicker fx:id="toDatePicker" promptText="End date" prefWidth="150" styleClass="form-field"/>
+        </VBox>
+
+        <!-- Search Box -->
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Search" styleClass="field-label"/>
+            <TextField fx:id="searchField" promptText="Confirmation #, hotel name..." prefWidth="200" styleClass="form-field"/>
+        </VBox>
+
+        <!-- Filter Actions -->
+        <VBox spacing="4">
+            <Label text=" " styleClass="field-label"/> <!-- Spacer to align buttons -->
+            <HBox spacing="8">
+                <Button text="Apply Filters" onAction="#handleApplyFilters" styleClass="btn-primary"/>
+                <Button text="Reset" onAction="#handleResetFilters" styleClass="btn-secondary"/>
+            </HBox>
+        </VBox>
+    </HBox>
+
+    <!-- Statistics Bar -->
+    <HBox spacing="16" alignment="CENTER" styleClass="stats-container">
+        <VBox spacing="4" alignment="CENTER" styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Text fx:id="totalBookingsLabel" text="0" styleClass="stat-value"/>
+            <Text text="Total Bookings" styleClass="stat-label"/>
+        </VBox>
+        
+        <VBox spacing="4" alignment="CENTER" styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Text fx:id="upcomingBookingsLabel" text="0" styleClass="stat-value"/>
+            <Text text="Upcoming" styleClass="stat-label"/>
+        </VBox>
+        
+        <VBox spacing="4" alignment="CENTER" styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Text fx:id="pendingBookingsLabel" text="0" styleClass="stat-value"/>
+            <Text text="Pending Approval" styleClass="stat-label"/>
+        </VBox>
+        
+        <VBox spacing="4" alignment="CENTER" styleClass="stat-card" HBox.hgrow="ALWAYS">
+            <Text fx:id="totalSpentLabel" text="0.00" styleClass="stat-value"/>
+            <Text text="Total Spent" styleClass="stat-label"/>
+        </VBox>
+    </HBox>
+
+    <!-- View Toggle -->
+    <HBox spacing="8" alignment="CENTER_LEFT">
+        <Label text="View:" styleClass="field-label"/>
+        <RadioButton text="Timeline" selected="true" fx:id="timelineViewRadio">
+            <toggleGroup>
+                <ToggleGroup fx:id="viewToggleGroup"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton text="List" toggleGroup="$viewToggleGroup" fx:id="listViewRadio"/>
+    </HBox>
+
+    <!-- Bookings Display Area -->
+    <StackPane VBox.vgrow="ALWAYS">
+        <!-- Timeline View (upcoming trips chronologically) -->
+        <ScrollPane fx:id="timelineScrollPane" fitToWidth="true" styleClass="scroll-pane">
+            <VBox fx:id="timelineContainer" spacing="16">
+                <padding>
+                    <Insets top="8" right="8" bottom="8" left="8"/>
+                </padding>
+            </VBox>
+        </ScrollPane>
+
+        <!-- List View (all bookings in table) -->
+        <TableView fx:id="bookingsTableView" styleClass="table-view" visible="false" managed="false">
+            <columns>
+                <TableColumn fx:id="bookingIdColumn" text="Booking ID" prefWidth="100"/>
+                <TableColumn fx:id="typeColumn" text="Type" prefWidth="80"/>
+                <TableColumn fx:id="hotelNameColumn" text="Hotel/Service" prefWidth="200"/>
+                <TableColumn fx:id="confirmationColumn" text="Confirmation #" prefWidth="120"/>
+                <TableColumn fx:id="checkinColumn" text="Check-in" prefWidth="100"/>
+                <TableColumn fx:id="checkoutColumn" text="Check-out" prefWidth="100"/>
+                <TableColumn fx:id="guestsColumn" text="Guests" prefWidth="70"/>
+                <TableColumn fx:id="nightsColumn" text="Nights" prefWidth="70"/>
+                <TableColumn fx:id="priceColumn" text="Total Price" prefWidth="100"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+                <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
+            </columns>
+            <placeholder>
+                <VBox alignment="CENTER" spacing="8">
+                    <Text text="No bookings found" styleClass="text-muted"/>
+                    <Text text="Try adjusting your filters or make a new booking" styleClass="text-sm"/>
+                </VBox>
+            </placeholder>
+        </TableView>
+
+        <!-- Empty State -->
+        <VBox fx:id="emptyStateContainer" alignment="CENTER" spacing="16" visible="false" managed="false">
+            <Text text="📅" style="-fx-font-size: 48px;"/>
+            <Text text="No bookings yet" styleClass="text-lg" style="-fx-font-weight: 600;"/>
+            <Text text="Start planning your next adventure!" styleClass="text-muted"/>
+            <Button text="Search Hotels" onAction="#handleGoToSearch" styleClass="btn-primary"/>
+        </VBox>
+
+        <!-- Loading Indicator -->
+        <VBox fx:id="loadingContainer" alignment="CENTER" spacing="16" visible="false" managed="false">
+            <ProgressIndicator/>
+            <Text text="Loading your bookings..." styleClass="text-muted"/>
+        </VBox>
+    </StackPane>
+
+    <!-- Pagination (for table view) -->
+    <HBox fx:id="paginationContainer" spacing="16" alignment="CENTER" visible="false">
+        <Button text="« Previous" onAction="#handlePreviousPage" fx:id="prevButton" styleClass="btn-secondary"/>
+        <Label fx:id="pageLabel" text="Page 1 of 1" styleClass="text-muted"/>
+        <Button text="Next »" onAction="#handleNextPage" fx:id="nextButton" styleClass="btn-secondary"/>
+    </HBox>
+
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24"/>
+    </padding>
+</VBox>

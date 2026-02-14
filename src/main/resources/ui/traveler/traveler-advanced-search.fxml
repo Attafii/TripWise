@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<!-- TODO: Uncomment when JavaFX Web module is loaded (after mvn clean install) -->
+<!-- <?import javafx.scene.web.WebView?> -->
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml" 
+            fx:controller="ui.controllers.traveler.TravelerAdvancedSearchController"
+            fitToWidth="true" 
+            style="-fx-background-color: #f8f9fa;" stylesheets="@../style.css">
+    
+    <VBox spacing="20" style="-fx-background-color: #f8f9fa; -fx-padding: 30;">
+        
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Label text="🔍" style="-fx-font-size: 48px;" />
+            <VBox spacing="5">
+                <Label text="Advanced Hotel Search" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                <Label text="Find your perfect stay with our powerful search filters" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
+            </VBox>
+        </HBox>
+        
+        <!-- Search Filters Card -->
+        <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 4);">
+            
+            <Label text="Search Filters" styleClass="form-title" />
+            
+            <!-- Row 1: Destination & Dates -->
+            <HBox spacing="15">
+                <!-- Destination -->
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Destination" styleClass="field-label" />
+                    <ComboBox fx:id="destinationComboBox" promptText="Select city" styleClass="form-field" maxWidth="Infinity" />
+                </VBox>
+                
+                <!-- Check-in Date -->
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Check-in" styleClass="field-label" />
+                    <DatePicker fx:id="checkInDatePicker" promptText="Select date" styleClass="form-field" maxWidth="Infinity" />
+                </VBox>
+                
+                <!-- Check-out Date -->
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Check-out" styleClass="field-label" />
+                    <DatePicker fx:id="checkOutDatePicker" promptText="Select date" styleClass="form-field" maxWidth="Infinity" />
+                </VBox>
+            </HBox>
+            
+            <!-- Row 2: Guests & Budget -->
+            <HBox spacing="15">
+                <!-- Number of Guests -->
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Guests" styleClass="field-label" />
+                    <Spinner fx:id="guestsSpinner" editable="true" styleClass="form-field" maxWidth="Infinity" />
+                </VBox>
+                
+                <!-- Number of Rooms -->
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Rooms" styleClass="field-label" />
+                    <Spinner fx:id="roomsSpinner" editable="true" styleClass="form-field" maxWidth="Infinity" />
+                </VBox>
+                
+                <!-- Budget Range -->
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Price Range (per night)" styleClass="field-label" />
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="minPriceField" promptText="Min" prefWidth="80" styleClass="form-field" />
+                        <Label text="-" style="-fx-text-fill: #6b7280;" />
+                        <TextField fx:id="maxPriceField" promptText="Max" prefWidth="80" styleClass="form-field" />
+                        <Label fx:id="priceRangeLabel" text="50 - 500" style="-fx-text-fill: #3b82f6; -fx-font-weight: bold;" />
+                    </HBox>
+                </VBox>
+            </HBox>
+            
+            <!-- Row 3: Star Rating & Sort -->
+            <HBox spacing="15">
+                <!-- Star Rating -->
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Minimum Star Rating" styleClass="field-label" />
+                    <ComboBox fx:id="starRatingComboBox" promptText="Any rating" styleClass="form-field" maxWidth="Infinity" />
+                </VBox>
+                
+                <!-- Sort By -->
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="Sort By" styleClass="field-label" />
+                    <ComboBox fx:id="sortByComboBox" promptText="Best Match" styleClass="form-field" maxWidth="Infinity" />
+                </VBox>
+            </HBox>
+            
+            <!-- Amenities Section -->
+            <VBox spacing="10">
+                <Label text="Amenities" styleClass="field-label" />
+                <FlowPane hgap="15" vgap="10">
+                    <CheckBox fx:id="wifiCheckBox" text="Free WiFi" styleClass="form-checkbox" />
+                    <CheckBox fx:id="poolCheckBox" text="Swimming Pool" styleClass="form-checkbox" />
+                    <CheckBox fx:id="spaCheckBox" text="Spa" styleClass="form-checkbox" />
+                    <CheckBox fx:id="gymCheckBox" text="Fitness Center" styleClass="form-checkbox" />
+                    <CheckBox fx:id="parkingCheckBox" text="Free Parking" styleClass="form-checkbox" />
+                    <CheckBox fx:id="restaurantCheckBox" text="Restaurant" styleClass="form-checkbox" />
+                    <CheckBox fx:id="barCheckBox" text="Bar" styleClass="form-checkbox" />
+                    <CheckBox fx:id="airportShuttleCheckBox" text="Airport Shuttle" styleClass="form-checkbox" />
+                    <CheckBox fx:id="petFriendlyCheckBox" text="Pet Friendly" styleClass="form-checkbox" />
+                    <CheckBox fx:id="businessCenterCheckBox" text="Business Center" styleClass="form-checkbox" />
+                </FlowPane>
+            </VBox>
+            
+            <!-- Search Buttons -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Button text="🔍 Search Hotels" onAction="#handleSearch" styleClass="btn-primary" prefWidth="180" />
+                <Button text="Clear Filters" onAction="#handleClearFilters" styleClass="btn-secondary" prefWidth="140" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="resultsCountLabel" text="" style="-fx-text-fill: #6b7280; -fx-font-size: 13px;" />
+            </HBox>
+            
+        </VBox>
+        
+        <!-- Price Calculator Card -->
+        <VBox spacing="15" style="-fx-background-color: #dbeafe; -fx-background-radius: 12; -fx-padding: 20;">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="💰" style="-fx-font-size: 24px;" />
+                <Label text="Estimated Cost" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1e40af;" />
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="30">
+                <VBox spacing="5">
+                    <Label text="Nights" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                    <Label fx:id="nightsLabel" text="0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                </VBox>
+                <Label text="×" style="-fx-font-size: 20px; -fx-text-fill: #6b7280;" />
+                <VBox spacing="5">
+                    <Label text="Rooms" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                    <Label fx:id="roomsLabel" text="1" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                </VBox>
+                <Label text="×" style="-fx-font-size: 20px; -fx-text-fill: #6b7280;" />
+                <VBox spacing="5">
+                    <Label text="Avg. Price/Night" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                    <Label fx:id="avgPriceLabel" text="0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1f2937;" />
+                </VBox>
+                <Label text="=" style="-fx-font-size: 20px; -fx-text-fill: #6b7280;" />
+                <VBox spacing="5">
+                    <Label text="Total Estimated Cost" style="-fx-font-size: 12px; -fx-text-fill: #6b7280;" />
+                    <Label fx:id="totalCostLabel" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                </VBox>
+            </HBox>
+        </VBox>
+        
+        <!-- Map View (Optional) -->
+        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 4);">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="🗺️ Map View" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                <CheckBox fx:id="showMapCheckBox" text="Show on map" selected="false" onAction="#handleToggleMap" />
+            </HBox>
+            <!-- TODO: Uncomment when JavaFX Web module is loaded -->
+            <!-- <WebView fx:id="mapWebView" prefHeight="400" visible="false" managed="false" /> -->
+            <Label text="Map feature requires JavaFX Web module. Run 'mvn clean install' to enable." 
+                   style="-fx-text-fill: #9ca3af; -fx-font-size: 12px; -fx-padding: 20;" />
+        </VBox>
+        
+        <!-- Search Results -->
+        <VBox spacing="15" fx:id="resultsContainer">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="Search Results" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="gridViewBtn" text="⊞ Grid" onAction="#handleGridView" styleClass="btn-secondary" />
+                <Button fx:id="listViewBtn" text="☰ List" onAction="#handleListView" styleClass="btn-secondary" />
+            </HBox>
+            
+            <!-- Results Grid/List -->
+            <ScrollPane fitToWidth="true" prefHeight="600" style="-fx-background-color: transparent; -fx-border-width: 0;">
+                <FlowPane fx:id="resultsFlowPane" hgap="20" vgap="20" style="-fx-background-color: transparent;" />
+            </ScrollPane>
+            
+            <!-- Pagination -->
+            <HBox alignment="CENTER" spacing="10">
+                <Button text="« Previous" onAction="#handlePreviousPage" styleClass="btn-secondary" />
+                <Label fx:id="pageLabel" text="Page 1 of 1" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
+                <Button text="Next »" onAction="#handleNextPage" styleClass="btn-secondary" />
+            </HBox>
+            
+        </VBox>
+        
+    </VBox>
+</ScrollPane>

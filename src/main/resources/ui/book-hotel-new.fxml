@@ -36,7 +36,7 @@
         <VBox spacing="8" HBox.hgrow="SOMETIMES">
             <Label text="Check-in" style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #374151;" />
             <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-background-color: #f9fafb; -fx-background-radius: 8; -fx-padding: 10 12;">
-                <Label text="📅" style="-fx-font-size: 16px;" />
+                <Label text="" style="-fx-font-size: 16px;" />
                 <DatePicker fx:id="checkInPicker"
                           style="-fx-background-color: transparent; -fx-border-color: transparent;"
                           HBox.hgrow="ALWAYS" />
@@ -47,7 +47,7 @@
         <VBox spacing="8" HBox.hgrow="SOMETIMES">
             <Label text="Check-out" style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #374151;" />
             <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-background-color: #f9fafb; -fx-background-radius: 8; -fx-padding: 10 12;">
-                <Label text="📅" style="-fx-font-size: 16px;" />
+                <Label text="" style="-fx-font-size: 16px;" />
                 <DatePicker fx:id="checkOutPicker"
                           style="-fx-background-color: transparent; -fx-border-color: transparent;"
                           HBox.hgrow="ALWAYS" />

@@ -22,19 +22,101 @@ public class VehiculeService implements IService<Car> {
 
     @Override
     public boolean add(Car car) {
-        // TODO: Implement when needed
+        String query = "INSERT INTO vehicules (compagnie_id, marque, modele, annee, categorie, transmission, " +
+                      "carburant, nombre_places, nombre_portes, climatisation, gps, image_url, prix_jour, " +
+                      "caution, kilometrage_illimite, is_available) " +
+                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, car.getCompagnieId());
+            stmt.setString(2, car.getMarque());
+            stmt.setString(3, car.getModele());
+            stmt.setInt(4, car.getAnnee() != null ? car.getAnnee() : 0);
+            stmt.setString(5, car.getCategorie() != null ? car.getCategorie().name() : "ECONOMIQUE");
+            stmt.setString(6, car.getTransmission() != null ? car.getTransmission().name() : "MANUELLE");
+            stmt.setString(7, car.getCarburant() != null ? car.getCarburant().name() : "ESSENCE");
+            stmt.setInt(8, car.getNombrePlaces());
+            stmt.setInt(9, car.getNombrePortes() != null ? car.getNombrePortes() : 4);
+            stmt.setBoolean(10, car.isClimatisation());
+            stmt.setBoolean(11, car.isGps());
+            stmt.setString(12, car.getImageUrl());
+            stmt.setBigDecimal(13, car.getPrixJour());
+            stmt.setBigDecimal(14, car.getCaution());
+            stmt.setBoolean(15, car.isKilometrageIllimite());
+            stmt.setBoolean(16, car.isAvailable());
+            
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    car.setVehiculeId(rs.getInt(1));
+                }
+                System.out.println("✅ Vehicle added successfully: " + car.getMarque() + " " + car.getModele());
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error adding vehicle: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean update(Car car) {
-        // TODO: Implement when needed
+        String query = "UPDATE vehicules SET compagnie_id=?, marque=?, modele=?, annee=?, categorie=?, transmission=?, " +
+                      "carburant=?, nombre_places=?, nombre_portes=?, climatisation=?, gps=?, image_url=?, prix_jour=?, " +
+                      "caution=?, kilometrage_illimite=?, is_available=? " +
+                      "WHERE vehicule_id=?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, car.getCompagnieId());
+            stmt.setString(2, car.getMarque());
+            stmt.setString(3, car.getModele());
+            stmt.setInt(4, car.getAnnee() != null ? car.getAnnee() : 0);
+            stmt.setString(5, car.getCategorie() != null ? car.getCategorie().name() : "ECONOMIQUE");
+            stmt.setString(6, car.getTransmission() != null ? car.getTransmission().name() : "MANUELLE");
+            stmt.setString(7, car.getCarburant() != null ? car.getCarburant().name() : "ESSENCE");
+            stmt.setInt(8, car.getNombrePlaces());
+            stmt.setInt(9, car.getNombrePortes() != null ? car.getNombrePortes() : 4);
+            stmt.setBoolean(10, car.isClimatisation());
+            stmt.setBoolean(11, car.isGps());
+            stmt.setString(12, car.getImageUrl());
+            stmt.setBigDecimal(13, car.getPrixJour());
+            stmt.setBigDecimal(14, car.getCaution());
+            stmt.setBoolean(15, car.isKilometrageIllimite());
+            stmt.setBoolean(16, car.isAvailable());
+            stmt.setInt(17, car.getVehiculeId());
+            
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                System.out.println("✅ Vehicle updated successfully: " + car.getMarque() + " " + car.getModele());
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error updating vehicle: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-        // TODO: Implement when needed
+        String query = "UPDATE vehicules SET is_available = 0 WHERE vehicule_id=?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                System.out.println("✅ Vehicle deleted successfully (ID: " + id + ")");
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error deleting vehicle: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 

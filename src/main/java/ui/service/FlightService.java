@@ -23,19 +23,99 @@ public class FlightService implements IService<Flight> {
 
     @Override
     public boolean add(Flight flight) {
-        // TODO: Implement when needed
+        String query = "INSERT INTO vols (numero_vol, compagnie_id, aeroport_depart_id, aeroport_arrivee_id, " +
+                      "date_depart, date_arrivee, duree_vol, type_avion, capacite_totale, places_disponibles, " +
+                      "statut_vol, porte_embarquement, terminal, is_active, created_at) " +
+                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, flight.getNumeroVol());
+            stmt.setInt(2, flight.getCompagnieId());
+            stmt.setInt(3, flight.getAeroportDepartId());
+            stmt.setInt(4, flight.getAeroportArriveeId());
+            stmt.setTimestamp(5, flight.getDateDepart() != null ? Timestamp.valueOf(flight.getDateDepart()) : null);
+            stmt.setTimestamp(6, flight.getDateArrivee() != null ? Timestamp.valueOf(flight.getDateArrivee()) : null);
+            stmt.setInt(7, flight.getDureeVol() != null ? flight.getDureeVol() : 0);
+            stmt.setString(8, flight.getTypeAvion());
+            stmt.setInt(9, flight.getCapaciteTotale());
+            stmt.setInt(10, flight.getPlacesDisponibles());
+            stmt.setString(11, flight.getStatutVol() != null ? flight.getStatutVol().name() : "PROGRAMME");
+            stmt.setString(12, flight.getPorteEmbarquement());
+            stmt.setString(13, flight.getTerminal());
+            stmt.setBoolean(14, flight.isActive());
+            stmt.setTimestamp(15, Timestamp.valueOf(LocalDateTime.now()));
+            
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    flight.setVolId(rs.getInt(1));
+                }
+                System.out.println("✅ Flight added successfully: " + flight.getNumeroVol());
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error adding flight: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean update(Flight flight) {
-        // TODO: Implement when needed
+        String query = "UPDATE vols SET numero_vol=?, compagnie_id=?, aeroport_depart_id=?, aeroport_arrivee_id=?, " +
+                      "date_depart=?, date_arrivee=?, duree_vol=?, type_avion=?, capacite_totale=?, places_disponibles=?, " +
+                      "statut_vol=?, porte_embarquement=?, terminal=?, is_active=? " +
+                      "WHERE vol_id=?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, flight.getNumeroVol());
+            stmt.setInt(2, flight.getCompagnieId());
+            stmt.setInt(3, flight.getAeroportDepartId());
+            stmt.setInt(4, flight.getAeroportArriveeId());
+            stmt.setTimestamp(5, flight.getDateDepart() != null ? Timestamp.valueOf(flight.getDateDepart()) : null);
+            stmt.setTimestamp(6, flight.getDateArrivee() != null ? Timestamp.valueOf(flight.getDateArrivee()) : null);
+            stmt.setInt(7, flight.getDureeVol() != null ? flight.getDureeVol() : 0);
+            stmt.setString(8, flight.getTypeAvion());
+            stmt.setInt(9, flight.getCapaciteTotale());
+            stmt.setInt(10, flight.getPlacesDisponibles());
+            stmt.setString(11, flight.getStatutVol() != null ? flight.getStatutVol().name() : "PROGRAMME");
+            stmt.setString(12, flight.getPorteEmbarquement());
+            stmt.setString(13, flight.getTerminal());
+            stmt.setBoolean(14, flight.isActive());
+            stmt.setInt(15, flight.getVolId());
+            
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                System.out.println("✅ Flight updated successfully: " + flight.getNumeroVol());
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error updating flight: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-        // TODO: Implement when needed
+        // Soft delete - set is_active to false
+        String query = "UPDATE vols SET is_active = 0 WHERE vol_id=?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                System.out.println("✅ Flight deleted successfully (ID: " + id + ")");
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error deleting flight: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 

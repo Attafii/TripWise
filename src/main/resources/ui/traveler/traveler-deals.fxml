@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<!-- 
+  Traveler Deals & Offers Page
+  Features: Daily deals, flash sales, seasonal offers, package deals
+-->
+
+<ScrollPane xmlns="http://javafx.com/javafx/20.0.2" 
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ui.controllers.traveler.TravelerDealsController"
+            fitToWidth="true"
+            styleClass="scroll-pane"
+            style="-fx-background-color: #f8f9fa;">
+
+    <VBox spacing="24" style="-fx-background-color: #f8f9fa;">
+        <padding>
+            <Insets top="24" right="24" bottom="24" left="24"/>
+        </padding>
+
+        <!-- Header Section -->
+        <VBox spacing="8">
+            <Text text="Deals and Offers" styleClass="page-title"/>
+            <Text text="Exclusive discounts and special packages for your next adventure" styleClass="page-subtitle"/>
+        </VBox>
+
+        <!-- Filter Bar -->
+        <HBox spacing="16" alignment="CENTER_LEFT" styleClass="card">
+            <padding>
+                <Insets top="16" right="16" bottom="16" left="16"/>
+            </padding>
+
+            <VBox spacing="4" HBox.hgrow="SOMETIMES">
+                <Label text="Deal Type" styleClass="field-label"/>
+                <ComboBox fx:id="dealTypeComboBox" promptText="All Types" prefWidth="150" styleClass="form-field"/>
+            </VBox>
+
+            <VBox spacing="4" HBox.hgrow="SOMETIMES">
+                <Label text="Category" styleClass="field-label"/>
+                <ComboBox fx:id="categoryComboBox" promptText="All Categories" prefWidth="150" styleClass="form-field"/>
+            </VBox>
+
+            <VBox spacing="4" HBox.hgrow="SOMETIMES">
+                <Label text="Destination" styleClass="field-label"/>
+                <ComboBox fx:id="destinationComboBox" promptText="Any Destination" prefWidth="180" styleClass="form-field"/>
+            </VBox>
+
+            <VBox spacing="4" HBox.hgrow="SOMETIMES">
+                <Label text="Sort By" styleClass="field-label"/>
+                <ComboBox fx:id="sortByComboBox" promptText="Best Deals" prefWidth="150" styleClass="form-field"/>
+            </VBox>
+
+            <VBox spacing="4">
+                <Label text=" " styleClass="field-label"/> <!-- Spacer -->
+                <Button text="Apply Filters" onAction="#handleApplyFilters" styleClass="btn-primary"/>
+            </VBox>
+        </HBox>
+
+        <!-- Featured Daily Deal (Hero Card) -->
+        <VBox fx:id="dailyDealContainer" spacing="0" visible="false" managed="false">
+            <!-- Will be populated dynamically -->
+        </VBox>
+
+        <!-- Flash Sales Banner -->
+        <HBox fx:id="flashSaleBanner" spacing="16" alignment="CENTER_LEFT" 
+              style="-fx-background-color: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); -fx-background-radius: 16; -fx-padding: 24; -fx-effect: dropshadow(gaussian, rgba(245,158,11,0.3), 15, 0, 0, 5);"
+              visible="false" managed="false">
+            <Text text="⚡" style="-fx-font-size: 48px;"/>
+            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                <Text text="Flash Sale!" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: white;"/>
+                <Text fx:id="flashSaleText" text="Limited time offers - Up to 70% off selected hotels" style="-fx-font-size: 14px; -fx-fill: rgba(255,255,255,0.9);"/>
+            </VBox>
+            <VBox spacing="4" alignment="CENTER">
+                <Text text="Ends in" style="-fx-font-size: 12px; -fx-fill: rgba(255,255,255,0.8);"/>
+                <Text fx:id="flashSaleTimer" text="02:45:30" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: white;"/>
+            </VBox>
+        </HBox>
+
+        <!-- Section: All Deals -->
+        <VBox spacing="16">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Text text="Available Deals" style="-fx-font-size: 20px; -fx-font-weight: 600; -fx-fill: #111827;"/>
+                <Label fx:id="dealCountLabel" text="(12 deals)" style="-fx-text-fill: #6b7280; -fx-font-size: 14px;"/>
+            </HBox>
+
+            <!-- Deals Grid -->
+            <GridPane fx:id="dealsGrid" hgap="20" vgap="20">
+                <!-- Will be populated dynamically with deal cards -->
+            </GridPane>
+
+            <!-- Empty State -->
+            <VBox fx:id="emptyStateContainer" alignment="CENTER" spacing="16" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 60; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 4);">
+                <Text text="🎯" style="-fx-font-size: 48px;"/>
+                <Text text="No deals available" style="-fx-font-size: 18px; -fx-font-weight: 600; -fx-fill: #111827;"/>
+                <Text text="Check back later for amazing offers!" style="-fx-text-fill: #6b7280; -fx-font-size: 14px;"/>
+            </VBox>
+
+            <!-- Loading Indicator -->
+            <VBox fx:id="loadingContainer" alignment="CENTER" spacing="16" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 60;">
+                <ProgressIndicator/>
+                <Text text="Loading deals..." style="-fx-fill: #6b7280; -fx-font-size: 14px;"/>
+            </VBox>
+        </VBox>
+
+        <!-- Pagination -->
+        <HBox fx:id="paginationContainer" spacing="16" alignment="CENTER" visible="false">
+            <Button text="« Previous" onAction="#handlePreviousPage" fx:id="prevButton" styleClass="btn-secondary"/>
+            <Label fx:id="pageLabel" text="Page 1 of 1" styleClass="text-muted"/>
+            <Button text="Next »" onAction="#handleNextPage" fx:id="nextButton" styleClass="btn-secondary"/>
+        </HBox>
+
+    </VBox>
+</ScrollPane>

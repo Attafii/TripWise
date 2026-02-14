@@ -24,19 +24,103 @@ public class HotelService implements IService<Hotel> {
 
     @Override
     public boolean add(Hotel hotel) {
-        // TODO: Implement when needed
+        String query = "INSERT INTO hotels (nom_hotel, adresse, ville, pays, code_postal, etoiles, " +
+                      "phone_number, email, site_web, description, equipements, politique_annulation, " +
+                      "heure_checkin, heure_checkout, image_url, is_active, created_at) " +
+                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, hotel.getNomHotel());
+            stmt.setString(2, hotel.getAdresse());
+            stmt.setString(3, hotel.getVille());
+            stmt.setString(4, hotel.getPays());
+            stmt.setString(5, hotel.getCodePostal());
+            stmt.setBigDecimal(6, hotel.getEtoiles());
+            stmt.setString(7, hotel.getPhoneNumber());
+            stmt.setString(8, hotel.getEmail());
+            stmt.setString(9, hotel.getSiteWeb());
+            stmt.setString(10, hotel.getDescription());
+            stmt.setString(11, hotel.getEquipements());
+            stmt.setString(12, hotel.getPolitiqueAnnulation());
+            stmt.setTime(13, hotel.getHeureCheckin() != null ? Time.valueOf(hotel.getHeureCheckin()) : null);
+            stmt.setTime(14, hotel.getHeureCheckout() != null ? Time.valueOf(hotel.getHeureCheckout()) : null);
+            stmt.setString(15, hotel.getImageUrl());
+            stmt.setBoolean(16, hotel.isActive());
+            stmt.setTimestamp(17, Timestamp.valueOf(LocalDateTime.now()));
+            
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    hotel.setHotelId(rs.getInt(1));
+                }
+                System.out.println("✅ Hotel added successfully: " + hotel.getNomHotel());
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error adding hotel: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean update(Hotel hotel) {
-        // TODO: Implement when needed
+        String query = "UPDATE hotels SET nom_hotel=?, adresse=?, ville=?, pays=?, code_postal=?, " +
+                      "etoiles=?, phone_number=?, email=?, site_web=?, description=?, equipements=?, " +
+                      "politique_annulation=?, heure_checkin=?, heure_checkout=?, image_url=?, is_active=? " +
+                      "WHERE hotel_id=?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, hotel.getNomHotel());
+            stmt.setString(2, hotel.getAdresse());
+            stmt.setString(3, hotel.getVille());
+            stmt.setString(4, hotel.getPays());
+            stmt.setString(5, hotel.getCodePostal());
+            stmt.setBigDecimal(6, hotel.getEtoiles());
+            stmt.setString(7, hotel.getPhoneNumber());
+            stmt.setString(8, hotel.getEmail());
+            stmt.setString(9, hotel.getSiteWeb());
+            stmt.setString(10, hotel.getDescription());
+            stmt.setString(11, hotel.getEquipements());
+            stmt.setString(12, hotel.getPolitiqueAnnulation());
+            stmt.setTime(13, hotel.getHeureCheckin() != null ? Time.valueOf(hotel.getHeureCheckin()) : null);
+            stmt.setTime(14, hotel.getHeureCheckout() != null ? Time.valueOf(hotel.getHeureCheckout()) : null);
+            stmt.setString(15, hotel.getImageUrl());
+            stmt.setBoolean(16, hotel.isActive());
+            stmt.setInt(17, hotel.getHotelId());
+            
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                System.out.println("✅ Hotel updated successfully: " + hotel.getNomHotel());
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error updating hotel: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete(int id) {
-        // TODO: Implement when needed
+        // Soft delete - set is_active to false
+        String query = "UPDATE hotels SET is_active = 0 WHERE hotel_id=?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                System.out.println("✅ Hotel deleted successfully (ID: " + id + ")");
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error deleting hotel: " + e.getMessage());
+            e.printStackTrace();
+        }
         return false;
     }
 

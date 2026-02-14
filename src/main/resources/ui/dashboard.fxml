@@ -7,7 +7,7 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.DashboardController"
            stylesheets="@style.css" style="-fx-background-color: #f8f9fa;">
     <left>
-        <VBox spacing="5" alignment="TOP_LEFT" styleClass="sidebar" prefWidth="260"
+        <VBox fx:id="sidebar" spacing="5" alignment="TOP_LEFT" styleClass="sidebar" prefWidth="260"
               style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 2, 0);">
             <padding>
                 <Insets top="20" right="15" bottom="20" left="15" />
@@ -24,48 +24,96 @@
                 <Label text="v3.0" style="-fx-font-size: 11px; -fx-text-fill: #9ca3af; -fx-padding: 2 6; -fx-background-color: #eff6ff; -fx-background-radius: 10;" />
             </HBox>
 
-            <!-- Menu Items -->
-            <VBox spacing="2">
-                <Button fx:id="dashboardBtn" text="📊 Dashboard" onAction="#onDashboard"
-                       styleClass="sidebar-menu-item"
-                       style="-fx-background-color: #eff6ff; -fx-text-fill: #1e40af; -fx-font-weight: 600;" />
+            <!-- Menu Items with ScrollPane -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" 
+                       style="-fx-background-color: transparent; -fx-background: transparent;"
+                       hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+                <VBox spacing="3">
+                    <Button fx:id="dashboardBtn" text="📊 Dashboard" onAction="#onDashboard"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: #eff6ff; -fx-text-fill: #1e40af; -fx-font-weight: 600; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="bookingsBtn" text="📋 Bookings" onAction="#onBookings"
-                       styleClass="sidebar-menu-item" />
+                    <Button fx:id="advancedSearchBtn" text="🔍 Advanced Search" onAction="#onAdvancedSearch"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="scheduleBtn" text="📅 Schedule" onAction="#onSchedule"
-                       styleClass="sidebar-menu-item" />
+                    <Button fx:id="bookingsBtn" text="📋 My Bookings" onAction="#onBookings"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="paymentsBtn" text="💳 Payments" onAction="#onPayments"
-                       styleClass="sidebar-menu-item" />
+                    <Button fx:id="scheduleBtn" text="Schedule" onAction="#onSchedule"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="messagesBtn" text="💬 Messages" onAction="#onMessages"
-                       styleClass="sidebar-menu-item" />
+                    <Button fx:id="paymentsBtn" text="Payments" onAction="#onPayments"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="flightTrackingBtn" text="✈️ Flight Tracking" onAction="#onFlightTracking"
-                       styleClass="sidebar-menu-item" />
+                    <Button fx:id="messagesBtn" text="Messages" onAction="#onMessages"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="aiAgentBtn" text="🤖 AI Agent" onAction="#onAIAgent"
-                       styleClass="sidebar-menu-item" />
+                    <Button fx:id="flightTrackingBtn" text="Flight Tracking" onAction="#onFlightTracking"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="dealsBtn" text="🎯 Deals" onAction="#onDeals"
-                       styleClass="sidebar-menu-item" />
+                    <Button fx:id="aiAgentBtn" text="🤖 AI Agent" onAction="#onAIAgent"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <!-- Employee-Only Section -->
-                <Separator style="-fx-padding: 10 0;" fx:id="employeeSeparator" />
-                <Label text="EMPLOYEE TOOLS" fx:id="employeeLabel" style="-fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: #9ca3af; -fx-padding: 10 15 5 15;" />
+                    <Button fx:id="dealsBtn" text="Deals" onAction="#onDeals"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="employeeProfileBtn" text="👤 My Profile" onAction="#onEmployeeProfile"
-                       styleClass="sidebar-menu-item" />
+                    <!-- Employee-Only Section -->
+                    <Separator style="-fx-padding: 10 0;" fx:id="employeeSeparator" />
+                    <Label text="EMPLOYEE TOOLS" fx:id="employeeLabel" style="-fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: #9ca3af; -fx-padding: 10 15 5 15;" />
 
-                <Button fx:id="manageBookingsBtn" text="📝 Manage Bookings" onAction="#onManageBookings"
-                       styleClass="sidebar-menu-item" />
+                    <Button fx:id="employeeProfileBtn" text="👤 My Profile" onAction="#onEmployeeProfile"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-                <Button fx:id="viewCustomersBtn" text="👥 View Customers" onAction="#onViewCustomers"
-                       styleClass="sidebar-menu-item" />
-            </VBox>
+                    <Button fx:id="manageBookingsBtn" text="📝 Manage Bookings" onAction="#onManageBookings"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
 
-            <Region VBox.vgrow="ALWAYS" />
+                    <Button fx:id="viewCustomersBtn" text="👥 View Customers" onAction="#onViewCustomers"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+
+                    <Button fx:id="employeeAnalyticsBtn" text="📊 Analytics" onAction="#onEmployeeAnalytics"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+
+                    <!-- Admin-Only Section -->
+                    <Separator style="-fx-padding: 10 0;" fx:id="adminSeparator" />
+                    <Label text="ADMIN PANEL" fx:id="adminLabel" style="-fx-font-size: 11px; -fx-font-weight: 600; -fx-text-fill: #9ca3af; -fx-padding: 10 15 5 15;" />
+
+                    <Button fx:id="userManagementBtn" text="👥 User Management" onAction="#onUserManagement"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+
+                    <Button fx:id="systemSettingsBtn" text="⚙️ System Settings" onAction="#onSystemSettings"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+
+                    <Button fx:id="systemAnalyticsBtn" text="📈 System Analytics" onAction="#onSystemAnalytics"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+
+                    <Button fx:id="systemHealthBtn" text="💚 System Health" onAction="#onSystemHealth"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+
+                    <Button fx:id="backupRestoreBtn" text="💾 Backup &amp; Restore" onAction="#onBackupRestore"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+
+                    <Button fx:id="activityLogsBtn" text="📋 Activity Logs" onAction="#onActivityLogs"
+                           maxWidth="Infinity"
+                           style="-fx-background-color: transparent; -fx-text-fill: #6b7280; -fx-font-size: 13px; -fx-alignment: center-left; -fx-padding: 12 15; -fx-background-radius: 10; -fx-cursor: hand;" />
+                </VBox>
+            </ScrollPane>
 
             <!-- User Profile Section -->
             <VBox spacing="10" style="-fx-padding: 15; -fx-background-color: #f8f9fa; -fx-background-radius: 12;">

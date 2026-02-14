@@ -19,10 +19,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class NVIDIAChatService {
 
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String API_ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions";
-    private static final String MODEL = "meta/llama-3.1-8b-instruct"; // Using a more reliable model
+    private static final String MODEL = "mistralai/mistral-large-3-675b-instruct-2512"; // Using Mistral Large model
     private static final boolean USE_FALLBACK = true; // Use fallback responses if API fails
+    private static final int MAX_TOKENS = 2048;
+    private static final double TEMPERATURE = 0.15;
+    private static final double TOP_P = 1.00;
+    private static final double FREQUENCY_PENALTY = 0.00;
+    private static final double PRESENCE_PENALTY = 0.00;
 
     private final OkHttpClient client;
     private final Gson gson;
@@ -348,13 +353,17 @@ public class NVIDIAChatService {
     }
 
     /**
-     * Build request payload for NVIDIA API
+     * Build request payload for NVIDIA API with Mistral model
      */
     private JsonObject buildRequestPayload(String message) {
         JsonObject payload = new JsonObject();
         payload.addProperty("model", MODEL);
-        payload.addProperty("temperature", 0.7);
-        payload.addProperty("max_tokens", 1024);
+        payload.addProperty("max_tokens", MAX_TOKENS);
+        payload.addProperty("temperature", TEMPERATURE);
+        payload.addProperty("top_p", TOP_P);
+        payload.addProperty("frequency_penalty", FREQUENCY_PENALTY);
+        payload.addProperty("presence_penalty", PRESENCE_PENALTY);
+        payload.addProperty("stream", false); // Set to false for non-streaming responses
 
         JsonArray messages = new JsonArray();
 

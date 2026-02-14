@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" 
+           fx:controller="ui.controllers.admin.AdminAnalyticsController"
+           style="-fx-background-color: #f8f9fa;">
+    
+    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
+        <VBox spacing="25" style="-fx-padding: 30;">
+            
+            <!-- Header -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="📈 System Analytics" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="🔄 Refresh" onAction="#handleRefresh"
+                       style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13px; -fx-cursor: hand;" />
+            </HBox>
+            
+            <!-- Statistics Cards Grid -->
+            <GridPane hgap="20" vgap="20">
+                <!-- Row 1 -->
+                <!-- Total Users Card -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="👥 Total Users" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                    <Label fx:id="lblTotalUsers" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                    <Label text="Active registered users" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                </VBox>
+                
+                <!-- Total Bookings Card -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="📋 Total Bookings" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                    <Label fx:id="lblTotalBookings" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                    <Label text="All-time bookings" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                </VBox>
+                
+                <!-- Total Revenue Card -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <Label text="💰 Total Revenue" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                    <Label fx:id="lblTotalRevenue" text="$0.00" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+                    <Label text="Confirmed bookings" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                </VBox>
+                
+                <!-- Active Users Card -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="3" GridPane.rowIndex="0">
+                    <Label text="🔥 Active Users" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                    <Label fx:id="lblActiveUsers" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #8b5cf6;" />
+                    <Label text="Last 30 days" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                </VBox>
+                
+                <!-- Row 2 -->
+                <!-- Pending Bookings Card -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label text="⏳ Pending Bookings" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                    <Label fx:id="lblPendingBookings" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #ef4444;" />
+                    <Label text="Awaiting approval" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                </VBox>
+                
+                <!-- Monthly Growth Card -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label text="📈 Monthly Growth" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                    <Label fx:id="lblMonthlyGrowth" text="+0.0%" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #10b981;" />
+                    <Label text="vs last month" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                </VBox>
+                
+                <!-- Average Booking Value Card -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <Label text="💵 Avg Booking Value" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                    <Label fx:id="lblAvgBookingValue" text="$0.00" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3b82f6;" />
+                    <Label text="Per booking" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                </VBox>
+                
+                <!-- Top Destination Card -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="3" GridPane.rowIndex="1">
+                    <Label text="🌍 Top Destination" style="-fx-font-size: 14px; -fx-text-fill: #6b7280; -fx-font-weight: 500;" />
+                    <Label fx:id="lblTopDestination" text="N/A" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #f59e0b;" />
+                    <Label text="Most booked city" style="-fx-font-size: 12px; -fx-text-fill: #9ca3af;" />
+                </VBox>
+            </GridPane>
+            
+            <!-- Charts Grid -->
+            <GridPane hgap="20" vgap="20">
+                <!-- Revenue Trend Chart -->
+                <VBox spacing="0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                    <LineChart fx:id="revenueChart" legendVisible="false" prefHeight="300">
+                        <xAxis>
+                            <CategoryAxis label="Date" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Revenue ($)" />
+                        </yAxis>
+                    </LineChart>
+                </VBox>
+                
+                <!-- Bookings by Status Chart -->
+                <VBox spacing="0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                    <BarChart fx:id="bookingsChart" legendVisible="false" prefHeight="300">
+                        <xAxis>
+                            <CategoryAxis label="Status" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Count" />
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+                
+                <!-- User Type Distribution Chart -->
+                <VBox spacing="0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                    <PieChart fx:id="userTypePieChart" legendSide="RIGHT" prefHeight="300" />
+                </VBox>
+                
+                <!-- User Growth Chart -->
+                <VBox spacing="0" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);"
+                      GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                    <AreaChart fx:id="userGrowthChart" legendVisible="false" prefHeight="300">
+                        <xAxis>
+                            <CategoryAxis label="Month" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="New Users" />
+                        </yAxis>
+                    </AreaChart>
+                </VBox>
+            </GridPane>
+            
+        </VBox>
+    </ScrollPane>
+</StackPane>

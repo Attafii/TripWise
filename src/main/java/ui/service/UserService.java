@@ -1,5 +1,6 @@
 package ui.service;
 
+import org.mindrot.jbcrypt.BCrypt;
 import ui.model.User;
 import ui.model.User.UserType;
 import ui.util.DataSource;
@@ -30,7 +31,9 @@ public class UserService implements IService<User> {
 
         try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, user.getEmail());
-            stmt.setString(2, user.getPasswordHash());
+            // Hash password with BCrypt before storing
+            String hashedPassword = BCrypt.hashpw(user.getPasswordHash(), BCrypt.gensalt());
+            stmt.setString(2, hashedPassword);
             stmt.setString(3, user.getFirstName());
             stmt.setString(4, user.getLastName());
             stmt.setString(5, user.getPhoneNumber());
@@ -283,16 +286,66 @@ public class UserService implements IService<User> {
     }
 
     /**
-     * Simple bcrypt password check (basic implementation)
-     * For production, use proper BCrypt library
+     * Check if plain password matches BCrypt hashed password
      */
     private boolean checkBcryptPassword(String plainPassword, String hashedPassword) {
-        // If password starts with $2a$ it's bcrypt hashed
-        if (hashedPassword != null && hashedPassword.startsWith("$2a$")) {
-            // TODO: Implement proper BCrypt verification with library
-            // For now, return false to use plain text comparison
-            return false;
+        // If password starts with $2a$ or $2b$ or $2y$ it's bcrypt hashed
+        if (hashedPassword != null && hashedPassword.matches("^\\$2[aby]\\$.*")) {
+            try {
+                return BCrypt.checkpw(plainPassword, hashedPassword);
+            } catch (Exception e) {
+                System.err.println("⚠️  BCrypt verification error: " + e.getMessage());
+                return false;
+            }
         }
         return false;
     }
+    
+    /**
+     * Update user password with BCrypt hashing
+     */
+    public boolean updatePassword(int userId, String newPassword) {
+        String query = "UPDATE users SET password_hash=?, updated_at=? WHERE user_id=?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            // Hash the new password
+            String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            stmt.setString(1, hashedPassword);
+            stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            stmt.setInt(3, userId);
+            
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("✅ Password updated successfully for user ID: " + userId);
+                return true;
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error updating password: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    /**
+     * Verify current password and update to new password
+     */
+    public boolean changePassword(int userId, String currentPassword, String newPassword) {
+        // First, get the user to verify current password
+        User user = getById(userId);
+        if (user == null) {
+            System.err.println("❌ User not found: " + userId);
+            return false;
+        }
+        
+        // Verify current password
+        if (!checkBcryptPassword(currentPassword, user.getPasswordHash()) && 
+            !currentPassword.equals(user.getPasswordHash())) {
+            System.err.println("❌ Current password is incorrect");
+            return false;
+        }
+        
+        // Update to new password
+        return updatePassword(userId, newPassword);
+    }
 }
+

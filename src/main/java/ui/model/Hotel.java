@@ -102,13 +102,20 @@ public class Hotel {
 
     // Backward compatibility
     public String getName() { return nomHotel; }
+    public void setName(String name) { this.nomHotel = name; }
     public String getCity() { return ville; }
+    public void setCity(String city) { this.ville = city; }
     public double getPricePerNight() { return pricePerNight; }
     public void setPricePerNight(double pricePerNight) { this.pricePerNight = pricePerNight; }
     public double getRating() {
         return etoiles != null ? etoiles.doubleValue() : rating;
     }
     public void setRating(double rating) { this.rating = rating; }
+    
+    // Additional backward compatibility methods
+    public String getNom() { return nomHotel; }
+    public double getPrixNuit() { return pricePerNight; }
+    public int getChambresDisponibles() { return 10; } // Default value, should come from DB
 
     @Override
     public String toString() {

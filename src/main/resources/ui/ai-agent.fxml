@@ -42,9 +42,13 @@
 
     <!-- AI Chat Interface -->
     <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25;" VBox.vgrow="ALWAYS" minHeight="500">
-        <Label text="💬 Chat with AI Agent" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
+        <Label text="Chat with AI Agent" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
         <Label text="Ask the AI to perform actions on your behalf. Examples: 'Show me all users', 'View all flights', 'Create a booking for John Doe', 'Show hotel bookings', 'Search for cars in Paris'"
                wrapText="true" style="-fx-font-size: 13px; -fx-text-fill: #6b7280;" />
+
+        <!-- Quick Actions -->
+        <HBox fx:id="quickActionsBox" spacing="10" alignment="CENTER_LEFT" 
+              style="-fx-padding: 16; -fx-background-color: #f9fafb; -fx-background-radius: 12;" />
 
         <!-- Chat Messages Area -->
         <ScrollPane fitToWidth="true" prefHeight="400" VBox.vgrow="ALWAYS" style="-fx-background-color: #f8f9fa; -fx-border-color: #e5e7eb; -fx-border-width: 1; -fx-border-radius: 12;">

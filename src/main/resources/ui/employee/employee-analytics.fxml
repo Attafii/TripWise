@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" 
+           fx:controller="ui.controllers.employee.EmployeeAnalyticsController"
+           styleClass="root-pane" stylesheets="@../style.css">
+    
+    <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="scroll-pane">
+        <VBox spacing="25" styleClass="analytics-container">
+            
+            <!-- Header -->
+            <HBox spacing="15" alignment="CENTER_LEFT" styleClass="header">
+                <Label text="Analytics Dashboard" styleClass="page-title" />
+                <Region HBox.hgrow="ALWAYS" />
+                <ComboBox fx:id="cbPeriod" styleClass="period-selector" />
+                <Button text="↻ Refresh" onAction="#handleRefresh" styleClass="btn-secondary" />
+            </HBox>
+            
+            <!-- Statistics Cards Row 1 -->
+            <HBox spacing="20" alignment="CENTER" styleClass="stats-row">
+                <!-- Today's Bookings Card -->
+                <VBox spacing="10" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label text="Today's Bookings" styleClass="stat-label" />
+                    <Label fx:id="lblTodayBookings" text="0" styleClass="stat-value stat-primary" />
+                    <Label text="Bookings made today" styleClass="stat-description" />
+                </VBox>
+                
+                <!-- Week Bookings Card -->
+                <VBox spacing="10" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label text="Week Bookings" styleClass="stat-label" />
+                    <Label fx:id="lblWeekBookings" text="0" styleClass="stat-value stat-success" />
+                    <Label text="Last 7 days" styleClass="stat-description" />
+                </VBox>
+                
+                <!-- Month Bookings Card -->
+                <VBox spacing="10" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label text="Month Bookings" styleClass="stat-label" />
+                    <Label fx:id="lblMonthBookings" text="0" styleClass="stat-value stat-info" />
+                    <Label text="Last 30 days" styleClass="stat-description" />
+                </VBox>
+                
+                <!-- Average Booking Value Card -->
+                <VBox spacing="10" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label text="Avg Booking Value" styleClass="stat-label" />
+                    <Label fx:id="lblAvgBookingValue" text="$0.00" styleClass="stat-value stat-warning" />
+                    <Label text="Per booking" styleClass="stat-description" />
+                </VBox>
+            </HBox>
+            
+            <!-- Statistics Cards Row 2 -->
+            <HBox spacing="20" alignment="CENTER" styleClass="stats-row">
+                <!-- Today's Revenue Card -->
+                <VBox spacing="10" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label text="Today's Revenue" styleClass="stat-label" />
+                    <Label fx:id="lblTodayRevenue" text="$0.00" styleClass="stat-value stat-success" />
+                    <Label text="Revenue today" styleClass="stat-description" />
+                </VBox>
+                
+                <!-- Week Revenue Card -->
+                <VBox spacing="10" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label text="Week Revenue" styleClass="stat-label" />
+                    <Label fx:id="lblWeekRevenue" text="$0.00" styleClass="stat-value stat-primary" />
+                    <Label text="Last 7 days" styleClass="stat-description" />
+                </VBox>
+                
+                <!-- Month Revenue Card -->
+                <VBox spacing="10" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label text="Month Revenue" styleClass="stat-label" />
+                    <Label fx:id="lblMonthRevenue" text="$0.00" styleClass="stat-value stat-info" />
+                    <Label text="Last 30 days" styleClass="stat-description" />
+                </VBox>
+                
+                <!-- Conversion Rate Card -->
+                <VBox spacing="10" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                    <Label text="Conversion Rate" styleClass="stat-label" />
+                    <Label fx:id="lblConversionRate" text="0.0%" styleClass="stat-value stat-warning" />
+                    <Label text="Confirmed bookings" styleClass="stat-description" />
+                </VBox>
+            </HBox>
+            
+            <!-- Charts Row 1 -->
+            <HBox spacing="20" prefHeight="350">
+                <!-- Revenue Line Chart -->
+                <VBox spacing="10" styleClass="chart-card" HBox.hgrow="ALWAYS">
+                    <LineChart fx:id="revenueChart" styleClass="chart" VBox.vgrow="ALWAYS">
+                        <xAxis>
+                            <CategoryAxis side="BOTTOM" label="Date" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis side="LEFT" label="Revenue ($)" />
+                        </yAxis>
+                    </LineChart>
+                </VBox>
+                
+                <!-- Bookings Bar Chart -->
+                <VBox spacing="10" styleClass="chart-card" HBox.hgrow="ALWAYS">
+                    <BarChart fx:id="bookingsChart" styleClass="chart" VBox.vgrow="ALWAYS">
+                        <xAxis>
+                            <CategoryAxis side="BOTTOM" label="Week" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis side="LEFT" label="Bookings" />
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </HBox>
+            
+            <!-- Charts Row 2 -->
+            <HBox spacing="20" prefHeight="350">
+                <!-- Status Pie Chart -->
+                <VBox spacing="10" styleClass="chart-card" HBox.hgrow="ALWAYS" maxWidth="500">
+                    <PieChart fx:id="statusPieChart" styleClass="chart pie-chart" VBox.vgrow="ALWAYS" />
+                </VBox>
+                
+                <!-- Trend Area Chart -->
+                <VBox spacing="10" styleClass="chart-card" HBox.hgrow="ALWAYS">
+                    <AreaChart fx:id="trendChart" styleClass="chart" VBox.vgrow="ALWAYS">
+                        <xAxis>
+                            <CategoryAxis side="BOTTOM" label="Date" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis side="LEFT" label="Bookings" />
+                        </yAxis>
+                    </AreaChart>
+                </VBox>
+            </HBox>
+            
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30" />
+            </padding>
+        </VBox>
+    </ScrollPane>
+</StackPane>

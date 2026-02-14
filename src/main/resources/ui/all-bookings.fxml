@@ -2,84 +2,102 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="ui.controllers.AllBookingsController"
-      spacing="20" stylesheets="@style.css" style="-fx-background-color: #f9fafb;">
+      spacing="20" style="-fx-background-color: #f5f7fa;">
     <padding>
-        <Insets top="20" right="30" bottom="20" left="30" />
+        <Insets top="24" right="32" bottom="24" left="32" />
     </padding>
 
     <!-- Header Section -->
-    <VBox spacing="5">
-        <Label text="All Bookings" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #111827;" />
-        <Label text="Manage and track all flight bookings" style="-fx-font-size: 14px; -fx-text-fill: #6b7280;" />
+    <VBox spacing="6">
+        <Label text="All Bookings" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1a202c;" />
+        <Label text="Manage and track all flight bookings" style="-fx-font-size: 14px; -fx-text-fill: #718096;" />
     </VBox>
 
     <!-- Search and Actions Bar -->
-    <HBox spacing="15" alignment="CENTER_LEFT">
+    <HBox spacing="12" alignment="CENTER_LEFT">
         <!-- Search Box -->
-        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 8 12;" HBox.hgrow="ALWAYS">
-            <Label text="🔍" style="-fx-font-size: 16px;" />
+        <HBox spacing="8" alignment="CENTER_LEFT" 
+              style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 10 16; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-border-width: 1;" 
+              HBox.hgrow="ALWAYS">
+            <Label text="🔍" style="-fx-font-size: 16px; -fx-text-fill: #a0aec0;" />
             <TextField fx:id="searchField" promptText="Search by booking ID, passenger name, or flight number"
                       onKeyReleased="#handleSearch"
-                      style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 14px;"
+                      style="-fx-background-color: transparent; -fx-border-width: 0; -fx-font-size: 14px; -fx-text-fill: #2d3748;"
                       HBox.hgrow="ALWAYS" />
         </HBox>
 
         <!-- Filter Buttons -->
-        <HBox spacing="8">
-            <Button fx:id="allFilterBtn" text="All"
-                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 8 16; -fx-font-weight: bold; -fx-cursor: hand;" />
-            <Button fx:id="confirmedFilterBtn" text="Confirmed"
-                   style="-fx-background-color: #f3f4f6; -fx-text-fill: #6b7280; -fx-background-radius: 6; -fx-padding: 8 16; -fx-cursor: hand;" />
-            <Button fx:id="pendingFilterBtn" text="Pending"
-                   style="-fx-background-color: #f3f4f6; -fx-text-fill: #6b7280; -fx-background-radius: 6; -fx-padding: 8 16; -fx-cursor: hand;" />
-            <Button fx:id="cancelledFilterBtn" text="Cancelled"
-                   style="-fx-background-color: #f3f4f6; -fx-text-fill: #6b7280; -fx-background-radius: 6; -fx-padding: 8 16; -fx-cursor: hand;" />
+        <HBox spacing="6">
+            <Button fx:id="allFilterBtn" text="All" onAction="#handleFilterAll"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 9 18; -fx-font-weight: 600; -fx-cursor: hand; -fx-font-size: 13px;" />
+            <Button fx:id="confirmedFilterBtn" text="Confirmed" onAction="#handleFilterConfirmed"
+                   style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568; -fx-background-radius: 6; -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 13px;" />
+            <Button fx:id="pendingFilterBtn" text="Pending" onAction="#handleFilterPending"
+                   style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568; -fx-background-radius: 6; -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 13px;" />
+            <Button fx:id="cancelledFilterBtn" text="Cancelled" onAction="#handleFilterCancelled"
+                   style="-fx-background-color: #edf2f7; -fx-text-fill: #4a5568; -fx-background-radius: 6; -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 13px;" />
         </HBox>
 
-        <!-- Booking Action Buttons -->
-        <HBox spacing="10">
-            <MenuButton text="➕ New Booking" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 10 20; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;">
-                <items>
-                    <MenuItem text="✈️ Book Flight" onAction="#handleBookFlight" />
-                    <MenuItem text="🏨 Book Hotel" onAction="#handleBookHotel" />
-                    <MenuItem text="🚗 Rent a Car" onAction="#handleRentCar" />
-                </items>
-            </MenuButton>
-            <Button text="📤 Export Data"
-                   style="-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-border-color: #3b82f6; -fx-border-width: 1.5; -fx-background-radius: 6; -fx-padding: 10 20; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;" />
-        </HBox>
+        <!-- More Filters Button -->
+        <Button text="⚙ More Filters" 
+               style="-fx-background-color: white; -fx-text-fill: #4a5568; -fx-border-color: #e2e8f0; -fx-border-width: 1; -fx-background-radius: 6; -fx-padding: 9 18; -fx-cursor: hand; -fx-font-size: 13px;" />
+    </HBox>
+
+    <!-- Action Buttons Bar -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="✈ Book Flight" onAction="#handleBookFlight"
+               style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 11 20; -fx-font-weight: 600; -fx-cursor: hand; -fx-font-size: 14px;" />
+        <Button text="🏨 Book Hotel" onAction="#handleBookHotel"
+               style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 11 20; -fx-font-weight: 600; -fx-cursor: hand; -fx-font-size: 14px;" />
+        <Button text="🚗 Rent a Car" onAction="#handleRentCar"
+               style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 11 20; -fx-font-weight: 600; -fx-cursor: hand; -fx-font-size: 14px;" />
+        
+        <Region HBox.hgrow="ALWAYS" />
+        
+        <Button text="📥 Export Data" onAction="#handleExportData"
+               style="-fx-background-color: white; -fx-text-fill: #3b82f6; -fx-border-color: #3b82f6; -fx-border-width: 1.5; -fx-background-radius: 6; -fx-padding: 11 20; -fx-font-weight: 600; -fx-cursor: hand; -fx-font-size: 14px;" />
     </HBox>
 
     <!-- Bookings Table -->
     <TableView fx:id="bookingsTable" VBox.vgrow="ALWAYS"
-              style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+              style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 0; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-border-width: 1;">
         <columns>
-            <TableColumn fx:id="bookingIdColumn" text="Booking ID" prefWidth="120"
-                        style="-fx-font-weight: bold;" />
-            <TableColumn fx:id="passengerColumn" text="Passenger" prefWidth="180" />
-            <TableColumn fx:id="hotelDetailsColumn" text="Flight Details" prefWidth="250" />
-            <TableColumn fx:id="routeColumn" text="Route" prefWidth="280" />
-            <TableColumn fx:id="statusColumn" text="Status" prefWidth="140" />
-            <TableColumn fx:id="priceColumn" text="Price" prefWidth="100" />
-            <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="120" />
+            <TableColumn fx:id="bookingIdColumn" text="Booking ID" prefWidth="110" minWidth="110" maxWidth="150" />
+            <TableColumn fx:id="passengerColumn" text="Passenger" prefWidth="180" minWidth="150" maxWidth="250" />
+            <TableColumn fx:id="flightDetailsColumn" text="Flight Details" prefWidth="240" minWidth="200" maxWidth="300" />
+            <TableColumn fx:id="routeColumn" text="Route" prefWidth="250" minWidth="200" maxWidth="350" />
+            <TableColumn fx:id="statusColumn" text="Status" prefWidth="130" minWidth="120" maxWidth="150" />
+            <TableColumn fx:id="priceColumn" text="Price" prefWidth="100" minWidth="80" maxWidth="120" />
+            <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="110" minWidth="100" maxWidth="130" />
         </columns>
         <placeholder>
-            <Label text="No bookings found" style="-fx-text-fill: #9ca3af; -fx-font-size: 14px;" />
+            <VBox alignment="CENTER" spacing="10" style="-fx-padding: 40;">
+                <Label text="📭" style="-fx-font-size: 48px;" />
+                <Label text="No bookings found" style="-fx-text-fill: #a0aec0; -fx-font-size: 16px; -fx-font-weight: 500;" />
+                <Label text="Try adjusting your search or filter criteria" style="-fx-text-fill: #cbd5e0; -fx-font-size: 13px;" />
+            </VBox>
         </placeholder>
     </TableView>
 
-    <!-- Pagination Info -->
-    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10 0 0 0;">
-        <Label text="Showing 1-5 of 50 bookings" style="-fx-text-fill: #6b7280; -fx-font-size: 13px;" />
+    <!-- Pagination Footer -->
+    <HBox spacing="10" alignment="CENTER" style="-fx-padding: 8 0 0 0;">
+        <Label fx:id="paginationLabel" text="Showing 1-5 of 50 bookings" 
+               style="-fx-text-fill: #718096; -fx-font-size: 14px; -fx-font-weight: 500;" />
         <Region HBox.hgrow="ALWAYS" />
-        <HBox spacing="5" alignment="CENTER">
-            <Button text="&lt;" style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-padding: 5 12; -fx-cursor: hand;" />
-            <Button text="1" style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-padding: 5 12; -fx-font-weight: bold;" />
-            <Button text="2" style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-padding: 5 12; -fx-cursor: hand;" />
-            <Button text="3" style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-padding: 5 12; -fx-cursor: hand;" />
-            <Button text="&gt;" style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-padding: 5 12; -fx-cursor: hand;" />
+        <HBox spacing="4" alignment="CENTER">
+            <Button fx:id="prevPageBtn" text="‹" onAction="#handlePrevPage"
+                   style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-width: 1; -fx-background-radius: 6; -fx-padding: 6 12; -fx-cursor: hand; -fx-font-size: 16px; -fx-text-fill: #4a5568;" />
+            <Button fx:id="page1Btn" text="1" onAction="#handlePageClick"
+                   style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-background-radius: 6; -fx-padding: 6 12; -fx-font-weight: 600; -fx-font-size: 14px;" />
+            <Button fx:id="page2Btn" text="2" onAction="#handlePageClick"
+                   style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-width: 1; -fx-background-radius: 6; -fx-padding: 6 12; -fx-cursor: hand; -fx-font-size: 14px; -fx-text-fill: #4a5568;" />
+            <Button fx:id="page3Btn" text="3" onAction="#handlePageClick"
+                   style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-width: 1; -fx-background-radius: 6; -fx-padding: 6 12; -fx-cursor: hand; -fx-font-size: 14px; -fx-text-fill: #4a5568;" />
+            <Button fx:id="nextPageBtn" text="›" onAction="#handleNextPage"
+                   style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-width: 1; -fx-background-radius: 6; -fx-padding: 6 12; -fx-cursor: hand; -fx-font-size: 16px; -fx-text-fill: #4a5568;" />
         </HBox>
     </HBox>
 </VBox>
